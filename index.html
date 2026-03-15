@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrialSite Intelligence</title>
+<link rel="icon" href="https://cdn.jsdelivr.net/npm/lucide-static@0.263.1/icons/dna.svg" type="image/svg+xml">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+:root {
+  --bg:#ffffff;--bg-subtle:#f7f7f6;--bg-muted:#f0efed;
+  --border:#e4e4e1;--border-strong:#cccbc7;
+  --text:#1a1a18;--text-secondary:#5a5a56;--text-tertiary:#8a8a85;
+  --accent:#1a3a5c;--accent-hover:#122d48;--accent-light:#e8eef5;--accent-text:#1a3a5c;
+  --success:#1a4a2e;--success-bg:#eaf3de;
+  --danger:#6b1e1e;--danger-bg:#fcebeb;
+  --warning:#5c3a0a;--warning-bg:#faeeda;
+  --info:#1a3a5c;--info-bg:#e6f1fb;
+  --r-sm:4px;--r-md:6px;--r-lg:8px;
+  --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
+  --font-mono:"SF Mono","Fira Code","Cascadia Code",monospace;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 12px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1a;--bg-subtle:#242422;--bg-muted:#2c2c2a;
+    --border:#3a3a36;--border-strong:#4e4e4a;
+    --text:#f0efe8;--text-secondary:#a8a8a0;--text-tertiary:#6a6a64;
+    --accent:#7bafd4;--accent-hover:#91bfdf;--accent-light:#1c2a38;--accent-text:#7bafd4;
+    --success:#9fd866;--success-bg:#1a2a0e;
+    --danger:#e87878;--danger-bg:#2a1414;
+    --warning:#d4954a;--warning-bg:#2a1e0a;
+    --info:#7bafd4;--info-bg:#111e2a;
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:var(--font);background:var(--bg-subtle);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+button,input,select{font-family:var(--font)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{height:52px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:20px;position:sticky;top:0;z-index:200;flex-shrink:0}
+.body{display:flex;flex:1;min-height:0}
+.sidebar{width:200px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;flex-shrink:0}
+.main{flex:1;padding:28px 32px;overflow-x:hidden;min-width:0}
+
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.brand-mark{width:28px;height:28px;background:var(--accent);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-name{font-size:13px;font-weight:600;letter-spacing:-.2px;color:var(--text)}
+.brand-sub{font-size:11px;color:var(--text-tertiary);margin-top:1px}
+.topbar-search{flex:1;max-width:420px;position:relative}
+.topbar-search input{width:100%;height:32px;padding:0 32px 0 10px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-subtle);font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
+.topbar-search input:focus{border-color:var(--accent);background:var(--bg)}
+.topbar-search input::placeholder{color:var(--text-tertiary)}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.status-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary)}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0}
+.topbar-btn{height:30px;padding:0 12px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-size:12px;color:var(--text-secondary);cursor:pointer;transition:all .15s}
+.topbar-btn:hover{border-color:var(--border-strong);color:var(--text)}
+
+.sidebar-section{padding:16px 12px 4px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--text-tertiary)}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 14px;font-size:13px;color:var(--text-secondary);cursor:pointer;border-left:2px solid transparent;transition:all .12s;user-select:none}
+.nav-item:hover{color:var(--text);background:var(--bg-subtle)}
+.nav-item.active{color:var(--accent-text);background:var(--accent-light);border-left-color:var(--accent);font-weight:500}
+.sidebar-stats{margin:auto 0 0;padding:14px 14px 16px;border-top:1px solid var(--border)}
+.sidebar-stat{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;color:var(--text-secondary)}
+.sidebar-stat .val{font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
+
+.page-header{margin-bottom:24px}
+.page-title{font-size:20px;font-weight:600;letter-spacing:-.3px;color:var(--text);line-height:1.2}
+.page-meta{font-size:12px;color:var(--text-tertiary);margin-top:4px}
+
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg)}
+.card-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:500;color:var(--text)}
+.card-sub{font-size:12px;color:var(--text-tertiary);margin-top:2px}
+.card-body{padding:16px}
+
+.metrics-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px}
+.metric{background:var(--bg);padding:16px 18px}
+.metric-label{font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.5px;font-weight:500;margin-bottom:6px}
+.metric-value{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1}
+.metric-sub{font-size:11px;color:var(--text-tertiary);margin-top:4px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px}
+.input{height:34px;padding:0 10px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-size:13px;color:var(--text);outline:none;transition:border-color .15s;width:100%}
+.input:focus{border-color:var(--accent)}
+.input::placeholder{color:var(--text-tertiary)}
+.select{height:34px;padding:0 8px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg);font-size:13px;color:var(--text);outline:none;width:100%;cursor:pointer}
+.select:focus{border-color:var(--accent)}
+.form-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:20px}
+.form-row .field{flex:1;min-width:160px}
+
+.btn{height:34px;padding:0 14px;border-radius:var(--r-md);font-size:13px;font-weight:500;border:1px solid var(--border);display:inline-flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap;cursor:pointer}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-default{background:var(--bg);color:var(--text-secondary)}
+.btn-default:hover{color:var(--text);border-color:var(--border-strong)}
+
+.badge{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:3px;font-size:11px;font-weight:500;white-space:nowrap}
+.badge-blue{background:var(--info-bg);color:var(--info)}
+.badge-green{background:var(--success-bg);color:var(--success)}
+.badge-amber{background:var(--warning-bg);color:var(--warning)}
+.badge-neutral{background:var(--bg-muted);color:var(--text-secondary)}
+.badge-industry{background:#ede8fc;color:#3a2880}
+.badge-nih{background:#e1f5ee;color:#0a5c42}
+.badge-federal{background:#faeeda;color:#5c3a0a}
+.badge-other{background:var(--bg-muted);color:var(--text-secondary)}
+@media(prefers-color-scheme:dark){
+  .badge-industry{background:#2a2060;color:#b0a0f0}
+  .badge-nih{background:#0a2a1e;color:#60c09a}
+  .badge-federal{background:#2a1e0a;color:#d4954a}
+}
+
+.seg-group{display:flex;gap:2px;flex-wrap:wrap}
+.seg-btn{height:30px;padding:0 12px;border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--text-secondary);border-radius:var(--r-md);transition:all .12s;cursor:pointer}
+.seg-btn:hover{color:var(--text);border-color:var(--border-strong)}
+.seg-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{border-bottom:1px solid var(--border)}
+th{padding:10px 12px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg-subtle)}
+.nct{font-family:var(--font-mono);font-size:11px;color:var(--accent-text)}
+
+.site-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 16px;cursor:pointer;transition:border-color .15s,box-shadow .15s;position:relative}
+.site-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md)}
+.site-card-rank{position:absolute;top:12px;right:14px;font-size:12px;font-weight:600;color:var(--text-tertiary);font-variant-numeric:tabular-nums}
+.site-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;padding-right:28px;line-height:1.35}
+.site-loc{font-size:12px;color:var(--text-tertiary);margin-bottom:10px}
+.site-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.prog-track{height:3px;background:var(--bg-muted);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--success);border-radius:2px;transition:width .4s}
+.site-conditions{font-size:11px;color:var(--text-tertiary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:8px}
+.site-cta{font-size:11px;color:var(--accent-text)}
+
+.ac-wrap{position:relative}
+.ac-dropdown{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);z-index:400;overflow:hidden;max-height:280px;overflow-y:auto}
+.ac-header{padding:6px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);border-bottom:1px solid var(--border);background:var(--bg-subtle)}
+.ac-item{padding:8px 12px;cursor:pointer;font-size:13px;color:var(--text);border-bottom:1px solid var(--border);transition:background .1s}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.hl{background:var(--accent-light)}
+.ac-item-sub{font-size:11px;color:var(--text-tertiary);margin-top:1px}
+.ac-footer{padding:5px 12px;font-size:10px;color:var(--text-tertiary);background:var(--bg-subtle);border-top:1px solid var(--border)}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:760px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{padding:18px 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.modal-close{width:28px;height:28px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:16px;color:var(--text-tertiary);display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding:0;transition:all .12s;cursor:pointer}
+.modal-close:hover{color:var(--text);border-color:var(--border-strong)}
+.modal-body{padding:20px}
+.modal-section{margin-bottom:22px}
+.modal-section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-tertiary);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+.funder-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin-bottom:8px;background:var(--bg-muted)}
+.funder-seg{transition:width .4s}
+.funder-legend{display:flex;flex-wrap:wrap;gap:4px 14px}
+.funder-legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text-secondary)}
+.funder-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+.alert{display:flex;gap:8px;padding:10px 12px;border-radius:var(--r-md);font-size:13px;margin-bottom:16px;border-width:1px;border-style:solid}
+.alert-info{background:var(--info-bg);color:var(--info);border-color:#b5d4f4}
+.alert-success{background:var(--success-bg);color:var(--success);border-color:#c0dd97}
+.alert-warn{background:var(--warning-bg);color:var(--warning);border-color:#fac775}
+
+.prog-h{display:flex;justify-content:space-between;font-size:11px;color:var(--text-tertiary);margin-bottom:5px}
+.prog-bar{height:5px;background:var(--bg-muted);border-radius:3px;overflow:hidden}
+.prog-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.chip{height:28px;padding:0 10px;border:1px solid var(--border);border-radius:14px;font-size:12px;color:var(--text-secondary);background:var(--bg);transition:all .12s;cursor:pointer}
+.chip:hover{border-color:var(--border-strong);color:var(--text)}
+
+.spin{display:inline-block;border-radius:50%;border:2px solid var(--border);border-top-color:var(--accent);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.divider{height:1px;background:var(--border);margin:18px 0}
+
+.rank-list-item{display:flex;align-items:center;gap:12px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:var(--r-sm);transition:background .12s}
+.rank-list-item:last-child{border-bottom:none}
+.rank-list-item:hover{background:var(--bg-subtle)}
+.rank-num{width:22px;text-align:center;font-size:12px;font-weight:600;color:var(--text-tertiary);flex-shrink:0;font-variant-numeric:tabular-nums}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-meta{font-size:11px;color:var(--text-tertiary);margin-top:1px}
+.rank-tags{display:flex;gap:4px;flex-shrink:0}
+
+.cmp-row{display:grid;grid-template-columns:1fr 100px 1fr;gap:16px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.cmp-row:last-child{border-bottom:none}
+.cmp-label{text-align:center;font-size:11px;color:var(--text-tertiary);font-weight:500}
+.cmp-val{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+.cmp-val-right{text-align:right}
+
+.info-table{width:100%}
+.info-table td{padding:6px 0;font-size:13px;vertical-align:top}
+.info-table td:first-child{color:var(--text-tertiary);width:130px}
+
+.status-recruiting{background:var(--success-bg);color:var(--success)}
+.status-completed{background:var(--info-bg);color:var(--info)}
+.status-active{background:var(--warning-bg);color:var(--warning)}
+.status-default{background:var(--bg-muted);color:var(--text-secondary)}
+
+.ext-links{display:flex;flex-wrap:wrap;gap:8px}
+.ext-link{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 10px;border:1px solid var(--border);border-radius:var(--r-md);font-size:12px;color:var(--text-secondary);transition:all .12s}
+.ext-link:hover{border-color:var(--border-strong);color:var(--text);text-decoration:none}
+
+.toast{position:fixed;bottom:20px;right:20px;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:var(--r-md);font-size:13px;z-index:2000;box-shadow:var(--shadow-md);pointer-events:none}
+
+.section{animation:fadeUp .18s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CHART STYLES ─────────────────────────────────────────── */
+.chart-tooltip{
+  position:fixed;pointer-events:none;z-index:500;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:8px 10px;
+  box-shadow:var(--shadow-md);min-width:140px;
+}
+.chart-tooltip-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:4px}
+.chart-tooltip-row{display:flex;justify-content:space-between;gap:16px;font-size:11px;color:var(--text-secondary);margin-top:2px}
+.chart-tooltip-row span:last-child{font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
+
+.bar-chart-wrap{position:relative;overflow:visible}
+.bar-rect{cursor:pointer;transition:opacity .12s}
+.bar-rect:hover{opacity:.75}
+
+/* donut */
+.donut-seg{cursor:pointer;transition:opacity .12s}
+.donut-seg:hover{opacity:.8}
+
+/* horizontal bar */
+.h-bar-row{display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;border-radius:var(--r-sm);transition:background .1s}
+.h-bar-row:hover{background:var(--bg-subtle)}
+.h-bar-track{flex:1;height:6px;background:var(--bg-muted);border-radius:3px;overflow:hidden}
+.h-bar-fill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.h-bar-label{font-size:11px;color:var(--text-secondary);width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0}
+.h-bar-value{font-size:11px;font-weight:500;color:var(--text);font-variant-numeric:tabular-nums;min-width:36px;text-align:right;flex-shrink:0}
+
+/* line chart */
+.line-dot{cursor:pointer;transition:r .12s}
+
+@media(max-width:900px){.sidebar{display:none}.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef,useMemo,useCallback} = React;
+
+const BASE='https://clinicaltrials.gov/api/v2';
+const FUNDER_META={
+  INDUSTRY:{label:'Industry',cls:'badge-industry',color:'#7c60d8'},
+  NIH:     {label:'NIH',     cls:'badge-nih',     color:'#1d9e75'},
+  FED:     {label:'Federal', cls:'badge-federal', color:'#ba7517'},
+  OTHER:   {label:'Academic',cls:'badge-other',   color:'#888780'},
+};
+const STATUS_META={
+  RECRUITING:{cls:'status-recruiting',label:'Recruiting'},
+  COMPLETED: {cls:'status-completed', label:'Completed'},
+  ACTIVE_NOT_RECRUITING:{cls:'status-active',label:'Active, Not Recruiting'},
+};
+const PHASES=['EARLY_PHASE1','PHASE1','PHASE2','PHASE3','PHASE4'];
+const PHASE_COLORS={EARLY_PHASE1:'#afa9ec',PHASE1:'#7f77dd',PHASE2:'#534ab7',PHASE3:'#3c3489',PHASE4:'#26215c'};
+const STATUS_COLORS={
+  RECRUITING:'#1d9e75',COMPLETED:'#185fa5',ACTIVE_NOT_RECRUITING:'#ba7517',
+  TERMINATED:'#a32d2d',WITHDRAWN:'#888780',NOT_YET_RECRUITING:'#6d28d9',
+  SUSPENDED:'#854f0b',UNKNOWN:'#b4b2a9',
+};
+const DRUG_SUGGESTIONS=['Pembrolizumab','Nivolumab','Remdesivir','Metformin','Ibrutinib','Venetoclax','Osimertinib','Dexamethasone','Tocilizumab','Trastuzumab','Bevacizumab','Rituximab','Durvalumab','Atezolizumab','Semaglutide','Lecanemab','Ozanimod','Olaparib','Ruxolitinib','Baricitinib'];
+const DISEASE_SUGGESTIONS=['Breast Cancer','Non-Small Cell Lung Cancer','COVID-19','Type 2 Diabetes',"Alzheimer's Disease",'Multiple Sclerosis','Rheumatoid Arthritis','Heart Failure','Ovarian Cancer','Melanoma','Glioblastoma',"Parkinson's Disease","Crohn's Disease",'Leukemia','HIV Infection','Prostate Cancer','Major Depressive Disorder','Schizophrenia','Obesity','Hypertension'];
+const NAV=[
+  {id:'overview',  label:'Overview',      icon:'M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z'},
+  {id:'topSites',  label:'Site Rankings', icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'},
+  {id:'drug',      label:'By Drug',       icon:'M9 3h6l1 9H8zm0 9h6l1 9H8z'},
+  {id:'disease',   label:'By Disease',    icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm0 4a2 2 0 110 4 2 2 0 010-4zm0 14c-2.67 0-8-1.34-8-4v-.71C4.81 14.55 8.34 14 12 14s7.19.55 8 1.29V16c0 2.66-5.33 4-8 4z'},
+  {id:'phase',     label:'By Phase',      icon:'M2 20h4V10H2zm7 0h4V4H9zm7 0h4v-8h-4z'},
+  {id:'funder',    label:'By Funder',     icon:'M12 1C9.24 1 7 3.24 7 6c0 2.05 1.23 3.81 3 4.58V16h4v-5.42c1.77-.77 3-2.53 3-4.58 0-2.76-2.24-5-5-5zm-2 17h4v2h-4z'},
+  {id:'geographic',label:'Geographic',   icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm6.93 6h-2.95a15.65 15.65 0 00-1.38-3.56A8.03 8.03 0 0118.93 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96z'},
+  {id:'compare',   label:'Compare Sites', icon:'M6 3v18M18 3v18M3 6h18M3 18h18'},
+  {id:'guide',     label:'Guide',         icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'},
+];
+
+// ── API ──────────────────────────────────────────────────────
+async function fetchAll(params={},maxPages=15){
+  let all=[],token=null,p=0;
+  while(p<maxPages){
+    const q={format:'json',pageSize:100,...params};
+    if(token)q.pageToken=token;
+    try{const r=await fetch(`${BASE}/studies?${new URLSearchParams(q)}`);if(!r.ok)break;const d=await r.json();all=all.concat(d.studies||[]);if(d.nextPageToken){token=d.nextPageToken;p++;}else break;}catch{break;}
+  }
+  return all;
+}
+
+// ── PROCESS ──────────────────────────────────────────────────
+function processSites(studies){
+  const map={};
+  studies.forEach(s=>{
+    const pr=s.protocolSection||{},id=pr.identificationModule||{},st=pr.statusModule||{},sp=pr.sponsorCollaboratorsModule||{},co=pr.conditionsModule||{},de=pr.designModule||{},ar=pr.armsInterventionsModule||{},lo=pr.contactsLocationsModule||{};
+    const fc=sp.leadSponsor?.class||'OTHER',sn=sp.leadSponsor?.name||'',cl=(sp.collaborators||[]).map(c=>c.name).filter(Boolean);
+    (lo.locations||[]).forEach(loc=>{
+      const name=loc.facility||'Unknown',city=loc.city||'Unknown',state=loc.state||'',country=loc.country||'Unknown',k=`${name}|||${city}|||${country}`;
+      if(!map[k])map[k]={key:k,name,city,state,country,trials:[],sponsors:new Set(),collaborators:new Set(),conditions:new Set(),interventions:new Set(),phases:new Set(),funderClasses:{},statuses:{},totalEnrollment:0,recruitingCount:0,completedCount:0};
+      const e=map[k];
+      e.trials.push({nctId:id.nctId,title:id.briefTitle||'',status:st.overallStatus||'UNKNOWN',sponsor:sn,funderClass:fc,conditions:co.conditions||[],phases:de.phases||[],enrollment:parseInt(de.enrollmentInfo?.count||0)||0,startDate:st.startDateStruct?.date||''});
+      e.sponsors.add(sn);cl.forEach(c=>e.collaborators.add(c));
+      (co.conditions||[]).forEach(c=>e.conditions.add(c));(de.phases||[]).forEach(p=>e.phases.add(p));
+      (ar.interventions||[]).forEach(i=>e.interventions.add(i.name));
+      e.funderClasses[fc]=(e.funderClasses[fc]||0)+1;
+      const status=st.overallStatus||'UNKNOWN';e.statuses[status]=(e.statuses[status]||0)+1;
+      if(status==='RECRUITING')e.recruitingCount++;if(status==='COMPLETED')e.completedCount++;
+      e.totalEnrollment+=parseInt(de.enrollmentInfo?.count||0)||0;
+    });
+  });
+  return Object.values(map).map(s=>({...s,sponsors:[...s.sponsors].filter(Boolean),collaborators:[...s.collaborators].filter(Boolean),conditions:[...s.conditions],interventions:[...s.interventions],phases:[...s.phases],trialCount:s.trials.length,dominantFunder:Object.entries(s.funderClasses).sort((a,b)=>b[1]-a[1])[0]?.[0]||'OTHER'})).sort((a,b)=>b.trialCount-a.trialCount);
+}
+
+// ── TOOLTIP ──────────────────────────────────────────────────
+const Tooltip=({x,y,visible,title,rows})=>{
+  if(!visible)return null;
+  const style={left:x+14,top:y-10};
+  // keep inside viewport
+  if(typeof window!=='undefined'&&x+200>window.innerWidth)style.left=x-170;
+  return(
+    <div className="chart-tooltip" style={style}>
+      {title&&<div className="chart-tooltip-title">{title}</div>}
+      {rows.map((r,i)=>(
+        <div key={i} className="chart-tooltip-row">
+          <span>{r.label}</span><span>{r.value}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+function useTooltip(){
+  const [tt,setTt]=useState({visible:false,x:0,y:0,title:'',rows:[]});
+  const show=(e,title,rows)=>{setTt({visible:true,x:e.clientX,y:e.clientY,title,rows});};
+  const move=(e)=>{if(tt.visible)setTt(p=>({...p,x:e.clientX,y:e.clientY}));};
+  const hide=()=>setTt(p=>({...p,visible:false}));
+  return {tt,show,move,hide};
+}
+
+// ── BAR CHART (vertical, SVG) ────────────────────────────────
+const BarChart=({data,height=140,onBarClick,activeKey})=>{
+  const {tt,show,move,hide}=useTooltip();
+  if(!data.length)return null;
+  const max=Math.max(...data.map(d=>d.value),1);
+  const bw=Math.floor(100/data.length);
+  const gap=Math.max(1,Math.floor(bw*.12));
+  const barW=bw-gap*2;
+  return(
+    <div className="bar-chart-wrap" style={{position:'relative'}} onMouseMove={move}>
+      <Tooltip {...tt}/>
+      <svg viewBox={`0 0 100 ${height}`} style={{width:'100%',height,display:'block',overflow:'visible'}}>
+        {data.map((d,i)=>{
+          const bh=Math.max(2,(d.value/max)*(height-18));
+          const x=i*bw+gap;const y=height-18-bh;
+          const isActive=activeKey===d.key;
+          return(
+            <rect key={d.key||i}
+              className="bar-rect"
+              x={x} y={y} width={barW} height={bh} rx={2}
+              fill={d.color||'var(--accent)'}
+              opacity={activeKey&&!isActive?.45:1}
+              stroke={isActive?'var(--text)':'none'}
+              strokeWidth={isActive?.8:0}
+              onMouseEnter={e=>show(e,d.label,[{label:'Count',value:d.value.toLocaleString()},...(d.extraRows||[])])}
+              onMouseLeave={hide}
+              onClick={()=>onBarClick&&onBarClick(d)}
+              style={{cursor:onBarClick?'pointer':'default'}}
+            />
+          );
+        })}
+        {data.map((d,i)=>{
+          const x=i*bw+bw/2;
+          return(
+            <text key={d.key+'l'||i+'l'} x={x} y={height-4} textAnchor="middle" fontSize={7}
+              fill="var(--text-tertiary)" style={{pointerEvents:'none'}}>
+              {d.shortLabel||d.label.slice(0,6)}
+            </text>
+          );
+        })}
+      </svg>
+    </div>
+  );
+};
+
+// ── LINE CHART (SVG) ─────────────────────────────────────────
+const LineChart=({data,height=130,color='var(--accent)',onPointClick})=>{
+  const {tt,show,move,hide}=useTooltip();
+  const [hovered,setHovered]=useState(null);
+  if(!data.length)return null;
+  const maxV=Math.max(...data.map(d=>d.value),1);
+  const minV=Math.min(...data.map(d=>d.value),0);
+  const range=maxV-minV||1;
+  const padT=12,padB=18,padL=4,padR=4;
+  const W=200,H=height;
+  const toX=(i)=>padL+(i/(data.length-1||1))*(W-padL-padR);
+  const toY=(v)=>padT+(1-(v-minV)/range)*(H-padT-padB);
+  const pts=data.map((d,i)=>({...d,cx:toX(i),cy:toY(d.value)}));
+  const pathD=pts.map((p,i)=>i===0?`M${p.cx},${p.cy}`:`L${p.cx},${p.cy}`).join(' ');
+  const areaD=`${pathD} L${pts[pts.length-1].cx},${H-padB} L${pts[0].cx},${H-padB} Z`;
+  return(
+    <div style={{position:'relative'}} onMouseMove={move}>
+      <Tooltip {...tt}/>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',height,display:'block',overflow:'visible'}}>
+        <defs>
+          <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity=".18"/>
+            <stop offset="100%" stopColor={color} stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d={areaD} fill="url(#area-grad)"/>
+        <path d={pathD} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        {pts.map((p,i)=>(
+          <circle key={i} className="line-dot"
+            cx={p.cx} cy={p.cy}
+            r={hovered===i?4:2.5}
+            fill={hovered===i?color:'var(--bg)'}
+            stroke={color} strokeWidth="1.5"
+            style={{cursor:onPointClick?'pointer':'default'}}
+            onMouseEnter={e=>{setHovered(i);show(e,p.label,[{label:'Trials started',value:p.value.toLocaleString()}]);}}
+            onMouseLeave={()=>{setHovered(null);hide();}}
+            onClick={()=>onPointClick&&onPointClick(p)}
+          />
+        ))}
+        {pts.map((p,i)=>(i===0||i===pts.length-1||i===Math.floor(pts.length/2))&&(
+          <text key={i+'l'} x={p.cx} y={H-3} textAnchor="middle" fontSize={7} fill="var(--text-tertiary)" style={{pointerEvents:'none'}}>{p.shortLabel||p.label}</text>
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+// ── DONUT CHART (SVG) ────────────────────────────────────────
+const DonutChart=({data,size=120,onSliceClick,activeKey})=>{
+  const {tt,show,move,hide}=useTooltip();
+  const total=data.reduce((s,d)=>s+d.value,0)||1;
+  const cx=size/2,cy=size/2,r=size*.38,innerR=size*.22;
+  let angle=-Math.PI/2;
+  const slices=data.map(d=>{
+    const sweep=(d.value/total)*Math.PI*2;
+    const a1=angle,a2=angle+sweep;
+    angle=a2;
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const ix1=cx+innerR*Math.cos(a1),iy1=cy+innerR*Math.sin(a1);
+    const ix2=cx+innerR*Math.cos(a2),iy2=cy+innerR*Math.sin(a2);
+    const large=sweep>Math.PI?1:0;
+    const path=`M${ix1},${iy1} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${ix2},${iy2} A${innerR},${innerR} 0 ${large} 0 ${ix1},${iy1} Z`;
+    const midA=(a1+a2)/2;
+    return{...d,path,midA,pct:(d.value/total*100).toFixed(1)};
+  });
+  const active=slices.find(s=>s.key===activeKey);
+  return(
+    <div style={{position:'relative',display:'inline-block'}} onMouseMove={move}>
+      <Tooltip {...tt}/>
+      <svg viewBox={`0 0 ${size} ${size}`} style={{width:size,height:size,display:'block',overflow:'visible'}}>
+        {slices.map((s,i)=>{
+          const isActive=activeKey===s.key;
+          const offset=isActive?4:0;
+          const tx=cx+offset*Math.cos(s.midA),ty=cy+offset*Math.sin(s.midA);
+          return(
+            <g key={s.key||i} transform={`translate(${tx-cx},${ty-cy})`}>
+              <path className="donut-seg" d={s.path} fill={s.color}
+                opacity={activeKey&&!isActive?.5:1}
+                stroke={isActive?'var(--bg)':'var(--bg)'} strokeWidth={isActive?2:1}
+                onMouseEnter={e=>show(e,s.label,[{label:'Trials',value:s.value.toLocaleString()},{label:'Share',value:s.pct+'%'}])}
+                onMouseLeave={hide}
+                onClick={()=>onSliceClick&&onSliceClick(s)}
+                style={{cursor:onSliceClick?'pointer':'default'}}
+              />
+            </g>
+          );
+        })}
+        {active&&(
+          <text x={cx} y={cy-5} textAnchor="middle" fontSize={9} fontWeight={500} fill="var(--text)" style={{pointerEvents:'none'}}>{active.pct}%</text>
+        )}
+        {active&&(
+          <text x={cx} y={cy+8} textAnchor="middle" fontSize={7} fill="var(--text-tertiary)" style={{pointerEvents:'none'}}>{active.label.slice(0,10)}</text>
+        )}
+      </svg>
+    </div>
+  );
+};
+
+// ── HORIZONTAL BAR ───────────────────────────────────────────
+const HBarChart=({data,maxItems=15,onRowClick,activeKey,color='var(--accent)'})=>{
+  const {tt,show,move,hide}=useTooltip();
+  const items=data.slice(0,maxItems);
+  const max=Math.max(...items.map(d=>d.value),1);
+  return(
+    <div onMouseMove={move} style={{position:'relative'}}>
+      <Tooltip {...tt}/>
+      {items.map((d,i)=>{
+        const isActive=activeKey===d.key;
+        return(
+          <div key={d.key||i} className="h-bar-row"
+            style={{opacity:activeKey&&!isActive?.5:1}}
+            onMouseEnter={e=>show(e,d.label,[{label:'Trials',value:d.value.toLocaleString()},...(d.extraRows||[])])}
+            onMouseLeave={hide}
+            onClick={()=>onRowClick&&onRowClick(d)}>
+            <span className="h-bar-label" title={d.label}>{d.label}</span>
+            <div className="h-bar-track">
+              <div className="h-bar-fill" style={{width:`${(d.value/max*100).toFixed(1)}%`,background:d.color||color}}/>
+            </div>
+            <span className="h-bar-value">{d.value.toLocaleString()}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+// ── SMALL UI ─────────────────────────────────────────────────
+const Icon=({d,size=14})=>(
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d={d}/>
+  </svg>
+);
+const Spinner=({size=18})=><span className="spin" style={{width:size,height:size}}/>;
+const FunderBadge=({fc})=>{const m=FUNDER_META[fc]||FUNDER_META.OTHER;return<span className={`badge ${m.cls}`}>{m.label}</span>;};
+const StatusBadge=({status})=>{const m=STATUS_META[status]||{cls:'status-default',label:status.replace(/_/g,' ')};return<span className={`badge ${m.cls}`}>{m.label}</span>;};
+
+const FunderBar=({classes})=>{
+  const total=Object.values(classes).reduce((a,b)=>a+b,0);
+  if(!total)return null;
+  const segs=Object.entries(classes).map(([k,v])=>({k,v,pct:(v/total*100)}));
+  return(
+    <div>
+      <div className="funder-bar">
+        {segs.map(({k,pct})=><div key={k} className="funder-seg" title={`${(FUNDER_META[k]||FUNDER_META.OTHER).label}: ${pct.toFixed(0)}%`} style={{width:`${pct.toFixed(1)}%`,background:(FUNDER_META[k]||FUNDER_META.OTHER).color}}/>)}
+      </div>
+      <div className="funder-legend">
+        {segs.map(({k,v,pct})=>(
+          <span key={k} className="funder-legend-item">
+            <span className="funder-dot" style={{background:(FUNDER_META[k]||FUNDER_META.OTHER).color}}/>
+            {(FUNDER_META[k]||FUNDER_META.OTHER).label}: {v.toLocaleString()} ({pct.toFixed(0)}%)
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ProgBar=({val,max,color='var(--success)',h=4})=>(
+  <div className="prog-track" style={{height:h}}>
+    <div className="prog-fill" style={{width:`${Math.min(100,(val/Math.max(max,1))*100).toFixed(1)}%`,background:color}}/>
+  </div>
+);
+
+// ── AUTOCOMPLETE INPUT ────────────────────────────────────────
+const AutoInput=({value,onChange,onSelect,onEnter,placeholder,suggestions,loading,label})=>{
+  const [open,setOpen]=useState(false);const [hl,setHl]=useState(-1);const ref=useRef(null);
+  const filtered=useMemo(()=>{if(value.length<3)return[];const q=value.toLowerCase();return suggestions.filter(s=>s.toLowerCase().includes(q)).slice(0,9);},[value,suggestions]);
+  useEffect(()=>{setOpen(filtered.length>0);setHl(-1);},[filtered.length]);
+  useEffect(()=>{const fn=e=>{if(!ref.current?.contains(e.target))setOpen(false);};document.addEventListener('mousedown',fn);return()=>document.removeEventListener('mousedown',fn);},[]);
+  const pick=s=>{onSelect(s);setOpen(false);setHl(-1);};
+  const onKey=e=>{
+    if(e.key==='ArrowDown'){e.preventDefault();setHl(h=>Math.min(h+1,filtered.length-1));}
+    else if(e.key==='ArrowUp'){e.preventDefault();setHl(h=>Math.max(h-1,-1));}
+    else if(e.key==='Enter'){if(hl>=0&&filtered[hl])pick(filtered[hl]);else if(onEnter)onEnter();}
+    else if(e.key==='Escape')setOpen(false);
+  };
+  return(
+    <div ref={ref} className="ac-wrap field" style={{flex:1}}>
+      {label&&<label>{label}</label>}
+      <div style={{position:'relative'}}>
+        <input className="input" value={value} onChange={e=>onChange(e.target.value)} onKeyDown={onKey} onFocus={()=>{if(filtered.length)setOpen(true);}} placeholder={placeholder} style={{paddingRight:value?30:10}}/>
+        {loading&&<span style={{position:'absolute',right:8,top:'50%',transform:'translateY(-50%)'}}><Spinner size={14}/></span>}
+        {!loading&&value&&<button onMouseDown={e=>{e.preventDefault();onChange('');setOpen(false);}} style={{position:'absolute',right:0,top:0,height:'100%',width:30,background:'none',border:'none',color:'var(--text-tertiary)',fontSize:16,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>×</button>}
+      </div>
+      {open&&filtered.length>0&&(
+        <div className="ac-dropdown">
+          <div className="ac-header">{filtered.length} suggestion{filtered.length!==1?'s':''} — type to refine</div>
+          {filtered.map((s,i)=><div key={s} className={`ac-item${i===hl?' hl':''}`} onMouseDown={e=>{e.preventDefault();pick(s);}}>{s}</div>)}
+          <div className="ac-footer">↑ ↓ navigate · Enter select</div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── GLOBAL SEARCH ─────────────────────────────────────────────
+const GlobalSearch=({data,onOpen})=>{
+  const [q,setQ]=useState('');const [open,setOpen]=useState(false);const [hl,setHl]=useState(-1);const ref=useRef(null);
+  const results=useMemo(()=>{if(q.length<3)return[];const lq=q.toLowerCase();return data.filter(s=>s.name.toLowerCase().includes(lq)||s.city.toLowerCase().includes(lq)).slice(0,8);},[q,data]);
+  useEffect(()=>{setOpen(results.length>0);setHl(-1);},[results.length]);
+  useEffect(()=>{const fn=e=>{if(!ref.current?.contains(e.target))setOpen(false);};document.addEventListener('mousedown',fn);return()=>document.removeEventListener('mousedown',fn);},[]);
+  return(
+    <div ref={ref} className="topbar-search">
+      <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search sites, cities… (3+ chars)"
+        onKeyDown={e=>{if(e.key==='ArrowDown')setHl(h=>Math.min(h+1,results.length-1));else if(e.key==='ArrowUp')setHl(h=>Math.max(h-1,-1));else if(e.key==='Enter'&&hl>=0){onOpen(results[hl]);setQ('');setOpen(false);}else if(e.key==='Escape')setOpen(false);}}/>
+      {q&&<button onMouseDown={e=>{e.preventDefault();setQ('');setOpen(false);}} style={{position:'absolute',right:6,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',color:'var(--text-tertiary)',fontSize:16,cursor:'pointer',lineHeight:1}}>×</button>}
+      {open&&(
+        <div className="ac-dropdown">
+          <div className="ac-header">{results.length} site{results.length!==1?'s':''} found</div>
+          {results.map((s,i)=>(
+            <div key={s.key} className={`ac-item${i===hl?' hl':''}`} onMouseDown={e=>{e.preventDefault();onOpen(s);setQ('');setOpen(false);}}>
+              <div style={{fontWeight:500}}>{s.name}</div>
+              <div className="ac-item-sub">{s.city}, {s.country} · {s.trialCount.toLocaleString()} trials · <FunderBadge fc={s.dominantFunder}/></div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── SITE CARD ─────────────────────────────────────────────────
+const SiteCard=({site,rank,onOpen})=>{
+  const pct=site.trialCount>0?Math.round(site.recruitingCount/site.trialCount*100):0;
+  return(
+    <div className="site-card" onClick={()=>onOpen(site)}>
+      {rank&&<span className="site-card-rank">{rank}</span>}
+      <div className="site-name">{site.name}</div>
+      <div className="site-loc">{site.city}{site.state?', '+site.state:''}, {site.country}</div>
+      <div className="site-tags">
+        <span className="badge badge-blue">{site.trialCount.toLocaleString()} trials</span>
+        {site.recruitingCount>0&&<span className="badge badge-green">{site.recruitingCount.toLocaleString()} recruiting</span>}
+        <FunderBadge fc={site.dominantFunder}/>
+        {site.sponsors.length>0&&<span className="badge badge-neutral">{site.sponsors.length} sponsor{site.sponsors.length>1?'s':''}</span>}
+      </div>
+      <div style={{marginBottom:6}}>
+        <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'var(--text-tertiary)',marginBottom:4}}><span>Recruiting rate</span><span>{pct}%</span></div>
+        <ProgBar val={site.recruitingCount} max={site.trialCount}/>
+      </div>
+      <div className="site-conditions">{site.conditions.slice(0,5).join(' · ')||'—'}</div>
+      <span className="site-cta">View details →</span>
+    </div>
+  );
+};
+const SiteGrid=({sites,onOpen})=>{
+  if(!sites.length)return<div style={{textAlign:'center',padding:'48px 0',color:'var(--text-tertiary)',fontSize:13}}>No sites match the current filters.</div>;
+  return<div className="grid-auto">{sites.map((s,i)=><SiteCard key={s.key} site={s} rank={i+1} onOpen={onOpen}/>)}</div>;
+};
+
+// ── SITE MODAL ────────────────────────────────────────────────
+const SiteModal=({site,onClose})=>{
+  useEffect(()=>{const fn=e=>{if(e.key==='Escape')onClose();};document.addEventListener('keydown',fn);return()=>document.removeEventListener('keydown',fn);},[]);
+  const pct=site.trialCount>0?Math.round(site.recruitingCount/site.trialCount*100):0;
+  const extLinks=[
+    {href:`https://clinicaltrials.gov/search?locStr=${encodeURIComponent(site.name)}`,label:'ClinicalTrials.gov'},
+    {href:`https://www.google.com/search?q=${encodeURIComponent(site.name+' '+site.city)}`,label:'Google Search'},
+    {href:`https://www.google.com/maps/search/${encodeURIComponent(site.name+' '+site.city)}`,label:'Google Maps'},
+    {href:`https://scholar.google.com/scholar?q=${encodeURIComponent(site.name)}`,label:'Google Scholar'},
+    {href:`https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(site.name)}`,label:'PubMed'},
+    {href:`https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(site.name)}`,label:'LinkedIn'},
+  ];
+  const ExtIcon=()=><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>;
+
+  // status donut data for modal
+  const statusDonutData=Object.entries(site.statuses).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({key:k,label:k.replace(/_/g,' '),value:v,color:STATUS_COLORS[k]||'#888'}));
+
+  return(
+    <div className="modal-backdrop" onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+      <div className="modal">
+        <div className="modal-header">
+          <div>
+            <div style={{fontSize:16,fontWeight:600,letterSpacing:'-.2px',lineHeight:1.3}}>{site.name}</div>
+            <div style={{fontSize:12,color:'var(--text-tertiary)',marginTop:3}}>{site.city}{site.state?', '+site.state:''}, {site.country}</div>
+          </div>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        <div className="modal-body">
+          <div className="metrics-row" style={{marginBottom:20}}>
+            {[{label:'Total Trials',value:site.trialCount.toLocaleString()},{label:'Recruiting',value:site.recruitingCount.toLocaleString()},{label:'Completed',value:site.completedCount.toLocaleString()},{label:'Enrollment Target',value:site.totalEnrollment.toLocaleString()}].map(m=>(
+              <div key={m.label} className="metric"><div className="metric-label">{m.label}</div><div className="metric-value">{m.value}</div></div>
+            ))}
+          </div>
+          <div style={{marginBottom:20}}>
+            <div className="prog-h"><span>Recruiting rate</span><span>{pct}%</span></div>
+            <div className="prog-bar"><div className="prog-bar-fill" style={{width:`${pct}%`,background:'var(--success)'}}/></div>
+          </div>
+          <div className="modal-section">
+            <div className="modal-section-title">Funding & Sponsorship</div>
+            <FunderBar classes={site.funderClasses}/>
+            <div style={{marginTop:14}}>
+              <div style={{fontSize:12,fontWeight:500,color:'var(--text-secondary)',marginBottom:6}}>Lead sponsors</div>
+              <div style={{display:'flex',flexWrap:'wrap',gap:4}}>{site.sponsors.slice(0,10).map(s=><span key={s} className="badge badge-blue">{s}</span>)}{site.sponsors.length>10&&<span className="badge badge-neutral">+{site.sponsors.length-10} more</span>}</div>
+            </div>
+            {site.collaborators.length>0&&(
+              <div style={{marginTop:10}}>
+                <div style={{fontSize:12,fontWeight:500,color:'var(--text-secondary)',marginBottom:6}}>Collaborators</div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:4}}>{site.collaborators.slice(0,8).map(c=><span key={c} className="badge badge-neutral">{c}</span>)}{site.collaborators.length>8&&<span className="badge badge-neutral">+{site.collaborators.length-8} more</span>}</div>
+              </div>
+            )}
+          </div>
+          <div className="modal-section">
+            <div className="modal-section-title">Trial status breakdown</div>
+            <div style={{display:'flex',gap:24,alignItems:'flex-start'}}>
+              <DonutChart data={statusDonutData} size={120}/>
+              <div style={{flex:1}}>
+                {statusDonutData.map(d=>(
+                  <div key={d.key} style={{display:'flex',alignItems:'center',gap:8,padding:'4px 0',fontSize:12}}>
+                    <span style={{width:8,height:8,borderRadius:'50%',background:d.color,display:'inline-block',flexShrink:0}}/>
+                    <span style={{flex:1,color:'var(--text-secondary)'}}>{d.label}</span>
+                    <span style={{fontWeight:500,color:'var(--text)',fontVariantNumeric:'tabular-nums'}}>{d.value.toLocaleString()}</span>
+                    <span style={{color:'var(--text-tertiary)',width:36,textAlign:'right'}}>{(d.value/site.trialCount*100).toFixed(0)}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="modal-section">
+            <div className="modal-section-title">Research focus</div>
+            <div className="grid-2" style={{gap:16}}>
+              <div>
+                <div style={{fontSize:12,fontWeight:500,color:'var(--text-secondary)',marginBottom:6}}>Conditions studied ({site.conditions.length})</div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:4}}>{site.conditions.slice(0,14).map(c=><span key={c} className="badge badge-neutral">{c}</span>)}{site.conditions.length>14&&<span className="badge badge-neutral">+{site.conditions.length-14} more</span>}</div>
+              </div>
+              <div>
+                <div style={{fontSize:12,fontWeight:500,color:'var(--text-secondary)',marginBottom:6}}>Trial phases</div>
+                <div style={{display:'flex',flexWrap:'wrap',gap:4}}>{site.phases.map(p=><span key={p} className="badge badge-neutral">{p.replace(/_/g,' ')}</span>)}</div>
+              </div>
+            </div>
+          </div>
+          <div className="modal-section">
+            <div className="modal-section-title">Recent trials</div>
+            <div className="table-wrap">
+              <table>
+                <thead><tr><th>NCT ID</th><th>Title</th><th>Status</th><th>Funder</th><th>Start</th></tr></thead>
+                <tbody>{site.trials.slice(0,10).map(t=>(
+                  <tr key={t.nctId}>
+                    <td><a href={`https://clinicaltrials.gov/study/${t.nctId}`} target="_blank" className="nct">{t.nctId}</a></td>
+                    <td style={{maxWidth:220,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}} title={t.title}>{t.title}</td>
+                    <td><StatusBadge status={t.status}/></td>
+                    <td><FunderBadge fc={t.funderClass}/></td>
+                    <td style={{color:'var(--text-tertiary)',fontVariantNumeric:'tabular-nums',fontSize:12}}>{t.startDate?t.startDate.slice(0,7):'—'}</td>
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          </div>
+          <div className="modal-section" style={{marginBottom:0}}>
+            <div className="modal-section-title">External links</div>
+            <div className="ext-links">{extLinks.map(l=><a key={l.href} href={l.href} target="_blank" className="ext-link"><ExtIcon/>{l.label}</a>)}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── OVERVIEW ──────────────────────────────────────────────────
+const Overview=({data,onOpen,setSection})=>{
+  const [activeStatus,setActiveStatus]=useState(null);
+  const [activePhase,setActivePhase]=useState(null);
+  const [activeYear,setActiveYear]=useState(null);
+
+  // ALL hooks must be called before any early return
+  const derived=useMemo(()=>{
+    if(!data.length)return null;
+    const total=data.reduce((s,x)=>s+x.trialCount,0);
+    const countries=new Set(data.map(s=>s.country)).size;
+    const rec=data.filter(s=>s.recruitingCount>0).length;
+    const enroll=data.reduce((s,x)=>s+x.totalEnrollment,0);
+    const statusCounts={};
+    data.forEach(s=>Object.entries(s.statuses).forEach(([k,v])=>{statusCounts[k]=(statusCounts[k]||0)+v;}));
+    const statusDonut=Object.entries(statusCounts).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([k,v])=>({key:k,label:k.replace(/_/g,' '),value:v,color:STATUS_COLORS[k]||'#888'}));
+    const phaseCounts={};
+    data.forEach(s=>s.phases.forEach(p=>{phaseCounts[p]=(phaseCounts[p]||0)+1;}));
+    const phaseBar=PHASES.filter(p=>phaseCounts[p]).map(p=>({key:p,label:p.replace('_',' '),shortLabel:p.replace('EARLY_PHASE1','E.Ph1').replace('PHASE','Ph'),value:phaseCounts[p],color:PHASE_COLORS[p]}));
+    const yearCounts={};
+    data.forEach(s=>s.trials.forEach(t=>{if(t.startDate){const y=parseInt(t.startDate.slice(0,4));if(y>=2014&&y<=2026)yearCounts[y]=(yearCounts[y]||0)+1;}}));
+    const yearLine=Object.entries(yearCounts).sort((a,b)=>a[0]-b[0]).map(([y,v])=>({key:y,label:y,shortLabel:y.slice(2),value:v}));
+    return{total,countries,rec,enroll,statusDonut,phaseBar,yearLine};
+  },[data]);
+
+  const filteredTop10=useMemo(()=>{
+    if(!data.length)return[];
+    let r=data;
+    if(activeStatus)r=r.filter(s=>s.statuses[activeStatus]>0);
+    if(activePhase)r=r.filter(s=>s.phases.includes(activePhase));
+    return r.slice(0,10);
+  },[data,activeStatus,activePhase]);
+
+  if(!data.length||!derived)return(
+    <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:'80px 0',gap:14,color:'var(--text-tertiary)'}}>
+      <Spinner size={32}/><span style={{fontSize:13}}>Loading data from ClinicalTrials.gov…</span>
+    </div>
+  );
+
+  const {total,countries,rec,enroll,statusDonut,phaseBar,yearLine}=derived;
+
+  return(
+    <div className="section">
+      <div className="metrics-row">
+        <div className="metric"><div className="metric-label">Sites indexed</div><div className="metric-value">{data.length.toLocaleString()}</div><div className="metric-sub">Unique facilities</div></div>
+        <div className="metric"><div className="metric-label">Trial records</div><div className="metric-value">{total.toLocaleString()}</div><div className="metric-sub">Site–trial associations</div></div>
+        <div className="metric"><div className="metric-label">Recruiting sites</div><div className="metric-value">{rec.toLocaleString()}</div><div className="metric-sub">Currently enrolling</div></div>
+        <div className="metric"><div className="metric-label">Countries</div><div className="metric-value">{countries}</div><div className="metric-sub">Global reach</div></div>
+        <div className="metric"><div className="metric-label">Enrollment target</div><div className="metric-value">{enroll.toLocaleString()}</div><div className="metric-sub">Total participants</div></div>
+      </div>
+
+      <div className="grid-3" style={{marginBottom:20}}>
+        {/* Status donut */}
+        <div className="card">
+          <div className="card-header">
+            <div><div className="card-title">Status distribution</div>{activeStatus&&<div className="card-sub">{activeStatus.replace(/_/g,' ')}</div>}</div>
+            {activeStatus&&<button className="btn btn-default" style={{height:26,fontSize:11,padding:'0 8px'}} onClick={()=>setActiveStatus(null)}>Clear</button>}
+          </div>
+          <div className="card-body" style={{display:'flex',gap:16,alignItems:'center'}}>
+            <DonutChart data={statusDonut} size={110} activeKey={activeStatus} onSliceClick={s=>setActiveStatus(activeStatus===s.key?null:s.key)}/>
+            <div style={{flex:1}}>
+              {statusDonut.map(d=>(
+                <div key={d.key} onClick={()=>setActiveStatus(activeStatus===d.key?null:d.key)}
+                  style={{display:'flex',alignItems:'center',gap:6,padding:'3px 4px',borderRadius:4,cursor:'pointer',opacity:activeStatus&&activeStatus!==d.key?.5:1,transition:'opacity .15s',background:activeStatus===d.key?'var(--bg-subtle)':'transparent'}}>
+                  <span style={{width:6,height:6,borderRadius:'50%',background:d.color,flexShrink:0}}/>
+                  <span style={{flex:1,fontSize:11,color:'var(--text-secondary)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{d.label}</span>
+                  <span style={{fontSize:11,fontWeight:500,color:'var(--text)',fontVariantNumeric:'tabular-nums'}}>{(d.value/total*100).toFixed(0)}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Phase bar */}
+        <div className="card">
+          <div className="card-header">
+            <div><div className="card-title">Sites by phase</div>{activePhase&&<div className="card-sub">{activePhase.replace(/_/g,' ')}</div>}</div>
+            {activePhase&&<button className="btn btn-default" style={{height:26,fontSize:11,padding:'0 8px'}} onClick={()=>setActivePhase(null)}>Clear</button>}
+          </div>
+          <div className="card-body">
+            <BarChart data={phaseBar} height={130} activeKey={activePhase}
+              onBarClick={b=>setActivePhase(activePhase===b.key?null:b.key)}/>
+          </div>
+        </div>
+
+        {/* Year line */}
+        <div className="card">
+          <div className="card-header">
+            <div><div className="card-title">Trial starts by year</div>{activeYear&&<div className="card-sub">{activeYear}</div>}</div>
+            {activeYear&&<button className="btn btn-default" style={{height:26,fontSize:11,padding:'0 8px'}} onClick={()=>setActiveYear(null)}>Clear</button>}
+          </div>
+          <div className="card-body">
+            <LineChart data={yearLine} height={130} color="var(--accent)"
+              onPointClick={p=>setActiveYear(activeYear===p.key?null:p.key)}/>
+          </div>
+        </div>
+      </div>
+
+      {/* Top 10 — reacts to filters */}
+      <div className="card">
+        <div className="card-header">
+          <div>
+            <div className="card-title">Top {filteredTop10.length} sites{activeStatus||activePhase?' (filtered)':' globally'}</div>
+            <div className="card-sub">Ranked by total trial participation</div>
+          </div>
+          <button className="btn btn-default" style={{height:28,fontSize:11,padding:'0 10px'}} onClick={()=>setSection('topSites')}>View all →</button>
+        </div>
+        <div className="card-body" style={{padding:'4px 16px'}}>
+          {filteredTop10.map((s,i)=>(
+            <div key={s.key} className="rank-list-item" onClick={()=>onOpen(s)} style={{padding:'9px 6px'}}>
+              <span className="rank-num">{i+1}</span>
+              <div className="rank-info"><div className="rank-name">{s.name}</div><div className="rank-meta">{s.city}, {s.country}</div></div>
+              <div className="rank-tags">
+                <span className="badge badge-blue">{s.trialCount.toLocaleString()}</span>
+                {s.recruitingCount>0&&<span className="badge badge-green">{s.recruitingCount}</span>}
+                <FunderBadge fc={s.dominantFunder}/>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── TOP SITES ─────────────────────────────────────────────────
+const TopSites=({data,onOpen})=>{
+  const [statusF,setStatusF]=useState('all');const [countryF,setCountryF]=useState('all');const [funderF,setFunderF]=useState('all');
+  const countries=useMemo(()=>[...new Set(data.map(s=>s.country))].sort(),[data]);
+  const filtered=useMemo(()=>{
+    let r=[...data];
+    if(statusF==='recruiting')r=r.filter(s=>s.recruitingCount>0);else if(statusF==='completed')r=r.filter(s=>s.completedCount>0);else if(statusF==='phase3')r=r.filter(s=>s.phases.includes('PHASE3'));
+    if(countryF!=='all')r=r.filter(s=>s.country===countryF);
+    if(funderF!=='all')r=r.filter(s=>s.dominantFunder===funderF||(s.funderClasses[funderF]||0)>0);
+    return r;
+  },[data,statusF,countryF,funderF]);
+  return(
+    <div className="section">
+      <div className="form-row">
+        {[{val:statusF,set:setStatusF,label:'Status',opts:[['all','All statuses'],['recruiting','Currently recruiting'],['completed','Has completed trials'],['phase3','Phase 3 trials']]},
+          {val:countryF,set:setCountryF,label:'Country',opts:[['all','All countries'],...countries.map(c=>[c,c])]},
+          {val:funderF,set:setFunderF,label:'Funder type',opts:[['all','All funders'],...Object.entries(FUNDER_META).map(([k,v])=>[k,v.label])]}
+        ].map(f=>(
+          <div key={f.label} className="field" style={{flex:1}}>
+            <label>{f.label}</label>
+            <select className="select" value={f.val} onChange={e=>f.set(e.target.value)}>
+              {f.opts.map(([v,l])=><option key={v} value={v}>{l}</option>)}
+            </select>
+          </div>
+        ))}
+      </div>
+      <div style={{fontSize:12,color:'var(--text-tertiary)',marginBottom:14}}>Showing {Math.min(filtered.length,50).toLocaleString()} of {filtered.length.toLocaleString()} sites</div>
+      <SiteGrid sites={filtered.slice(0,50)} onOpen={onOpen}/>
+    </div>
+  );
+};
+
+// ── SEARCH SECTION ─────────────────────────────────────────────
+const SearchSection=({type,onOpen})=>{
+  const [q,setQ]=useState('');const [phase,setPhase]=useState('');const [status,setStatus]=useState('');
+  const [results,setResults]=useState(null);const [loading,setLoading]=useState(false);
+  const sugg=type==='drug'?DRUG_SUGGESTIONS:DISEASE_SUGGESTIONS;
+  const doSearch=async(qv=q)=>{
+    if(!qv.trim())return;setLoading(true);
+    const params=type==='drug'?{'query.intr':qv}:{'query.cond':qv};
+    if(phase)params['filter.phase']=phase;if(status)params['filter.overallStatus']=status;
+    const studies=await fetchAll(params,10);const sites=processSites(studies);
+    setResults({sites,q:qv,total:studies.length});setLoading(false);
+  };
+
+  // top sites bar chart for results
+  const topBar=useMemo(()=>{
+    if(!results)return[];
+    return results.sites.slice(0,12).map(s=>({key:s.key,label:s.name.length>18?s.name.slice(0,17)+'…':s.name,value:s.trialCount,color:'var(--accent)',extraRows:[{label:'Location',value:`${s.city}, ${s.country}`},{label:'Recruiting',value:s.recruitingCount}]}));
+  },[results]);
+
+  return(
+    <div className="section">
+      <div className="form-row">
+        <AutoInput value={q} onChange={setQ} onSelect={v=>{setQ(v);doSearch(v);}} onEnter={()=>doSearch()}
+          placeholder={type==='drug'?'e.g. Pembrolizumab, Remdesivir…':"e.g. Breast Cancer, COVID-19…"}
+          suggestions={sugg} loading={loading} label={type==='drug'?'Drug or intervention':'Disease or condition'}/>
+        <div className="field" style={{minWidth:140}}>
+          <label>Phase</label>
+          <select className="select" value={phase} onChange={e=>setPhase(e.target.value)}>
+            <option value="">Any phase</option>
+            {PHASES.map(p=><option key={p} value={p}>{p.replace(/_/g,' ')}</option>)}
+          </select>
+        </div>
+        <div className="field" style={{minWidth:170}}>
+          <label>Status</label>
+          <select className="select" value={status} onChange={e=>setStatus(e.target.value)}>
+            <option value="">Any status</option>
+            <option value="RECRUITING">Recruiting</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="ACTIVE_NOT_RECRUITING">Active, not recruiting</option>
+          </select>
+        </div>
+        <button className="btn btn-primary" onClick={()=>doSearch()} disabled={loading||!q.trim()} style={{alignSelf:'flex-end'}}>
+          {loading?<><Spinner size={14}/>Searching</>:'Search'}
+        </button>
+      </div>
+      {!results&&!loading&&(
+        <div>
+          <div style={{fontSize:11,fontWeight:600,textTransform:'uppercase',letterSpacing:'.5px',color:'var(--text-tertiary)',marginBottom:8}}>Common searches</div>
+          <div className="chips">{sugg.slice(0,12).map(s=><button key={s} className="chip" onClick={()=>{setQ(s);doSearch(s);}}>{s}</button>)}</div>
+        </div>
+      )}
+      {results&&(
+        <div>
+          <div className="alert alert-success">Found <strong>{results.sites.length.toLocaleString()} sites</strong> for <strong>{results.q}</strong> — {results.total.toLocaleString()} study records</div>
+          <div className="metrics-row" style={{marginBottom:16}}>
+            <div className="metric"><div className="metric-label">Sites</div><div className="metric-value">{results.sites.length.toLocaleString()}</div></div>
+            <div className="metric"><div className="metric-label">Recruiting</div><div className="metric-value">{results.sites.filter(s=>s.recruitingCount>0).length.toLocaleString()}</div></div>
+            <div className="metric"><div className="metric-label">Countries</div><div className="metric-value">{new Set(results.sites.map(s=>s.country)).size}</div></div>
+            <div className="metric"><div className="metric-label">Enrollment target</div><div className="metric-value">{results.sites.reduce((a,s)=>a+s.totalEnrollment,0).toLocaleString()}</div></div>
+          </div>
+          {topBar.length>0&&(
+            <div className="card" style={{marginBottom:16}}>
+              <div className="card-header"><div className="card-title">Top sites by trial count</div></div>
+              <div className="card-body"><BarChart data={topBar} height={140} onBarClick={b=>onOpen(results.sites.find(s=>s.key===b.key))}/></div>
+            </div>
+          )}
+          <SiteGrid sites={results.sites.slice(0,40)} onOpen={onOpen}/>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── BY PHASE ──────────────────────────────────────────────────
+const PhaseSection=({data,onOpen})=>{
+  const [phase,setPhase]=useState('PHASE3');
+  const filtered=useMemo(()=>data.filter(s=>s.phases.includes(phase)),[data,phase]);
+  const topBar=filtered.slice(0,12).map(s=>({key:s.key,label:s.name.length>18?s.name.slice(0,17)+'…':s.name,value:s.trialCount,color:PHASE_COLORS[phase]||'var(--accent)',extraRows:[{label:'Location',value:`${s.city}, ${s.country}`}]}));
+  return(
+    <div className="section">
+      <div className="seg-group" style={{marginBottom:20,flexWrap:'wrap'}}>
+        {PHASES.map(p=><button key={p} className={`seg-btn${phase===p?' active':''}`} onClick={()=>setPhase(p)}>{p.replace('_',' ')}</button>)}
+      </div>
+      <div style={{fontSize:12,color:'var(--text-tertiary)',marginBottom:14}}><strong style={{color:'var(--text)'}}>{filtered.length.toLocaleString()} sites</strong> have conducted {phase.replace(/_/g,' ')} trials</div>
+      {topBar.length>0&&(
+        <div className="card" style={{marginBottom:16}}>
+                      <div className="card-header"><div className="card-title">Top 12 sites — {phase.replace(/_/g,' ')}</div></div>
+          <div className="card-body"><BarChart data={topBar} height={130} onBarClick={b=>onOpen(filtered.find(s=>s.key===b.key))}/></div>
+        </div>
+      )}
+      <SiteGrid sites={filtered.slice(0,40)} onOpen={onOpen}/>
+    </div>
+  );
+};
+
+// ── BY FUNDER ─────────────────────────────────────────────────
+const FunderSection=({data,onOpen})=>{
+  const [funder,setFunder]=useState('INDUSTRY');const [cond,setCond]=useState('');
+  const filtered=useMemo(()=>{
+    let r=data.filter(s=>s.dominantFunder===funder||(s.funderClasses[funder]||0)>0);
+    if(cond.trim()){const q=cond.toLowerCase();r=r.filter(s=>s.conditions.some(c=>c.toLowerCase().includes(q)));}
+    return r;
+  },[data,funder,cond]);
+  const breakdown=useMemo(()=>{const agg={};filtered.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{agg[k]=(agg[k]||0)+v;}));return agg;},[filtered]);
+
+  const donutData=Object.entries(breakdown).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({key:k,label:(FUNDER_META[k]||FUNDER_META.OTHER).label,value:v,color:(FUNDER_META[k]||FUNDER_META.OTHER).color}));
+  const topBar=filtered.slice(0,12).map(s=>({key:s.key,label:s.name.length>18?s.name.slice(0,17)+'…':s.name,value:s.trialCount,color:(FUNDER_META[funder]||FUNDER_META.OTHER).color,extraRows:[{label:'Location',value:`${s.city}, ${s.country}`}]}));
+
+  return(
+    <div className="section">
+      <div className="alert alert-info">Funder classifications per ClinicalTrials.gov: Industry = pharma/biotech · NIH = National Institutes of Health · Federal = DoD, VA, FDA · Academic = universities, non-profits, foundations</div>
+      <div className="form-row">
+        <div className="field" style={{flex:1}}>
+          <label>Funder category</label>
+          <select className="select" value={funder} onChange={e=>setFunder(e.target.value)}>
+            {Object.entries(FUNDER_META).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}
+          </select>
+        </div>
+        <div className="field" style={{flex:2}}>
+          <label>Filter by condition (optional)</label>
+          <input className="input" value={cond} onChange={e=>setCond(e.target.value)} placeholder="e.g. cancer, diabetes, hypertension…"/>
+        </div>
+      </div>
+      <div className="metrics-row" style={{marginBottom:16}}>
+        <div className="metric"><div className="metric-label">Sites</div><div className="metric-value">{filtered.length.toLocaleString()}</div></div>
+        <div className="metric"><div className="metric-label">Total trials</div><div className="metric-value">{filtered.reduce((a,s)=>a+s.trialCount,0).toLocaleString()}</div></div>
+        <div className="metric"><div className="metric-label">Recruiting</div><div className="metric-value">{filtered.reduce((a,s)=>a+s.recruitingCount,0).toLocaleString()}</div></div>
+        <div className="metric"><div className="metric-label">Countries</div><div className="metric-value">{new Set(filtered.map(s=>s.country)).size}</div></div>
+      </div>
+      {donutData.length>0&&(
+        <div className="grid-2" style={{marginBottom:16}}>
+          <div className="card">
+            <div className="card-header"><div className="card-title">Funding mix</div></div>
+            <div className="card-body" style={{display:'flex',gap:20,alignItems:'center'}}>
+              <DonutChart data={donutData} size={130}/>
+              <div style={{flex:1}}>
+                {donutData.map(d=>{
+                  const tot=donutData.reduce((a,x)=>a+x.value,0)||1;
+                  return(
+                    <div key={d.key} style={{display:'flex',alignItems:'center',gap:8,padding:'3px 0',fontSize:12}}>
+                      <span style={{width:8,height:8,borderRadius:'50%',background:d.color,flexShrink:0}}/>
+                      <span style={{flex:1,color:'var(--text-secondary)'}}>{d.label}</span>
+                      <span style={{fontWeight:500,color:'var(--text)',fontVariantNumeric:'tabular-nums'}}>{d.value.toLocaleString()}</span>
+                      <span style={{color:'var(--text-tertiary)',width:34,textAlign:'right'}}>{(d.value/tot*100).toFixed(0)}%</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header"><div className="card-title">Top sites</div></div>
+            <div className="card-body"><BarChart data={topBar} height={130} onBarClick={b=>onOpen(filtered.find(s=>s.key===b.key))}/></div>
+          </div>
+        </div>
+      )}
+      <SiteGrid sites={filtered.slice(0,40)} onOpen={onOpen}/>
+    </div>
+  );
+};
+
+// ── GEOGRAPHIC ─────────────────────────────────────────────────
+const GeoSection=({data,onOpen})=>{
+  const [view,setView]=useState('country');
+  const {countries,cities}=useMemo(()=>{
+    const cc={},ci={};
+    data.forEach(s=>{cc[s.country]=(cc[s.country]||0)+s.trialCount;const k=`${s.city}, ${s.country}`;ci[k]=(ci[k]||0)+s.trialCount;});
+    return{countries:Object.entries(cc).sort((a,b)=>b[1]-a[1]),cities:Object.entries(ci).sort((a,b)=>b[1]-a[1])};
+  },[data]);
+
+  const listData=(view==='country'?countries:cities).slice(0,20).map(([name,value],i)=>({key:name,label:name,value,color:i<3?'#ba7517':'var(--accent)'}));
+
+  return(
+    <div className="section">
+      <div className="seg-group" style={{marginBottom:20}}>
+        <button className={`seg-btn${view==='country'?' active':''}`} onClick={()=>setView('country')}>Countries</button>
+        <button className={`seg-btn${view==='city'?' active':''}`} onClick={()=>setView('city')}>Cities</button>
+      </div>
+      <div className="grid-2">
+        <div className="card">
+          <div className="card-header"><div className="card-title">Top 20 {view==='country'?'countries':'cities'} by trial count</div></div>
+          <div className="card-body"><HBarChart data={listData} maxItems={20}/></div>
+        </div>
+        <div className="card">
+          <div className="card-header"><div className="card-title">Funding mix by country (top 10)</div></div>
+          <div className="card-body">
+            {countries.slice(0,10).map(([country])=>{
+              const sites=data.filter(s=>s.country===country);
+              const agg={};sites.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{agg[k]=(agg[k]||0)+v;}));
+              const t=Object.values(agg).reduce((a,b)=>a+b,1);
+              return(
+                <div key={country} style={{marginBottom:10}}>
+                  <div style={{fontSize:12,color:'var(--text-secondary)',marginBottom:4}}>{country}</div>
+                  <div style={{display:'flex',height:7,borderRadius:4,overflow:'hidden',background:'var(--bg-muted)'}}>
+                    {Object.entries(agg).sort((a,b)=>b[1]-a[1]).map(([k,v])=>(
+                      <div key={k} title={`${(FUNDER_META[k]||FUNDER_META.OTHER).label}: ${(v/t*100).toFixed(0)}%`} style={{width:`${(v/t*100).toFixed(1)}%`,background:(FUNDER_META[k]||FUNDER_META.OTHER).color}}/>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+            <div style={{height:1,background:'var(--border)',margin:'14px 0'}}/>
+            <div className="funder-legend">
+              {Object.entries(FUNDER_META).map(([k,v])=>(
+                <span key={k} className="funder-legend-item"><span className="funder-dot" style={{background:v.color}}/>{v.label}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── COMPARE ────────────────────────────────────────────────────
+const Compare=({data,onOpen})=>{
+  const [q1,setQ1]=useState('');const [q2,setQ2]=useState('');
+  const [s1,setS1]=useState(null);const [s2,setS2]=useState(null);const [err,setErr]=useState('');
+  const names=useMemo(()=>data.map(s=>s.name),[data]);
+  const doCompare=()=>{
+    const r1=data.find(s=>s.name.toLowerCase().includes(q1.toLowerCase()));
+    const r2=data.find(s=>s.name.toLowerCase().includes(q2.toLowerCase()));
+    if(!r1||!r2){setErr(`${!r1?'"'+q1+'" ':''} ${!r2?'"'+q2+'" ':''} not found — try a partial name.`);return;}
+    setErr('');setS1(r1);setS2(r2);
+  };
+  const metrics=s1&&s2?[
+    {label:'Total trials',v1:s1.trialCount,v2:s2.trialCount},
+    {label:'Recruiting',v1:s1.recruitingCount,v2:s2.recruitingCount},
+    {label:'Completed',v1:s1.completedCount,v2:s2.completedCount},
+    {label:'Sponsors',v1:s1.sponsors.length,v2:s2.sponsors.length},
+    {label:'Conditions',v1:s1.conditions.length,v2:s2.conditions.length},
+    {label:'Enrollment target',v1:s1.totalEnrollment,v2:s2.totalEnrollment},
+  ]:[];
+
+  // bar chart for compare
+  const compareBarData=s1&&s2?metrics.map(m=>({
+    key:m.label,label:m.label,shortLabel:m.label.slice(0,6),
+    value:m.v1,color:'var(--accent)',
+    extraRows:[{label:s1.name.slice(0,20),value:m.v1.toLocaleString()},{label:s2.name.slice(0,20),value:m.v2.toLocaleString()}],
+  })):[];
+  const compareBarData2=s1&&s2?metrics.map(m=>({key:m.label,label:m.label,shortLabel:m.label.slice(0,6),value:m.v2,color:'#7c60d8'})):[];
+
+  return(
+    <div className="section">
+      <div style={{display:'grid',gridTemplateColumns:'1fr 48px 1fr',gap:16,alignItems:'flex-end',marginBottom:16}}>
+        <AutoInput value={q1} onChange={setQ1} onSelect={setQ1} onEnter={doCompare} suggestions={names} placeholder="e.g. Johns Hopkins, Mayo Clinic…" label="Site 1"/>
+        <div style={{width:48,height:34,border:'1px solid var(--border)',borderRadius:'var(--r-md)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:600,color:'var(--text-tertiary)',background:'var(--bg-subtle)',flexShrink:0}}>vs</div>
+        <AutoInput value={q2} onChange={setQ2} onSelect={setQ2} onEnter={doCompare} suggestions={names} placeholder="e.g. Memorial Sloan Kettering…" label="Site 2"/>
+      </div>
+      <button className="btn btn-primary" onClick={doCompare} style={{marginBottom:20}}>Compare</button>
+      {err&&<div className="alert alert-warn">{err}</div>}
+      {s1&&s2&&(
+        <div>
+          <div className="grid-2" style={{marginBottom:16}}>
+            {[s1,s2].map((s,idx)=>(
+              <div key={idx} className="card" style={{borderColor:idx===0?'var(--accent)':'var(--border-strong)',cursor:'pointer'}} onClick={()=>onOpen(s)}>
+                <div className="card-body">
+                  <div style={{fontSize:14,fontWeight:500,marginBottom:2}}>{s.name}</div>
+                  <div style={{fontSize:12,color:'var(--text-tertiary)',marginBottom:12}}>{s.city}, {s.country}</div>
+                  <FunderBar classes={s.funderClasses}/>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Side-by-side bar chart */}
+          <div className="card" style={{marginBottom:16}}>
+            <div className="card-header"><div className="card-title">Visual comparison</div></div>
+            <div className="card-body">
+              <div style={{display:'flex',gap:8,marginBottom:8,fontSize:11}}>
+                <span style={{display:'flex',alignItems:'center',gap:4}}><span style={{width:10,height:10,borderRadius:2,background:'var(--accent)',display:'inline-block'}}/>{s1.name.slice(0,30)}</span>
+                <span style={{display:'flex',alignItems:'center',gap:4}}><span style={{width:10,height:10,borderRadius:2,background:'#7c60d8',display:'inline-block'}}/>{s2.name.slice(0,30)}</span>
+              </div>
+              <svg viewBox="0 0 300 130" style={{width:'100%',height:130,display:'block',overflow:'visible'}}>
+                {metrics.map((m,i)=>{
+                  const maxV=Math.max(m.v1,m.v2,1);
+                  const groupW=300/metrics.length;
+                  const bw=(groupW-8)/2;
+                  const x1=i*groupW+4;const x2=x1+bw+2;
+                  const h1=Math.max(2,(m.v1/maxV)*100);const h2=Math.max(2,(m.v2/maxV)*100);
+                  return(
+                    <g key={m.label}>
+                      <rect className="bar-rect" x={x1} y={110-h1} width={bw} height={h1} rx={2} fill="var(--accent)"
+                        title={`${s1.name}: ${m.v1.toLocaleString()}`}/>
+                      <rect className="bar-rect" x={x2} y={110-h2} width={bw} height={h2} rx={2} fill="#7c60d8"
+                        title={`${s2.name}: ${m.v2.toLocaleString()}`}/>
+                      <text x={i*groupW+groupW/2} y={125} textAnchor="middle" fontSize={7} fill="var(--text-tertiary)">{m.label.slice(0,7)}</text>
+                    </g>
+                  );
+                })}
+              </svg>
+            </div>
+          </div>
+
+          <div className="card" style={{marginBottom:16}}>
+            <div className="card-header"><div className="card-title">Metric comparison</div></div>
+            <div className="card-body">
+              {metrics.map(m=>{
+                const mx=Math.max(m.v1,m.v2,1);
+                return(
+                  <div key={m.label} style={{display:'grid',gridTemplateColumns:'1fr 100px 1fr',gap:16,alignItems:'center',padding:'10px 0',borderBottom:'1px solid var(--border)'}}>
+                    <div>
+                      <div style={{fontWeight:600,fontVariantNumeric:'tabular-nums',fontSize:15,textAlign:'right',color:m.v1>m.v2?'var(--accent-text)':m.v1<m.v2?'var(--text-tertiary)':'var(--text)'}}>{m.v1.toLocaleString()}</div>
+                      <ProgBar val={m.v1} max={mx} color="var(--accent)"/>
+                    </div>
+                    <div style={{textAlign:'center',fontSize:11,color:'var(--text-tertiary)',fontWeight:500}}>{m.label}</div>
+                    <div>
+                      <div style={{fontWeight:600,fontVariantNumeric:'tabular-nums',fontSize:15,color:m.v2>m.v1?'#6d42d4':m.v2<m.v1?'var(--text-tertiary)':'var(--text)'}}>{m.v2.toLocaleString()}</div>
+                      <ProgBar val={m.v2} max={mx} color="#7c60d8"/>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="grid-2">
+            {['sponsors','conditions'].map(field=>{
+              const common=s1[field].filter(x=>s2[field].includes(x));
+              return(
+                <div key={field} className="card">
+                  <div className="card-header"><div className="card-title">Common {field} ({common.length})</div></div>
+                  <div className="card-body">{common.length?<div style={{display:'flex',flexWrap:'wrap',gap:4}}>{common.slice(0,12).map(x=><span key={x} className="badge badge-neutral">{x}</span>)}</div>:<span style={{fontSize:12,color:'var(--text-tertiary)'}}>None in common</span>}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── GUIDE ──────────────────────────────────────────────────────
+const Guide=()=>{
+  const ExtIcon=()=><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>;
+  return(
+    <div className="section">
+      <div className="grid-2">
+        <div className="card"><div className="card-header"><div className="card-title">About this tool</div></div>
+          <div className="card-body" style={{fontSize:13,lineHeight:1.7,color:'var(--text-secondary)'}}>
+            <p>TrialSite Intelligence queries the <strong style={{color:'var(--text)',fontWeight:500}}>ClinicalTrials.gov API v2</strong> in real time and analyses data at the site level — showing which research institutions run the most trials, their funding sources, therapeutic focus areas, and recruitment activity.</p>
+            <div className="divider"/>
+            <p style={{fontWeight:500,color:'var(--text)',marginBottom:6}}>Who uses this</p>
+            <ul style={{paddingLeft:16,display:'flex',flexDirection:'column',gap:4}}>{['Clinical operations teams evaluating site networks','Business development identifying partnership opportunities','Researchers locating experienced trial sites','Analysts mapping competitive R&D landscapes','Investors tracking institutional research activity'].map(t=><li key={t}>{t}</li>)}</ul>
+          </div>
+        </div>
+        <div className="card"><div className="card-header"><div className="card-title">Data dictionary</div></div>
+          <div className="card-body" style={{fontSize:13}}>
+            <div style={{fontWeight:500,color:'var(--text)',marginBottom:8}}>Funder classifications</div>
+            <table className="info-table" style={{marginBottom:16}}>{Object.entries(FUNDER_META).map(([k,v])=><tr key={k}><td><FunderBadge fc={k}/></td><td style={{color:'var(--text-secondary)'}}>{k==='INDUSTRY'?'Pharma and biotech companies':k==='NIH'?'National Institutes of Health':k==='FED'?'DoD, VA, FDA, other federal agencies':'Universities, non-profits, foundations'}</td></tr>)}</table>
+            <div style={{fontWeight:500,color:'var(--text)',marginBottom:8}}>Recruitment status</div>
+            <table className="info-table"><tbody><tr><td><StatusBadge status="RECRUITING"/></td><td style={{color:'var(--text-secondary)'}}>Actively enrolling participants</td></tr><tr><td><StatusBadge status="COMPLETED"/></td><td style={{color:'var(--text-secondary)'}}>Trial concluded</td></tr><tr><td><StatusBadge status="ACTIVE_NOT_RECRUITING"/></td><td style={{color:'var(--text-secondary)'}}>Ongoing, enrollment closed</td></tr></tbody></table>
+          </div>
+        </div>
+        <div className="card"><div className="card-header"><div className="card-title">External resources</div></div>
+          <div className="card-body"><div className="ext-links" style={{flexDirection:'column',gap:6}}>{[['https://clinicaltrials.gov','ClinicalTrials.gov — official registry'],['https://clinicaltrials.gov/data-api/api','ClinicalTrials.gov API documentation'],['https://www.fda.gov/science-research/clinical-trials-and-human-subject-protection','FDA clinical trial information'],['https://www.nih.gov/health-information/nih-clinical-research-trials-you','NIH clinical research overview'],['https://www.who.int/clinical-trials-registry-platform','WHO International Clinical Trials Registry Platform'],['https://pubmed.ncbi.nlm.nih.gov','PubMed — biomedical literature database']].map(([href,label])=><a key={href} href={href} target="_blank" className="ext-link"><ExtIcon/>{label}</a>)}</div></div>
+        </div>
+        <div className="card"><div className="card-header"><div className="card-title">Interactive chart guide</div></div>
+          <div className="card-body" style={{fontSize:13}}>
+            <table style={{width:'100%'}}><tbody>
+              {[['Donut chart','Hover slices to see counts. Click to filter the site list below.'],['Bar chart','Hover bars for a tooltip. Click any bar to open that site\'s detail panel.'],['Line chart','Hover data points to see the exact value for that year.'],['Horizontal bars','Hover rows for full label and count. Click rows where available.'],['Status donut (Overview)','Click slices to filter the Top 10 list by trial status.'],['Phase bars (Overview)','Click a bar to filter Top 10 to sites with that phase.']].map(([k,v])=>(
+                <tr key={k} style={{borderBottom:'1px solid var(--border)'}}><td style={{color:'var(--text-secondary)',padding:'7px 0',width:160,verticalAlign:'top'}}>{k}</td><td style={{color:'var(--text-secondary)',padding:'7px 0'}}>{v}</td></tr>
+              ))}
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── APP ROOT ───────────────────────────────────────────────────
+function App(){
+  const [section,setSection]=useState('overview');
+  const [data,setData]=useState([]);const [loading,setLoading]=useState(true);
+  const [modal,setModal]=useState(null);const [toast,setToast]=useState(null);
+  useEffect(()=>{fetchAll({},20).then(studies=>{setData(processSites(studies));setLoading(false);});},[]);
+  const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(null),3000);};
+  const exportCSV=()=>{
+    if(!data.length){showToast('No data loaded yet');return;}
+    const rows=[['Site Name','City','State','Country','Total Trials','Recruiting','Completed','Sponsors','Conditions','Dominant Funder','Enrollment Target']];
+    data.forEach(s=>rows.push([`"${s.name}"`,`"${s.city}"`,`"${s.state}"`,`"${s.country}"`,s.trialCount,s.recruitingCount,s.completedCount,s.sponsors.length,s.conditions.length,(FUNDER_META[s.dominantFunder]||FUNDER_META.OTHER).label,s.totalEnrollment]));
+    const blob=new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='trialsite_export.csv';a.click();
+    showToast('Export complete');
+  };
+  const activeNav=NAV.find(n=>n.id===section);
+  return(
+    <div className="app">
+      <header className="topbar">
+        <div className="brand">
+          <div className="brand-mark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6l1 9H8zm0 9h6l1 9H8z"/></svg></div>
+          <div><div className="brand-name">TrialSite Intelligence</div><div className="brand-sub">Clinical Trial Analytics</div></div>
+        </div>
+        <GlobalSearch data={data} onOpen={setModal}/>
+        <div className="topbar-right">
+          <div className="status-pill">{loading?<><Spinner size={12}/><span>Loading…</span></>:<><span className="status-dot"/><span>{data.length.toLocaleString()} sites indexed</span></>}</div>
+          <button className="topbar-btn" onClick={exportCSV}>Export CSV</button>
+        </div>
+      </header>
+      <div className="body">
+        <nav className="sidebar">
+          <div style={{paddingTop:8}}>
+            <div className="sidebar-section">Navigation</div>
+            {NAV.map(n=>(
+              <div key={n.id} className={`nav-item${section===n.id?' active':''}`} onClick={()=>setSection(n.id)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={n.icon}/></svg>
+                {n.label}
+              </div>
+            ))}
+          </div>
+          {!loading&&(
+            <div className="sidebar-stats">
+              <div className="sidebar-section" style={{padding:'0 0 8px'}}>Live stats</div>
+              <div className="sidebar-stat"><span>Sites</span><span className="val">{data.length.toLocaleString()}</span></div>
+              <div className="sidebar-stat"><span>Recruiting</span><span className="val">{data.filter(s=>s.recruitingCount>0).length.toLocaleString()}</span></div>
+              <div className="sidebar-stat"><span>Countries</span><span className="val">{new Set(data.map(s=>s.country)).size}</span></div>
+              <div className="sidebar-stat"><span>Records</span><span className="val">{data.reduce((a,s)=>a+s.trialCount,0).toLocaleString()}</span></div>
+            </div>
+          )}
+        </nav>
+        <main className="main">
+          <div className="page-header">
+            <div className="page-title">{activeNav?.label}</div>
+            <div className="page-meta">Live data from ClinicalTrials.gov API v2 · {new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div>
+          </div>
+          {section==='overview'   &&<Overview   data={data} onOpen={setModal} setSection={setSection}/>}
+          {section==='topSites'   &&<TopSites   data={data} onOpen={setModal}/>}
+          {section==='drug'       &&<SearchSection type="drug"    onOpen={setModal}/>}
+          {section==='disease'    &&<SearchSection type="disease" onOpen={setModal}/>}
+          {section==='phase'      &&<PhaseSection  data={data} onOpen={setModal}/>}
+          {section==='funder'     &&<FunderSection data={data} onOpen={setModal}/>}
+          {section==='geographic' &&<GeoSection    data={data} onOpen={setModal}/>}
+          {section==='compare'    &&<Compare       data={data} onOpen={setModal}/>}
+          {section==='guide'      &&<Guide/>}
+        </main>
+      </div>
+      {modal&&<SiteModal site={modal} onClose={()=>setModal(null)}/>}
+      {toast&&<div className="toast">{toast}</div>}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
