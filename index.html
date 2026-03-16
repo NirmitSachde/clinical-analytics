@@ -47,15 +47,11 @@ button,input,select,textarea{font-family:var(--font)}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
-
-/* ── LAYOUT ─────────────────────────────────────── */
 .shell{display:flex;flex-direction:column;min-height:100vh}
 .topbar{height:52px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:300;flex-shrink:0}
 .body{display:flex;flex:1}
 .sidebar{width:196px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;flex-shrink:0}
 .content{flex:1;min-width:0;padding:24px 28px;overflow-x:hidden}
-
-/* ── TOPBAR ─────────────────────────────────────── */
 .brand{display:flex;align-items:center;gap:9px;flex-shrink:0;text-decoration:none}
 .brand-mark{width:28px;height:28px;background:var(--blue);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .brand-name{font-size:13px;font-weight:600;letter-spacing:-.2px;color:var(--text)}
@@ -70,48 +66,54 @@ button,input,select,textarea{font-family:var(--font)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .tb-btn{height:30px;padding:0 10px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);font-size:12px;color:var(--text-2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
 .tb-btn:hover{border-color:var(--border-strong);color:var(--text)}
-
-/* ── SIDEBAR ────────────────────────────────────── */
 .nav-group{padding:12px 10px 3px;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--text-3)}
-.nav-item{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;color:var(--text-2);cursor:pointer;border-left:2px solid transparent;transition:all .1s;user-select:none;border-radius:0}
+.nav-item{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12.5px;color:var(--text-2);cursor:pointer;border-left:2px solid transparent;transition:all .1s;user-select:none}
 .nav-item:hover{color:var(--text);background:var(--bg-subtle)}
 .nav-item.active{color:var(--blue);background:var(--blue-bg);border-left-color:var(--blue);font-weight:500}
 .nav-item svg{width:13px;height:13px;flex-shrink:0;opacity:.7}
 .nav-item.active svg{opacity:1}
-.sidebar-foot{margin:auto 0 0;padding:12px 14px 14px;border-top:1px solid var(--border)}
+.sidebar-foot{padding:12px 14px 14px;border-top:1px solid var(--border)}
 .sb-stat{display:flex;justify-content:space-between;padding:3px 0;font-size:11px;color:var(--text-2)}
 .sb-stat .v{font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
-
-/* ── PAGE ───────────────────────────────────────── */
+.sb-updates{margin:8px 10px;border:1px solid var(--border);border-radius:var(--r-lg);background:var(--bg-subtle);cursor:pointer;transition:border-color .15s,background .15s;overflow:hidden}
+.sb-updates:hover{border-color:var(--border-strong);background:var(--bg)}
+.sb-updates-hd{padding:8px 10px 6px;display:flex;align-items:center;justify-content:space-between}
+.sb-updates-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3)}
+.sb-update-row{padding:5px 10px;display:flex;align-items:flex-start;gap:7px;border-top:1px solid var(--border)}
+.sb-update-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.sb-update-text{font-size:11px;color:var(--text-2);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sb-updates-empty{padding:7px 10px 9px;font-size:11px;color:var(--text-3);line-height:1.4}
 .ph{margin-bottom:20px}
 .ph-title{font-size:19px;font-weight:600;letter-spacing:-.3px;color:var(--text);line-height:1.2}
 .ph-meta{font-size:11px;color:var(--text-3);margin-top:3px}
-
-/* ── CARD ───────────────────────────────────────── */
 .card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow)}
 .card-hd{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .card-title{font-size:12px;font-weight:500;color:var(--text)}
 .card-sub{font-size:11px;color:var(--text-3);margin-top:1px}
 .card-bd{padding:15px}
-
-/* ── KPI STRIP ──────────────────────────────────── */
 .kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow)}
 .kpi{background:var(--bg);padding:14px 16px;position:relative}
 .kpi-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;font-weight:500;margin-bottom:5px}
 .kpi-val{font-size:20px;font-weight:600;color:var(--text);letter-spacing:-.4px;font-variant-numeric:tabular-nums;line-height:1}
 .kpi-sub{font-size:10px;color:var(--text-3);margin-top:3px}
-.kpi-trend{position:absolute;top:12px;right:12px;font-size:10px;font-weight:500;padding:2px 6px;border-radius:3px}
-.kpi-trend.up{background:var(--green-bg);color:var(--green)}
-.kpi-trend.down{background:var(--red-bg);color:var(--red)}
-
-/* ── GRID ───────────────────────────────────────── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .g-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px}
-@media(max-width:1000px){.g2,.g3,.g4{grid-template-columns:1fr}}
-
-/* ── FORM ───────────────────────────────────────── */
+@media(max-width:1100px){.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .content{padding:16px}
+  .topbar{padding:0 12px;gap:10px}
+  .brand-version{display:none}
+  .tb-search{max-width:none;flex:1}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .ph-title{font-size:16px}
+  .modal{max-width:100%;margin:0;border-radius:0;max-height:100vh}
+  .modal-bg{padding:0;align-items:flex-end}
+  .sc{padding:11px 12px}
+}
 .field{display:flex;flex-direction:column;gap:4px}
 .field label{font-size:10px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.5px}
 .inp{height:33px;padding:0 9px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);font-size:12.5px;color:var(--text);outline:none;transition:border-color .15s;width:100%}
@@ -121,8 +123,6 @@ button,input,select,textarea{font-family:var(--font)}
 .sel:focus{border-color:var(--blue)}
 .form-row{display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap;margin-bottom:18px}
 .form-row .field{flex:1;min-width:150px}
-
-/* ── BUTTON ─────────────────────────────────────── */
 .btn{height:33px;padding:0 13px;border-radius:var(--r);font-size:12.5px;font-weight:500;border:1px solid var(--border);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
 .btn-p{background:var(--blue);border-color:var(--blue);color:#fff}
 .btn-p:hover{background:var(--blue-mid)}
@@ -130,8 +130,6 @@ button,input,select,textarea{font-family:var(--font)}
 .btn-d{background:var(--bg);color:var(--text-2)}
 .btn-d:hover{border-color:var(--border-strong);color:var(--text)}
 .btn-sm{height:26px;padding:0 9px;font-size:11px}
-
-/* ── BADGE ──────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:3px;font-size:10.5px;font-weight:500;white-space:nowrap}
 .b-blue{background:var(--blue-bg);color:var(--blue)}
 .b-green{background:var(--green-bg);color:var(--green)}
@@ -149,14 +147,10 @@ button,input,select,textarea{font-family:var(--font)}
   .b-nih{background:#0a2a1e;color:#60c09a}
   .b-federal{background:#2a1e0a;color:#d4954a}
 }
-
-/* ── SEG ─────────────────────────────────────────── */
 .segs{display:flex;gap:2px;flex-wrap:wrap}
 .seg{height:28px;padding:0 11px;border:1px solid var(--border);background:var(--bg);font-size:11.5px;color:var(--text-2);border-radius:var(--r);transition:all .12s;cursor:pointer}
 .seg:hover{color:var(--text);border-color:var(--border-strong)}
 .seg.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:500}
-
-/* ── TABLE ──────────────────────────────────────── */
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
 thead tr{border-bottom:1px solid var(--border)}
@@ -165,18 +159,10 @@ td{padding:8px 11px;border-bottom:1px solid var(--border);color:var(--text);vert
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:var(--bg-subtle)}
 .mono{font-family:var(--mono);font-size:11px;color:var(--blue)}
-
-/* ── PROGRESS ───────────────────────────────────── */
-.pt{height:100%;background:var(--bg-muted);border-radius:inherit;overflow:hidden}
-.pf{height:100%;border-radius:inherit;transition:width .4s cubic-bezier(.4,0,.2,1)}
-
-/* ── TOOLTIP ─────────────────────────────────────── */
 .tt{position:fixed;pointer-events:none;z-index:800;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;box-shadow:var(--shadow-md);min-width:150px;max-width:220px}
 .tt-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:5px;word-break:break-word}
 .tt-row{display:flex;justify-content:space-between;gap:14px;font-size:11px;color:var(--text-2);margin-top:2px}
 .tt-row span:last-child{font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
-
-/* ── AUTOCOMPLETE ───────────────────────────────── */
 .acp{position:relative}
 .acd{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);z-index:500;overflow:hidden;max-height:260px;overflow-y:auto}
 .ach{padding:5px 11px;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-3);border-bottom:1px solid var(--border);background:var(--bg-subtle)}
@@ -185,8 +171,6 @@ tbody tr:hover td{background:var(--bg-subtle)}
 .aci:hover,.aci.hl{background:var(--blue-bg);color:var(--blue)}
 .aci-sub{font-size:10.5px;color:var(--text-3);margin-top:1px}
 .acf{padding:4px 11px;font-size:10px;color:var(--text-3);background:var(--bg-subtle);border-top:1px solid var(--border)}
-
-/* ── MODAL ──────────────────────────────────────── */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px}
 .modal{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:780px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
 .modal-hd{padding:16px 18px 12px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
@@ -195,21 +179,16 @@ tbody tr:hover td{background:var(--bg-subtle)}
 .modal-bd{padding:18px}
 .ms{margin-bottom:20px}
 .ms-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3);margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid var(--border)}
-
-/* ── ALERT ──────────────────────────────────────── */
 .alert{display:flex;gap:8px;padding:9px 12px;border-radius:var(--r);font-size:12.5px;margin-bottom:14px;border:1px solid}
 .alert-info{background:var(--blue-bg);color:var(--blue);border-color:#b5d4f4}
 .alert-ok{background:var(--green-bg);color:var(--green);border-color:#c0dd97}
 .alert-warn{background:var(--amber-bg);color:var(--amber);border-color:#fac775}
-
-/* ── FUNDER BAR ─────────────────────────────────── */
+.alert-rate{background:var(--red-bg);color:var(--red);border-color:#f5b8b8;font-weight:500}
 .fb{display:flex;height:7px;border-radius:4px;overflow:hidden;margin-bottom:7px;background:var(--bg-muted)}
 .fb-seg{transition:width .4s}
 .fb-legend{display:flex;flex-wrap:wrap;gap:4px 12px}
 .fb-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-2)}
 .fb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-/* ── SITE CARD ──────────────────────────────────── */
 .sc{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:13px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;position:relative;box-shadow:var(--shadow)}
 .sc:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md)}
 .sc-rank{position:absolute;top:11px;right:13px;font-size:11px;font-weight:600;color:var(--text-3);font-variant-numeric:tabular-nums}
@@ -218,8 +197,6 @@ tbody tr:hover td{background:var(--bg-subtle)}
 .sc-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px}
 .sc-cond{font-size:10.5px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
 .sc-link{font-size:11px;color:var(--blue)}
-
-/* ── RANK LIST ──────────────────────────────────── */
 .rl-item{display:flex;align-items:center;gap:10px;padding:8px 5px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:var(--r);transition:background .1s}
 .rl-item:last-child{border-bottom:none}
 .rl-item:hover{background:var(--bg-subtle)}
@@ -227,33 +204,18 @@ tbody tr:hover td{background:var(--bg-subtle)}
 .rl-info{flex:1;min-width:0}
 .rl-name{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rl-meta{font-size:11px;color:var(--text-3);margin-top:1px}
-
-/* ── STATUS ─────────────────────────────────────── */
 .st-rec{background:var(--green-bg);color:var(--green)}
 .st-com{background:var(--blue-bg);color:var(--blue)}
 .st-act{background:var(--amber-bg);color:var(--amber)}
 .st-def{background:var(--bg-muted);color:var(--text-2)}
-
-/* ── MAP ─────────────────────────────────────────── */
 #trial-map{height:420px;border-radius:var(--r-lg);border:1px solid var(--border);overflow:hidden}
 .leaflet-popup-content-wrapper{border-radius:var(--r)!important;box-shadow:var(--shadow-md)!important;border:1px solid var(--border)!important;font-family:var(--font)!important}
 .leaflet-popup-tip{display:none}
-.map-legend{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;line-height:1.6;box-shadow:var(--shadow)}
-.map-legend-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-3);margin-bottom:6px}
-.map-legend-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-2)}
-.map-legend-swatch{width:14px;height:10px;border-radius:2px;flex-shrink:0}
-
-/* ── SVG CHARTS ─────────────────────────────────── */
 .bar-r{cursor:pointer;transition:opacity .12s}
-.bar-r:hover{opacity:.72}
 .line-dot{cursor:pointer;transition:r .1s,fill .1s}
-
-/* ── EXT LINKS ──────────────────────────────────── */
 .ext-links{display:flex;flex-wrap:wrap;gap:6px}
-.ext-link{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 9px;border:1px solid var(--border);border-radius:var(--r);font-size:11.5px;color:var(--text-2);transition:all .12s}
+.ext-link{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 9px;border:1px solid var(--border);border-radius:var(--r);font-size:11.5px;color:var(--text-2);transition:all .12px}
 .ext-link:hover{border-color:var(--border-strong);color:var(--text);text-decoration:none}
-
-/* ── MISC ───────────────────────────────────────── */
 .spin{display:inline-block;border-radius:50%;border:2px solid var(--border);border-top-color:var(--blue);animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .divider{height:1px;background:var(--border);margin:14px 0}
@@ -261,14 +223,15 @@ tbody tr:hover td{background:var(--bg-subtle)}
 .section{animation:fu .16s ease both}
 @keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
-.chip{height:26px;padding:0 9px;border:1px solid var(--border);border-radius:12px;font-size:11.5px;color:var(--text-2);background:var(--bg);transition:all .12s;cursor:pointer}
+.chip{height:26px;padding:0 9px;border:1px solid var(--border);border-radius:12px;font-size:11.5px;color:var(--text-2);background:var(--bg);transition:all .12px;cursor:pointer}
 .chip:hover{border-color:var(--border-strong);color:var(--text)}
-.h-bar-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-radius:var(--r)}
+.h-bar-row{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:var(--r);cursor:pointer;transition:background .1s}
 .h-bar-row:hover{background:var(--bg-subtle)}
-.h-bar-label{font-size:11px;color:var(--text-2);width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.h-bar-label{font-size:11px;color:var(--text-2);width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
 .h-bar-track{flex:1;height:5px;background:var(--bg-muted);border-radius:3px;overflow:hidden}
 .h-bar-fill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .h-bar-val{font-size:11px;font-weight:500;color:var(--text);min-width:34px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
+.rate-banner{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--red-bg);border:1px solid #f5b8b8;color:var(--red);padding:10px 18px;border-radius:var(--r-lg);font-size:12.5px;font-weight:500;z-index:2100;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:10px;max-width:480px;text-align:center}
 </style>
 </head>
 <body>
@@ -276,13 +239,57 @@ tbody tr:hover td{background:var(--bg-subtle)}
 <script type="text/babel">
 const {useState,useEffect,useRef,useMemo,useCallback} = React;
 
-/* ── CONSTANTS ─────────────────────────────────────── */
+/* ─── Session cache (sessionStorage, 30-min TTL) ────────────────────────────
+   Keys are query fingerprints. Each entry: {data, ts}
+   sessionStorage is tab-scoped — cleared on tab close, so data stays fresh
+   per session without hammering the API on every nav change.
+─────────────────────────────────────────────────────────────────────────── */
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+
+function cacheKey(obj){ return 'tsi__' + btoa(JSON.stringify(obj)).slice(0,80); }
+
+function cacheGet(key){
+  try{
+    const raw = sessionStorage.getItem(key);
+    if(!raw) return null;
+    const {data, ts} = JSON.parse(raw);
+    if(Date.now() - ts > CACHE_TTL){ sessionStorage.removeItem(key); return null; }
+    return data;
+  }catch{ return null; }
+}
+
+function cacheSet(key, data){
+  try{ sessionStorage.setItem(key, JSON.stringify({data, ts: Date.now()})); }
+  catch(e){
+    // storage quota exceeded — clear old tsi__ entries and retry once
+    try{
+      Object.keys(sessionStorage).filter(k=>k.startsWith('tsi__')).forEach(k=>sessionStorage.removeItem(k));
+      sessionStorage.setItem(key, JSON.stringify({data, ts: Date.now()}));
+    }catch{}
+  }
+}
+
+/* ─── Rate limiter (ClinicalTrials.gov: ~10 req/sec, ~600/min documented) ─── */
+const RATE_WINDOW_MS = 10_000; // 10-second sliding window
+const RATE_MAX = 8;            // stay safely under 10/sec burst limit
+const _rateTimes = [];
+function checkRate(){
+  const now=Date.now();
+  while(_rateTimes.length && now-_rateTimes[0]>RATE_WINDOW_MS) _rateTimes.shift();
+  if(_rateTimes.length>=RATE_MAX) return false;
+  _rateTimes.push(now);
+  return true;
+}
+const fireRateErr=()=>window.dispatchEvent(new CustomEvent('api-error',{detail:{type:'rate'}}));
+const fireApiErr=(status)=>window.dispatchEvent(new CustomEvent('api-error',{detail:{type:'http',status}}));
+const fireApiDown=()=>window.dispatchEvent(new CustomEvent('api-error',{detail:{type:'down'}}));
+
 const BASE='https://clinicaltrials.gov/api/v2';
 const FM={
-  INDUSTRY:{label:'Industry', cls:'b-industry', color:'#7c60d8'},
-  NIH:     {label:'NIH',      cls:'b-nih',      color:'#1d9e75'},
-  FED:     {label:'Federal',  cls:'b-federal',  color:'#ba7517'},
-  OTHER:   {label:'Academic', cls:'b-other',    color:'#888880'},
+  INDUSTRY:{label:'Industry',cls:'b-industry',color:'#7c60d8'},
+  NIH:     {label:'NIH',     cls:'b-nih',     color:'#1d9e75'},
+  FED:     {label:'Federal', cls:'b-federal', color:'#ba7517'},
+  OTHER:   {label:'Academic',cls:'b-other',   color:'#888880'},
 };
 const SM={
   RECRUITING:{cls:'st-rec',label:'Recruiting'},
@@ -292,38 +299,111 @@ const SM={
 const SC_COLORS={RECRUITING:'#1d9e75',COMPLETED:'#2471a3',ACTIVE_NOT_RECRUITING:'#ba7517',TERMINATED:'#a32d2d',WITHDRAWN:'#888880',NOT_YET_RECRUITING:'#6d28d9',SUSPENDED:'#854f0b'};
 const PHASES=['EARLY_PHASE1','PHASE1','PHASE2','PHASE3','PHASE4'];
 const PH_COL={EARLY_PHASE1:'#afa9ec',PHASE1:'#7f77dd',PHASE2:'#534ab7',PHASE3:'#3c3489',PHASE4:'#26215c'};
-
 const DRUGS=['Pembrolizumab','Nivolumab','Remdesivir','Metformin','Ibrutinib','Venetoclax','Osimertinib','Dexamethasone','Tocilizumab','Trastuzumab','Bevacizumab','Rituximab','Durvalumab','Atezolizumab','Semaglutide','Lecanemab','Olaparib','Ruxolitinib','Baricitinib','Ozanimod'];
 const DISEASES=['Breast Cancer','Non-Small Cell Lung Cancer','COVID-19','Type 2 Diabetes',"Alzheimer's Disease",'Multiple Sclerosis','Rheumatoid Arthritis','Heart Failure','Ovarian Cancer','Melanoma','Glioblastoma',"Parkinson's Disease","Crohn's Disease",'Leukemia','HIV Infection','Prostate Cancer','Major Depressive Disorder','Schizophrenia','Obesity','Hypertension'];
-
+const WINDOWS=[
+  {label:'Last 24 hours',days:1,  key:'24h'},
+  {label:'Last 3 days',  days:3,  key:'3d'},
+  {label:'Last 7 days',  days:7,  key:'7d'},
+  {label:'Last 30 days', days:30, key:'30d'},
+  {label:'Last year',    days:365,key:'1y'},
+];
+const PAGE_SIZES=[20,50,100];
+const UPDATE_META={
+  new_trial: {label:'New trial',  cls:'b-purple',dot:'var(--purple)'},
+  recruiting:{label:'Recruiting', cls:'b-green', dot:'var(--green)'},
+  completed: {label:'Completed',  cls:'b-blue',  dot:'var(--blue-mid)'},
+  terminated:{label:'Terminated', cls:'b-red',   dot:'var(--red)'},
+  active:    {label:'Active',     cls:'b-amber', dot:'var(--amber)'},
+  updated:   {label:'Updated',    cls:'b-neutral',dot:'var(--text-3)'},
+};
 const NAV=[
-  {id:'dashboard',  label:'Dashboard',      icon:'M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z'},
-  {id:'topSites',   label:'Site Rankings',  icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'},
-  {id:'drug',       label:'By Drug',        icon:'M9 3h6l1 9H8zm0 9h6l1 9H8z'},
-  {id:'disease',    label:'By Disease',     icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm0 4a2 2 0 110 4 2 2 0 010-4zm0 14c-2.67 0-8-1.34-8-4v-.71C4.81 14.55 8.34 14 12 14s7.19.55 8 1.29V16c0 2.66-5.33 4-8 4z'},
-  {id:'phase',      label:'By Phase',       icon:'M2 20h4V10H2zm7 0h4V4H9zm7 0h4v-8h-4z'},
-  {id:'funder',     label:'By Funder',      icon:'M12 1C9.24 1 7 3.24 7 6c0 2.05 1.23 3.81 3 4.58V16h4v-5.42c1.77-.77 3-2.53 3-4.58 0-2.76-2.24-5-5-5zm-2 17h4v2h-4z'},
-  {id:'map',        label:'Global Map',     icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2c1.66 0 3.18.43 4.5 1.17L5.17 16.5A7.96 7.96 0 014 12c0-4.42 3.58-8 8-8zm0 16c-1.66 0-3.18-.43-4.5-1.17L18.83 7.5A7.96 7.96 0 0120 12c0 4.42-3.58 8-8 8z'},
-  {id:'compare',    label:'Compare Sites',  icon:'M6 3v18M18 3v18M3 6h18M3 18h18'},
-  {id:'guide',      label:'Guide',          icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'},
+  {id:'updates',   label:'Recent Updates', icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm1 5h-2v6l5.25 3.15.75-1.23-4-2.42V7z'},
+  {id:'dashboard', label:'Dashboard',      icon:'M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z'},
+  {id:'topSites',  label:'Site Rankings',  icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'},
+  {id:'drug',      label:'By Drug',        icon:'M9 3h6l1 9H8zm0 9h6l1 9H8z'},
+  {id:'disease',   label:'By Disease',     icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm0 4a2 2 0 110 4 2 2 0 010-4zm0 14c-2.67 0-8-1.34-8-4v-.71C4.81 14.55 8.34 14 12 14s7.19.55 8 1.29V16c0 2.66-5.33 4-8 4z'},
+  {id:'phase',     label:'By Phase',       icon:'M2 20h4V10H2zm7 0h4V4H9zm7 0h4v-8h-4z'},
+  {id:'funder',    label:'By Funder',      icon:'M12 1C9.24 1 7 3.24 7 6c0 2.05 1.23 3.81 3 4.58V16h4v-5.42c1.77-.77 3-2.53 3-4.58 0-2.76-2.24-5-5-5zm-2 17h4v2h-4z'},
+  {id:'map',       label:'Global Map',     icon:'M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2c1.66 0 3.18.43 4.5 1.17L5.17 16.5A7.96 7.96 0 014 12c0-4.42 3.58-8 8-8zm0 16c-1.66 0-3.18-.43-4.5-1.17L18.83 7.5A7.96 7.96 0 0120 12c0 4.42-3.58 8-8 8z'},
+  {id:'compare',   label:'Compare Sites',  icon:'M6 3v18M18 3v18M3 6h18M3 18h18'},
+  {id:'guide',     label:'Guide',          icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'},
 ];
 
-/* ── API ────────────────────────────────────────────── */
+function dateStr(daysAgo){
+  const d=new Date();d.setDate(d.getDate()-daysAgo);
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+/* parse cacheKey back to {win, pageSize} so fetchers never rely on stale refs */
+function parseCacheKey(key){
+  const [w,ps]=key.split('__');
+  return{win:w,pageSize:parseInt(ps,10)};
+}
+
+function makeDateQuery(win){
+  const days=WINDOWS.find(x=>x.key===win)?.days||1;
+  return `AREA[LastUpdatePostDate]RANGE[${dateStr(days)},MAX]`;
+}
+
+/* retry with exponential backoff */
+async function fetchWithRetry(url, retries=3, delay=1200){
+  for(let i=0;i<retries;i++){
+    try{
+      const r=await fetch(url);
+      if(r.status===429){fireRateErr();await sleep(delay*(i+1));continue;}
+      if(r.status===503||r.status===502){fireApiDown();await sleep(delay*(i+1));continue;}
+      if(!r.ok){fireApiErr(r.status);return null;}
+      return r;
+    }catch(e){
+      if(i===retries-1)fireApiDown();
+      await sleep(delay*(i+1));
+    }
+  }
+  return null;
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
 async function fetchAll(params={},maxPages=15){
+  const ck = cacheKey({fn:'fetchAll', params, maxPages});
+  const cached = cacheGet(ck);
+  if(cached){ return cached; }
+
   let all=[],token=null,p=0;
   while(p<maxPages){
+    if(!checkRate()){await sleep(1500);}
     const q={format:'json',pageSize:100,...params};
     if(token)q.pageToken=token;
-    try{const r=await fetch(`${BASE}/studies?${new URLSearchParams(q)}`);if(!r.ok)break;const d=await r.json();all=all.concat(d.studies||[]);if(d.nextPageToken){token=d.nextPageToken;p++;}else break;}catch{break;}
+    const r=await fetchWithRetry(`${BASE}/studies?${new URLSearchParams(q)}`);
+    if(!r)break;
+    const d=await r.json();
+    all=all.concat(d.studies||[]);
+    if(d.nextPageToken){token=d.nextPageToken;p++;}else break;
   }
+  if(all.length) cacheSet(ck, all);
   return all;
 }
 
-/* ── PROCESS ────────────────────────────────────────── */
+async function fetchOnePage(params){
+  const ck = cacheKey({fn:'fetchOnePage', params});
+  const cached = cacheGet(ck);
+  if(cached){ return cached; }
+
+  if(!checkRate()){await sleep(1500);}
+  const q={format:'json',countTotal:'true',...params};
+  const r=await fetchWithRetry(`${BASE}/studies?${new URLSearchParams(q)}`);
+  if(!r)return{studies:[],nextToken:null,total:0};
+  const d=await r.json();
+  const result={studies:d.studies||[],nextToken:d.nextPageToken||null,total:d.totalCount||0};
+  if(result.studies.length) cacheSet(ck, result);
+  return result;
+}
+
 function processSites(studies){
   const map={};
   studies.forEach(s=>{
-    const pr=s.protocolSection||{},id=pr.identificationModule||{},st=pr.statusModule||{},sp=pr.sponsorCollaboratorsModule||{},co=pr.conditionsModule||{},de=pr.designModule||{},ar=pr.armsInterventionsModule||{},lo=pr.contactsLocationsModule||{};
+    const pr=s.protocolSection||{},id=pr.identificationModule||{},st=pr.statusModule||{},sp=pr.sponsorCollaboratorsModule||{},co=pr.conditionsModule||{},de=pr.designModule||{},lo=pr.contactsLocationsModule||{};
     const fc=sp.leadSponsor?.class||'OTHER',sn=sp.leadSponsor?.name||'',cl=(sp.collaborators||[]).map(c=>c.name).filter(Boolean);
     (lo.locations||[]).forEach(loc=>{
       const name=loc.facility||'Unknown',city=loc.city||'Unknown',state=loc.state||'',country=loc.country||'Unknown',k=`${name}|||${city}|||${country}`;
@@ -341,7 +421,24 @@ function processSites(studies){
   return Object.values(map).map(s=>({...s,sponsors:[...s.sponsors].filter(Boolean),collaborators:[...s.collaborators].filter(Boolean),conditions:[...s.conditions],phases:[...s.phases],trialCount:s.trials.length,dominantFunder:Object.entries(s.funderClasses).sort((a,b)=>b[1]-a[1])[0]?.[0]||'OTHER'})).sort((a,b)=>b.trialCount-a.trialCount);
 }
 
-/* ── TOOLTIP HOOK ───────────────────────────────────── */
+function classifyUpdate(study){
+  const pr=study.protocolSection||{},st=pr.statusModule||{},id=pr.identificationModule||{},de=pr.designModule||{},co=pr.conditionsModule||{},lo=pr.contactsLocationsModule||{};
+  const status=st.overallStatus||'UNKNOWN';
+  const posted=st.studyFirstPostDateStruct?.date||'';
+  const lastUpdate=st.lastUpdatePostDateStruct?.date||'';
+  const phases=de.phases||[];
+  const locations=(lo.locations||[]).length;
+  const postedRecently=posted&&posted>=dateStr(7);
+  let type;
+  if(postedRecently)type='new_trial';
+  else if(status==='RECRUITING')type='recruiting';
+  else if(status==='COMPLETED')type='completed';
+  else if(status==='TERMINATED')type='terminated';
+  else if(status==='ACTIVE_NOT_RECRUITING')type='active';
+  else type='updated';
+  return{nctId:id.nctId,title:id.briefTitle||'Untitled',type,status,phases,conditions:(co.conditions||[]).slice(0,2),locations,lastUpdate,posted};
+}
+
 function useTT(){
   const [tt,setTT]=useState({v:false,x:0,y:0,title:'',rows:[]});
   const show=(e,title,rows)=>setTT({v:true,x:e.clientX,y:e.clientY,title,rows});
@@ -357,92 +454,113 @@ const TT=({v,x,y,title,rows})=>{
   return<div className="tt" style={style}>{title&&<div className="tt-title">{title}</div>}{rows.map((r,i)=><div key={i} className="tt-row"><span>{r.l}</span><span>{r.v}</span></div>)}</div>;
 };
 
-/* ── BAR CHART ──────────────────────────────────────── */
-const BarChart=({data,h=130,onCk,activeKey,colorFn})=>{
+const BarChart=({data,h=130,onCk,activeKeys})=>{
   const {tt,show,move,hide}=useTT();
   if(!data.length)return null;
+  const hasActive=activeKeys&&activeKeys.size>0;
   const max=Math.max(...data.map(d=>d.value),1);
-  const bw=Math.floor(100/data.length);
-  const gap=Math.max(1,Math.floor(bw*.14));
-  const bw2=bw-gap*2;
+  const bw=Math.floor(100/data.length),gap=Math.max(1,Math.floor(bw*.14)),bw2=bw-gap*2;
   return(
     <div style={{position:'relative'}} onMouseMove={move}>
       <TT {...tt}/>
       <svg viewBox={`0 0 100 ${h}`} style={{width:'100%',height:h,display:'block',overflow:'visible'}}>
         {data.map((d,i)=>{
-          const bh=Math.max(2,(d.value/max)*(h-18));
-          const x=i*bw+gap,y=h-18-bh;
-          const col=colorFn?colorFn(d):d.color||'var(--blue)';
-          const act=activeKey===d.key;
-          return(
-            <rect key={d.key||i} className="bar-r" x={x} y={y} width={bw2} height={bh} rx={2}
-              fill={col} opacity={activeKey&&!act?.4:1}
-              stroke={act?'var(--text)':'none'} strokeWidth={act?.6:0}
-              onMouseEnter={e=>show(e,d.label,[{l:'Count',v:d.value.toLocaleString()},...(d.rows||[])])}
-              onMouseLeave={hide} onClick={()=>onCk&&onCk(d)}
-              style={{cursor:onCk?'pointer':'default'}}/>
-          );
+          const isActive=hasActive&&activeKeys.has(d.key);
+          const bh=Math.max(2,(d.value/max)*(h-18)),x=i*bw+gap,y=h-18-bh;
+          return<rect key={d.key||i} className="bar-r" x={x} y={y} width={bw2} height={bh} rx={2}
+            fill={d.color||'var(--blue)'} opacity={!hasActive?1:isActive?1:0.3}
+            stroke={isActive?'var(--text)':'none'} strokeWidth={isActive?.6:0}
+            onMouseEnter={e=>show(e,d.label,[{l:'Count',v:d.value.toLocaleString()},...(d.rows||[])])}
+            onMouseLeave={hide} onClick={()=>onCk&&onCk(d)}
+            style={{cursor:onCk?'pointer':'default'}}/>;
         })}
-        {data.map((d,i)=>(
-          <text key={d.key+'l'} x={i*bw+bw/2} y={h-4} textAnchor="middle" fontSize={6.5} fill="var(--text-3)" style={{pointerEvents:'none'}}>
-            {(d.shortLabel||d.label||'').slice(0,7)}
-          </text>
-        ))}
+        {data.map((d,i)=><text key={d.key+'l'} x={i*bw+bw/2} y={h-4} textAnchor="middle" fontSize={6.5} fill="var(--text-3)" style={{pointerEvents:'none'}}>{(d.shortLabel||d.label||'').slice(0,7)}</text>)}
       </svg>
     </div>
   );
 };
 
-/* ── LINE CHART ─────────────────────────────────────── */
-const LineChart=({data,h=120,color='var(--blue)',onCk})=>{
+const LineChart=({data,h=180,color='var(--blue)',onCk,activeKeys})=>{
   const {tt,show,move,hide}=useTT();
   const [hl,setHl]=useState(null);
   if(!data.length)return null;
-  const maxV=Math.max(...data.map(d=>d.value),1);
-  const minV=Math.min(...data.map(d=>d.value),0);
-  const range=maxV-minV||1;
-  const W=200,pT=10,pB=16,pL=4,pR=4;
+  const hasActive=activeKeys&&activeKeys.size>0;
+  const LABEL_H=44; // room for rotated year labels
+  const maxV=Math.max(...data.map(d=>d.value),1),minV=Math.min(...data.map(d=>d.value),0),range=maxV-minV||1;
+  const W=500,pT=16,pB=LABEL_H,pL=24,pR=16;
   const cx=i=>pL+(i/(data.length-1||1))*(W-pL-pR);
   const cy=v=>pT+(1-(v-minV)/range)*(h-pT-pB);
   const pts=data.map((d,i)=>({...d,cx:cx(i),cy:cy(d.value)}));
   const pD=pts.map((p,i)=>i===0?`M${p.cx.toFixed(2)},${p.cy.toFixed(2)}`:`L${p.cx.toFixed(2)},${p.cy.toFixed(2)}`).join(' ');
   const aD=`${pD} L${pts[pts.length-1].cx.toFixed(2)},${h-pB} L${pts[0].cx.toFixed(2)},${h-pB} Z`;
+  const gridY=[0,.25,.5,.75,1].map(t=>pT+t*(h-pT-pB));
   return(
     <div style={{position:'relative'}} onMouseMove={move}>
       <TT {...tt}/>
-      <svg viewBox={`0 0 ${W} ${h}`} style={{width:'100%',height:h,display:'block',overflow:'visible'}}>
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".15"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+      <svg viewBox={`0 0 ${W} ${h}`} style={{width:'100%',height:'auto',display:'block',overflow:'visible'}}>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".12"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+        {/* subtle grid lines */}
+        {gridY.map((y,i)=><line key={i} x1={pL} y1={y} x2={W-pR} y2={y} stroke="var(--border)" strokeWidth=".5"/>)}
         <path d={aD} fill="url(#lg)"/>
-        <path d={pD} fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-        {pts.map((p,i)=>(
-          <circle key={i} className="line-dot" cx={p.cx} cy={p.cy} r={hl===i?4:2.2}
-            fill={hl===i?color:'var(--bg)'} stroke={color} strokeWidth="1.4"
-            style={{cursor:onCk?'pointer':'default'}}
-            onMouseEnter={e=>{setHl(i);show(e,p.label,[{l:'Trials started',v:p.value.toLocaleString()}]);}}
-            onMouseLeave={()=>{setHl(null);hide();}}
-            onClick={()=>onCk&&onCk(p)}/>
-        ))}
-        {pts.map((p,i)=>(i===0||i===pts.length-1||i===Math.floor(pts.length/2))&&(
-          <text key={i+'l'} x={p.cx} y={h-2} textAnchor="middle" fontSize={6.5} fill="var(--text-3)" style={{pointerEvents:'none'}}>{p.shortLabel||p.label}</text>
-        ))}
+        <path d={pD} fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        {pts.map((p,i)=>{
+          const isActive=hasActive&&activeKeys.has(p.key);
+          const op=!hasActive?1:isActive?1:0.3;
+          const r=hl===i?5.5:isActive?4.5:3;
+          const labelY=h-pB+14;
+          // value label: show on hover or if active, always show for first/last/max
+          const maxVal=Math.max(...pts.map(x=>x.value));
+          const showVal=hl===i||isActive||p.value===maxVal||i===0||i===pts.length-1;
+          const valLabelY=p.cy-10;
+          return(
+            <g key={i} style={{cursor:onCk?'pointer':'default',opacity:op}} onClick={()=>onCk&&onCk(p)}>
+              <rect x={p.cx-10} y={0} width={20} height={h-pB} fill="transparent"/>
+              {showVal&&(
+                <text
+                  x={p.cx} y={valLabelY}
+                  textAnchor="middle"
+                  fontSize={9.5}
+                  fontFamily="var(--font)"
+                  fontWeight="600"
+                  fill={isActive?color:'var(--text-2)'}
+                  style={{pointerEvents:'none'}}>
+                  {p.value.toLocaleString()}
+                </text>
+              )}
+              <circle className="line-dot" cx={p.cx} cy={p.cy} r={r}
+                fill={isActive||hl===i?color:'var(--bg)'} stroke={color} strokeWidth="1.8"
+                onMouseEnter={e=>{setHl(i);show(e,p.label,[{l:'Trials started',v:p.value.toLocaleString()},{l:'Click to',v:isActive?'deselect':'filter'}]);}}
+                onMouseLeave={()=>{setHl(null);hide();}}/>
+              {isActive&&<circle cx={p.cx} cy={p.cy} r={r+3} fill="none" stroke={color} strokeWidth=".8" strokeDasharray="2 1.5"/>}
+              <text
+                x={p.cx} y={labelY}
+                transform={`rotate(-45,${p.cx},${labelY})`}
+                textAnchor="end"
+                fontSize={10}
+                fontFamily="var(--font)"
+                fill={isActive?color:'var(--text-3)'}
+                fontWeight={isActive?'600':'400'}
+                style={{pointerEvents:'none'}}>
+                {p.label}
+              </text>
+            </g>
+          );
+        })}
       </svg>
+      {hasActive&&<div style={{fontSize:10,color:'var(--blue)',marginTop:2,textAlign:'center'}}>{[...activeKeys].sort().join(', ')} selected · click to deselect</div>}
     </div>
   );
 };
 
-/* ── DONUT CHART ────────────────────────────────────── */
 const Donut=({data,size=110,onCk,activeKey})=>{
   const {tt,show,move,hide}=useTT();
   const total=data.reduce((s,d)=>s+d.value,0)||1;
   const cx=size/2,cy=size/2,r=size*.38,ir=size*.22;
   let angle=-Math.PI/2;
   const slices=data.map(d=>{
-    const sw=(d.value/total)*Math.PI*2;
-    const a1=angle,a2=angle+sw;angle=a2;
-    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
-    const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
-    const ix1=cx+ir*Math.cos(a1),iy1=cy+ir*Math.sin(a1);
-    const ix2=cx+ir*Math.cos(a2),iy2=cy+ir*Math.sin(a2);
+    const sw=(d.value/total)*Math.PI*2,a1=angle,a2=angle+sw;angle=a2;
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const ix1=cx+ir*Math.cos(a1),iy1=cy+ir*Math.sin(a1),ix2=cx+ir*Math.cos(a2),iy2=cy+ir*Math.sin(a2);
     const large=sw>Math.PI?1:0;
     const path=`M${ix1},${iy1} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${ix2},${iy2} A${ir},${ir} 0 ${large} 0 ${ix1},${iy1} Z`;
     return{...d,path,midA:(a1+a2)/2,pct:(d.value/total*100)};
@@ -453,12 +571,11 @@ const Donut=({data,size=110,onCk,activeKey})=>{
       <TT {...tt}/>
       <svg viewBox={`0 0 ${size} ${size}`} style={{width:size,height:size,display:'block',overflow:'visible'}}>
         {slices.map((s,i)=>{
-          const act=activeKey===s.key;
-          const off=act?3.5:0;
+          const act=activeKey===s.key,off=act?3.5:0;
           return(
             <g key={s.key||i} transform={`translate(${off*Math.cos(s.midA)-cx+cx},${off*Math.sin(s.midA)-cy+cy})`}>
               <path d={s.path} fill={s.color} opacity={activeKey&&!act?.45:1}
-                stroke={act?'var(--bg)':'var(--bg)'} strokeWidth={act?2:1}
+                stroke="var(--bg)" strokeWidth={act?2:1}
                 onMouseEnter={e=>show(e,s.label,[{l:'Trials',v:s.value.toLocaleString()},{l:'Share',v:s.pct.toFixed(1)+'%'}])}
                 onMouseLeave={hide} onClick={()=>onCk&&onCk(s)}
                 style={{cursor:onCk?'pointer':'default',transition:'opacity .12s'}}/>
@@ -474,27 +591,33 @@ const Donut=({data,size=110,onCk,activeKey})=>{
   );
 };
 
-/* ── H-BAR CHART ────────────────────────────────────── */
-const HBar=({data,max:maxProp,color='var(--blue)',onCk})=>{
+const HBar=({data,color='var(--blue)',onCk,activeKeys})=>{
   const {tt,show,move,hide}=useTT();
-  const max=maxProp||Math.max(...data.map(d=>d.value),1);
+  const max=Math.max(...data.map(d=>d.value),1);
+  const hasActive=activeKeys&&activeKeys.size>0;
   return(
     <div onMouseMove={move} style={{position:'relative'}}>
       <TT {...tt}/>
-      {data.map((d,i)=>(
-        <div key={d.key||i} className="h-bar-row" style={{cursor:onCk?'pointer':'default'}}
-          onMouseEnter={e=>show(e,d.label,[{l:'Trials',v:d.value.toLocaleString()},...(d.rows||[])])}
-          onMouseLeave={hide} onClick={()=>onCk&&onCk(d)}>
-          <span className="h-bar-label" title={d.label}>{d.label}</span>
-          <div className="h-bar-track"><div className="h-bar-fill" style={{width:`${(d.value/max*100).toFixed(1)}%`,background:d.color||color}}/></div>
-          <span className="h-bar-val">{d.value.toLocaleString()}</span>
-        </div>
-      ))}
+      {data.map((d,i)=>{
+        const isActive=hasActive&&activeKeys.has(d.key);
+        return(
+          <div key={d.key||i} className="h-bar-row"
+            style={{cursor:onCk?'pointer':'default',background:isActive?'var(--blue-bg)':'transparent'}}
+            onMouseEnter={e=>show(e,d.label,[{l:'Trials',v:d.value.toLocaleString()},...(d.rows||[])])}
+            onMouseLeave={hide} onClick={()=>onCk&&onCk(d)}>
+            <span className="h-bar-label" title={d.label}
+              style={{fontWeight:isActive?600:400,color:isActive?'var(--blue)':'var(--text-2)',opacity:(!hasActive||isActive)?1:0.45}}>{d.label}</span>
+            <div className="h-bar-track">
+              <div className="h-bar-fill" style={{width:`${(d.value/max*100).toFixed(1)}%`,background:isActive?'var(--amber)':(d.color||color),opacity:(!hasActive||isActive)?1:0.35}}/>
+            </div>
+            <span className="h-bar-val" style={{color:isActive?'var(--blue)':'var(--text)',opacity:(!hasActive||isActive)?1:0.45}}>{d.value.toLocaleString()}</span>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-/* ── MINI BADGES ────────────────────────────────────── */
 const FB=({fc})=>{const m=FM[fc]||FM.OTHER;return<span className={`badge ${m.cls}`}>{m.label}</span>;};
 const SB=({status})=>{const m=SM[status]||{cls:'st-def',label:status.replace(/_/g,' ')};return<span className={`badge ${m.cls}`}>{m.label}</span>;};
 const Spin=({s=18})=><span className="spin" style={{width:s,height:s}}/>;
@@ -503,7 +626,7 @@ const FunderBar=({classes})=>{
   const segs=Object.entries(classes).map(([k,v])=>({k,v,pct:v/total*100}));
   return(
     <div>
-      <div className="fb">{segs.map(({k,pct})=><div key={k} className="fb-seg" style={{width:`${pct.toFixed(1)}%`,background:(FM[k]||FM.OTHER).color}} title={`${(FM[k]||FM.OTHER).label}: ${pct.toFixed(0)}%`}/>)}</div>
+      <div className="fb">{segs.map(({k,pct})=><div key={k} className="fb-seg" style={{width:`${pct.toFixed(1)}%`,background:(FM[k]||FM.OTHER).color}}/>)}</div>
       <div className="fb-legend">{segs.map(({k,v,pct})=><span key={k} className="fb-item"><span className="fb-dot" style={{background:(FM[k]||FM.OTHER).color}}/>{(FM[k]||FM.OTHER).label}: {v.toLocaleString()} ({pct.toFixed(0)}%)</span>)}</div>
     </div>
   );
@@ -514,7 +637,34 @@ const PBar=({val,max,color='var(--green)',h=3})=>(
   </div>
 );
 
-/* ── AUTOCOMPLETE INPUT ─────────────────────────────── */
+const TopSitesList=({sites,color,onOpen})=>{
+  if(!sites.length)return null;
+  const max=sites[0].trialCount;
+  return(
+    <div>
+      {sites.map((s,i)=>(
+        <div key={s.key} onClick={()=>onOpen(s)}
+          style={{display:'flex',alignItems:'center',gap:8,padding:'6px 4px',borderBottom:'1px solid var(--border)',cursor:'pointer',transition:'background .1s'}}
+          onMouseEnter={e=>e.currentTarget.style.background='var(--bg-subtle)'}
+          onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+          <span style={{width:18,textAlign:'right',fontSize:10,fontWeight:600,color:'var(--text-3)',flexShrink:0}}>{i+1}</span>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontSize:12,fontWeight:500,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{s.name}</div>
+            <div style={{fontSize:10,color:'var(--text-3)',marginTop:1}}>{s.city}, {s.country}</div>
+            <div style={{height:3,background:'var(--bg-muted)',borderRadius:2,overflow:'hidden',marginTop:4}}>
+              <div style={{height:'100%',width:`${(s.trialCount/max*100).toFixed(1)}%`,background:color||'var(--blue)',borderRadius:2,transition:'width .4s'}}/>
+            </div>
+          </div>
+          <div style={{flexShrink:0,textAlign:'right'}}>
+            <div style={{fontSize:12,fontWeight:600,fontVariantNumeric:'tabular-nums'}}>{s.trialCount}</div>
+            {s.recruitingCount>0&&<div style={{fontSize:10,color:'var(--green)'}}>{s.recruitingCount} rec.</div>}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const AutoInput=({value,onChange,onSelect,onEnter,placeholder,suggestions,loading,label})=>{
   const [open,setOpen]=useState(false);const [hl,setHl]=useState(-1);const ref=useRef(null);
   const filtered=useMemo(()=>{if(value.length<3)return[];const q=value.toLowerCase();return suggestions.filter(s=>s.toLowerCase().includes(q)).slice(0,9);},[value,suggestions]);
@@ -546,7 +696,6 @@ const AutoInput=({value,onChange,onSelect,onEnter,placeholder,suggestions,loadin
   );
 };
 
-/* ── GLOBAL SEARCH ──────────────────────────────────── */
 const GlobalSearch=({data,onOpen})=>{
   const [q,setQ]=useState('');const [open,setOpen]=useState(false);const [hl,setHl]=useState(-1);const ref=useRef(null);
   const res=useMemo(()=>{if(q.length<3)return[];const lq=q.toLowerCase();return data.filter(s=>s.name.toLowerCase().includes(lq)||s.city.toLowerCase().includes(lq)).slice(0,8);},[q,data]);
@@ -572,7 +721,6 @@ const GlobalSearch=({data,onOpen})=>{
   );
 };
 
-/* ── SITE CARD ──────────────────────────────────────── */
 const SiteCard=({site,rank,onOpen})=>{
   const pct=site.trialCount>0?Math.round(site.recruitingCount/site.trialCount*100):0;
   return(
@@ -599,7 +747,6 @@ const SiteGrid=({sites,onOpen})=>{
   return<div className="g-auto">{sites.map((s,i)=><SiteCard key={s.key} site={s} rank={i+1} onOpen={onOpen}/>)}</div>;
 };
 
-/* ── SITE MODAL ─────────────────────────────────────── */
 const SiteModal=({site,onClose})=>{
   useEffect(()=>{const fn=e=>{if(e.key==='Escape')onClose();};document.addEventListener('keydown',fn);return()=>document.removeEventListener('keydown',fn);},[]);
   const pct=site.trialCount>0?Math.round(site.recruitingCount/site.trialCount*100):0;
@@ -680,358 +827,440 @@ const SiteModal=({site,onClose})=>{
   );
 };
 
-/* ══════════════════════════════════════════════════════════
-   DASHBOARD — fully cross-linked charts
-   One shared filter state drives every chart + KPIs + list.
-   Clicking any chart slice/bar/row toggles that dimension.
-   All other charts re-derive from the filtered pool.
-══════════════════════════════════════════════════════════ */
+/* SIDEBAR 24H WIDGET */
+const SidebarUpdates=({onNavigate})=>{
+  const [items,setItems]=useState(null);
+  useEffect(()=>{
+    fetchOnePage({
+      'query.term':makeDateQuery('24h'),
+      'sort':'LastUpdatePostDate:desc',
+      'pageSize':5,
+    }).then(({studies})=>{
+      setItems(studies.length?studies.map(classifyUpdate).slice(0,5):[]);
+    });
+  },[]);
+  if(items===null)return(
+    <div className="sb-updates" onClick={()=>onNavigate('updates','24h')} style={{margin:'8px 10px'}}>
+      <div className="sb-updates-hd"><span className="sb-updates-title">Last 24 hours</span><Spin s={11}/></div>
+    </div>
+  );
+  if(items.length===0)return(
+    <div className="sb-updates" onClick={()=>onNavigate('updates','7d')}>
+      <div className="sb-updates-hd"><span className="sb-updates-title">Last 24 hours</span></div>
+      <div className="sb-updates-empty">No updates in the past 24 hours.</div>
+    </div>
+  );
+  return(
+    <div className="sb-updates" onClick={()=>onNavigate('updates','24h')}>
+      <div className="sb-updates-hd"><span className="sb-updates-title">Last 24 hours</span><span style={{fontSize:10,color:'var(--blue)',fontWeight:500}}>{items.length === 5 ? '5+' : items.length} updates</span></div>
+      {items.slice(0,5).map((u,i)=>(
+        <div key={u.nctId||i} className="sb-update-row">
+          <span className="sb-update-dot" style={{background:(UPDATE_META[u.type]||UPDATE_META.updated).dot}}/>
+          <span className="sb-update-text">{u.title}</span>
+        </div>
+      ))}
+      <div style={{padding:'5px 10px 7px',fontSize:10,color:'var(--text-3)'}}>Click to view all</div>
+    </div>
+  );
+};
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RECENT UPDATES — fixed version
+   
+   Key fixes:
+   1. fetchOnePage now always sends countTotal=true → totalCount works
+   2. The fetch effect derives win+pageSize directly from the cacheKey string,
+      never from refs — eliminates the stale-closure bug causing same data
+      across all windows.
+   3. goTo also derives win+pageSize from cacheKey string directly.
+══════════════════════════════════════════════════════════════════════════════ */
+const RecentUpdates=({initialWin})=>{
+  const [win,setWin]=useState(initialWin||'24h');
+  const [pageSize,setPageSize]=useState(20);
+  const [typeFilter,setTypeFilter]=useState(null);
+  const [cache,setCache]=useState({});
+
+  const cacheKey=`${win}__${pageSize}`;
+
+  const emptyEntry=()=>({total:0,typeCounts:{},pages:[],tokens:[''],loading:false,currentPage:0,loaded:false});
+
+  /* Ensure an entry exists and kick off loading when cacheKey changes */
+  useEffect(()=>{
+    setTypeFilter(null);
+    setCache(prev=>{
+      const existing=prev[cacheKey];
+      if(existing?.loaded||existing?.loading) return prev;
+      return{...prev,[cacheKey]:{...emptyEntry(),loading:true}};
+    });
+  },[cacheKey]);
+
+  /* Fire the actual API call whenever an entry flips to loading=true with no pages */
+  useEffect(()=>{
+    const entry=cache[cacheKey];
+    if(!entry?.loading||entry.pages.length>0) return;
+
+    /* Derive win and pageSize from the key itself — no stale closures */
+    const {win:w,pageSize:ps}=parseCacheKey(cacheKey);
+    const capturedKey=cacheKey;
+
+    (async()=>{
+      const {studies,nextToken,total}=await fetchOnePage({
+        'query.term':makeDateQuery(w),
+        'sort':'LastUpdatePostDate:desc',
+        'pageSize':ps,
+      });
+      const classified=studies.map(classifyUpdate);
+      const tc={};classified.forEach(u=>{tc[u.type]=(tc[u.type]||0)+1;});
+      setCache(prev=>({
+        ...prev,
+        [capturedKey]:{
+          ...prev[capturedKey],
+          total,
+          typeCounts:tc,
+          pages:[classified],
+          tokens:['',nextToken||null],
+          loading:false,
+          currentPage:0,
+          loaded:true,
+        },
+      }));
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[cache[cacheKey]?.loading]);
+
+  const goTo=useCallback(async(idx)=>{
+    if(idx<0)return;
+    const {win:w,pageSize:ps}=parseCacheKey(cacheKey);
+    const capturedKey=cacheKey;
+    const entry=cache[capturedKey]||emptyEntry();
+
+    if(entry.pages[idx]){
+      setCache(prev=>({...prev,[capturedKey]:{...prev[capturedKey],currentPage:idx}}));
+      return;
+    }
+    const token=entry.tokens[idx];
+    if(!token&&idx>0)return;
+
+    setCache(prev=>({...prev,[capturedKey]:{...prev[capturedKey],loading:true}}));
+
+    const params={
+      'query.term':makeDateQuery(w),
+      'sort':'LastUpdatePostDate:desc',
+      'pageSize':ps,
+    };
+    if(token)params.pageToken=token;
+
+    const {studies,nextToken,total}=await fetchOnePage(params);
+    const classified=studies.map(classifyUpdate);
+
+    setCache(prev=>{
+      const cur=prev[capturedKey]||emptyEntry();
+      const pages=[...cur.pages];pages[idx]=classified;
+      const tokens=[...cur.tokens];if(nextToken)tokens[idx+1]=nextToken;
+      return{...prev,[capturedKey]:{...cur,pages,tokens,total:total||cur.total,loading:false,currentPage:idx}};
+    });
+  },[cache,cacheKey]);
+
+  useEffect(()=>{if(initialWin)setWin(initialWin);},[initialWin]);
+
+  const c=cache[cacheKey]||emptyEntry();
+  const currentPage=c.currentPage||0;
+  const currentData=c.pages[currentPage]||[];
+  const hasNext=!!(c.tokens[currentPage+1]);
+  const hasPrev=currentPage>0;
+  const filtered=typeFilter?currentData.filter(u=>u.type===typeFilter):currentData;
+
+  const winLabel=WINDOWS.find(w=>w.key===win)?.label?.toLowerCase()||'';
+
+  return(
+    <div className="section">
+      <div style={{display:'flex',gap:8,alignItems:'center',marginBottom:16,flexWrap:'wrap'}}>
+        <div className="segs">
+          {WINDOWS.map(w=>(
+            <button key={w.key} className={`seg${win===w.key?' on':''}`} onClick={()=>setWin(w.key)}>{w.label}</button>
+          ))}
+        </div>
+        <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:6}}>
+          <span style={{fontSize:11,color:'var(--text-3)'}}>Per page</span>
+          <div className="segs">
+            {PAGE_SIZES.map(n=>(
+              <button key={n} className={`seg${pageSize===n?' on':''}`} style={{height:26,padding:'0 9px',fontSize:11}}
+                onClick={()=>setPageSize(n)}>{n}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── KPI: 2 cards (window total + page breakdown) ── */}
+      {(()=>{
+        const pageCounts=Object.keys(UPDATE_META).map(t=>({
+          key:t,...UPDATE_META[t],val:currentData.filter(u=>u.type===t).length
+        })).filter(d=>d.val>0);
+        return(
+          <>
+            {/* Row 1: single window total */}
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(110px,1fr))',gap:1,background:'var(--border)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',overflow:'hidden',boxShadow:'var(--shadow)',marginBottom:6}}>
+              <div className="kpi">
+                <div className="kpi-label">Total in window</div>
+                <div className="kpi-val">{c.loading&&!c.loaded?<Spin s={14}/>:c.total>0?c.total.toLocaleString():'0'}</div>
+                <div className="kpi-sub">{WINDOWS.find(w=>w.key===win)?.label}</div>
+              </div>
+            </div>
+            {/* Row 2: per-type breakdown for this page only */}
+            {currentData.length>0&&(
+              <div style={{marginBottom:14}}>
+                <div style={{fontSize:9.5,fontWeight:600,textTransform:'uppercase',letterSpacing:'.6px',color:'var(--text-3)',marginBottom:5,paddingLeft:2}}>
+                  This page · {currentData.length} entries
+                </div>
+                <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(110px,1fr))',gap:1,background:'var(--border)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',overflow:'hidden',boxShadow:'var(--shadow)'}}>
+                  {pageCounts.map(d=>(
+                    <div key={d.key} className="kpi"
+                      style={{cursor:'pointer',background:typeFilter===d.key?'var(--blue-bg)':'var(--bg)'}}
+                      onClick={()=>setTypeFilter(typeFilter===d.key?null:d.key)}>
+                      <div className="kpi-label" style={{display:'flex',alignItems:'center',gap:4}}>
+                        <span style={{width:5,height:5,borderRadius:'50%',background:d.dot,display:'inline-block',flexShrink:0}}/>
+                        {d.label}
+                      </div>
+                      <div className="kpi-val" style={{fontSize:18,color:typeFilter===d.key?'var(--blue)':'var(--text)'}}>{d.val}</div>
+                      <div className="kpi-sub">{typeFilter===d.key?'← clear filter':'click to filter'}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        );
+      })()}
+
+      {c.loading&&(
+        <div style={{display:'flex',alignItems:'center',gap:10,padding:'24px 0',color:'var(--text-3)',fontSize:12.5}}>
+          <Spin s={18}/> Loading from ClinicalTrials.gov…
+        </div>
+      )}
+
+      {!c.loading&&currentData.length>0&&(
+        <>
+          {typeFilter&&(
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:12,padding:'6px 10px',background:'var(--blue-bg)',border:'1px solid var(--border)',borderRadius:'var(--r)',fontSize:12}}>
+              <span style={{color:'var(--blue)',fontWeight:500}}>Showing:</span>
+              <span className={`badge ${(UPDATE_META[typeFilter]||UPDATE_META.updated).cls}`}>{(UPDATE_META[typeFilter]||UPDATE_META.updated).label}</span>
+              <span style={{color:'var(--text-3)'}}>({filtered.length} on this page)</span>
+              <button className="btn btn-d btn-sm" style={{marginLeft:'auto'}} onClick={()=>setTypeFilter(null)}>Clear</button>
+            </div>
+          )}
+          <div className="card">
+            <div className="card-hd">
+              <div>
+                <div className="card-title">Study updates</div>
+                <div className="card-sub">Sorted by last update date, newest first · {winLabel}</div>
+              </div>
+              <span style={{fontSize:11,color:'var(--text-3)'}}>
+                Page {currentPage+1}{c.total>0?` of ~${Math.ceil(c.total/pageSize).toLocaleString()}`:''}
+              </span>
+            </div>
+            <div>
+              {filtered.map((u,i)=>(
+                <div key={u.nctId||i} style={{padding:'11px 15px',borderBottom:'1px solid var(--border)',display:'flex',gap:12,alignItems:'flex-start',transition:'background .1s',cursor:'pointer'}}
+                  onMouseEnter={e=>e.currentTarget.style.background='var(--bg-subtle)'}
+                  onMouseLeave={e=>e.currentTarget.style.background='transparent'}
+                  onClick={()=>{const a=document.createElement('a');a.href=`https://clinicaltrials.gov/study/${u.nctId}`;a.target='_blank';a.click();}}>
+                  <div style={{width:8,height:8,borderRadius:'50%',background:(UPDATE_META[u.type]||UPDATE_META.updated).dot,flexShrink:0,marginTop:4}}/>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:12.5,fontWeight:500,color:'var(--text)',lineHeight:1.35,marginBottom:4,overflow:'hidden',display:'-webkit-box',WebkitLineClamp:2,WebkitBoxOrient:'vertical'}}>{u.title}</div>
+                    <div style={{display:'flex',flexWrap:'wrap',gap:3,marginBottom:5}}>
+                      <span className={`badge ${(UPDATE_META[u.type]||UPDATE_META.updated).cls}`}>{(UPDATE_META[u.type]||UPDATE_META.updated).label}</span>
+                      {u.phases.length>0&&<span className="badge b-neutral">{u.phases[0].replace('_',' ')}</span>}
+                      {u.conditions.map(c=><span key={c} className="badge b-neutral">{c}</span>)}
+                      {u.locations>0&&<span className="badge b-neutral">{u.locations} site{u.locations!==1?'s':''}</span>}
+                    </div>
+                    <div style={{display:'flex',alignItems:'center',gap:10,fontSize:10.5,color:'var(--text-3)'}}>
+                      <a href={`https://clinicaltrials.gov/study/${u.nctId}`} target="_blank" className="mono" onClick={e=>e.stopPropagation()} style={{fontSize:10.5}}>{u.nctId}</a>
+                      {u.lastUpdate&&<span>Updated {u.lastUpdate}</span>}
+                      {u.posted&&<span>Posted {u.posted}</span>}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 15px',borderTop:'1px solid var(--border)',gap:8}}>
+              <button className="btn btn-d btn-sm" disabled={!hasPrev||c.loading} onClick={()=>goTo(currentPage-1)}
+                style={{opacity:!hasPrev||c.loading?.4:1,cursor:!hasPrev||c.loading?'not-allowed':'pointer'}}>← Previous</button>
+              <div style={{display:'flex',alignItems:'center',gap:6,fontSize:12,color:'var(--text-2)'}}>
+                {c.loading?<Spin s={14}/>:<>
+                  <span>Page <strong>{currentPage+1}</strong></span>
+                  {c.total>0&&<span style={{color:'var(--text-3)'}}>— {c.total.toLocaleString()} total results</span>}
+                </>}
+              </div>
+              <button className="btn btn-d btn-sm" disabled={!hasNext||c.loading} onClick={()=>goTo(currentPage+1)}
+                style={{opacity:!hasNext||c.loading?.4:1,cursor:!hasNext||c.loading?'not-allowed':'pointer'}}>Next →</button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {!c.loading&&c.loaded&&currentData.length===0&&(
+        <div style={{textAlign:'center',padding:'48px 0',color:'var(--text-3)',fontSize:12.5}}>
+          No updates found for this time window.
+        </div>
+      )}
+      <div style={{marginTop:12,fontSize:11,color:'var(--text-3)',lineHeight:1.6}}>
+        Data from ClinicalTrials.gov · Total count from API totalCount field · Type breakdown reflects the first page loaded.
+      </div>
+    </div>
+  );
+};
+
+/* ── DASHBOARD ───────────────────────────────────────────────────────────────── */
 const Dashboard=({data,onOpen,setSection,onFilterChange})=>{
-  const [filters,setFilters]=useState({status:null,phase:null,funder:null,country:null});
-
-  const toggle=(dim,key)=>setFilters(f=>({...f,[dim]:f[dim]===key?null:key}));
-  const clearAll=()=>setFilters({status:null,phase:null,funder:null,country:null});
-  const anyFilter=Object.values(filters).some(Boolean);
-
-  /* filtered pool — reacts to all four dimensions */
+  const [filters,setFilters]=useState({status:new Set(),phase:new Set(),funder:null,country:new Set(),year:new Set()});
+  const toggle=(dim,key)=>setFilters(f=>{
+    if(dim==='funder'){return{...f,funder:f.funder===key?null:key};}
+    const s=new Set(f[dim]);if(s.has(key))s.delete(key);else s.add(key);return{...f,[dim]:s};
+  });
+  const clearAll=()=>setFilters({status:new Set(),phase:new Set(),funder:null,country:new Set(),year:new Set()});
+  const anyFilter=filters.status.size>0||filters.phase.size>0||filters.funder||filters.country.size>0||filters.year.size>0;
   const filtered=useMemo(()=>{
-    if(!data.length)return[];
-    let r=data;
-    if(filters.status) r=r.filter(s=>s.statuses[filters.status]>0);
-    if(filters.phase)  r=r.filter(s=>s.phases.includes(filters.phase));
-    if(filters.funder) r=r.filter(s=>s.dominantFunder===filters.funder||(s.funderClasses[filters.funder]||0)>0);
-    if(filters.country)r=r.filter(s=>s.country===filters.country);
+    if(!data.length)return[];let r=data;
+    if(filters.status.size)r=r.filter(s=>[...filters.status].some(st=>s.statuses[st]>0));
+    if(filters.phase.size) r=r.filter(s=>[...filters.phase].some(ph=>s.phases.includes(ph)));
+    if(filters.funder)     r=r.filter(s=>s.dominantFunder===filters.funder||(s.funderClasses[filters.funder]||0)>0);
+    if(filters.country.size)r=r.filter(s=>filters.country.has(s.country));
+    if(filters.year.size)  r=r.filter(s=>s.trials.some(t=>t.startDate&&filters.year.has(t.startDate.slice(0,4))));
     return r;
   },[data,filters]);
-
-  /* all chart data re-derives from the filtered pool */
   const derived=useMemo(()=>{
-    const pool=filtered.length?filtered:data;
-    if(!pool.length)return null;
-
+    const pool=filtered.length?filtered:data;if(!pool.length)return null;
     const total=pool.reduce((s,x)=>s+x.trialCount,0)||1;
     const rec=pool.filter(s=>s.recruitingCount>0).length;
     const enroll=pool.reduce((s,x)=>s+x.totalEnrollment,0);
     const completed=pool.reduce((s,x)=>s+x.completedCount,0);
-
     const sc={};pool.forEach(s=>Object.entries(s.statuses).forEach(([k,v])=>{sc[k]=(sc[k]||0)+v;}));
-    const statusDonut=Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,7)
-      .map(([k,v])=>({key:k,label:k.replace(/_/g,' '),value:v,color:SC_COLORS[k]||'#888'}));
-
+    const statusDonut=Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([k,v])=>({key:k,label:k.replace(/_/g,' '),value:v,color:SC_COLORS[k]||'#888'}));
     const pc={};pool.forEach(s=>s.phases.forEach(p=>{pc[p]=(pc[p]||0)+1;}));
-    const phaseBar=PHASES.filter(p=>pc[p])
-      .map(p=>({key:p,label:p.replace('_',' '),shortLabel:p.replace('EARLY_PHASE1','E.Ph1').replace('PHASE','Ph'),value:pc[p],color:PH_COL[p]}));
-
+    const phaseBar=PHASES.filter(p=>pc[p]).map(p=>({key:p,label:p.replace('_',' '),shortLabel:p.replace('EARLY_PHASE1','E.Ph1').replace('PHASE','Ph'),value:pc[p],color:PH_COL[p]}));
     const fc={};pool.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{fc[k]=(fc[k]||0)+v;}));
-    const funderDonut=Object.entries(fc)
-      .map(([k,v])=>({key:k,label:(FM[k]||FM.OTHER).label,value:v,color:(FM[k]||FM.OTHER).color}));
-
-    const yc={};pool.forEach(s=>s.trials.forEach(t=>{if(t.startDate){const y=parseInt(t.startDate.slice(0,4));if(y>=2014&&y<=2026)yc[y]=(yc[y]||0)+1;}}));
-    const yearLine=Object.entries(yc).sort((a,b)=>a[0]-b[0])
-      .map(([y,v])=>({key:y,label:y,shortLabel:y.slice(2),value:v}));
-
+    const funderDonut=Object.entries(fc).map(([k,v])=>({key:k,label:(FM[k]||FM.OTHER).label,value:v,color:(FM[k]||FM.OTHER).color}));
+    const yc={};pool.forEach(s=>s.trials.forEach(t=>{if(t.startDate){const y=t.startDate.slice(0,4);if(parseInt(y)>=2014&&parseInt(y)<=2026)yc[y]=(yc[y]||0)+1;}}));
+    const yearLine=Object.entries(yc).sort((a,b)=>a[0]-b[0]).map(([y,v])=>({key:y,label:y,value:v}));
     const cc={};pool.forEach(s=>{cc[s.country]=(cc[s.country]||0)+s.trialCount;});
-    const topCountries=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,15)
-      .map(([k,v])=>({key:k,label:k,value:v}));
-
-    return{total,rec,enroll,completed,statusDonut,phaseBar,funderDonut,yearLine,topCountries,
-      sites:pool.length,countries:new Set(pool.map(s=>s.country)).size};
+    const topCountries=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,v])=>({key:k,label:k,value:v}));
+    return{total,rec,enroll,completed,statusDonut,phaseBar,funderDonut,yearLine,topCountries,sites:pool.length,countries:new Set(pool.map(s=>s.country)).size};
   },[filtered,data]);
-
-  /* sync export scope */
   useEffect(()=>{
-    const labels=Object.entries(filters).filter(([,v])=>v).map(([k,v])=>`${k}:${v}`);
+    const labels=[...filters.status].concat([...filters.phase]).concat(filters.funder?[filters.funder]:[]).concat([...filters.country]).concat([...filters.year]);
     onFilterChange&&onFilterChange(anyFilter?filtered:null,anyFilter?labels.join(', '):'all sites');
   },[filtered,anyFilter]);
-
-  if(!data.length)return(
-    <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:'80px 0',gap:14,color:'var(--text-3)'}}>
-      <Spin s={32}/><span style={{fontSize:12.5}}>Loading data from ClinicalTrials.gov…</span>
-    </div>
-  );
+  if(!data.length)return<div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:'80px 0',gap:14,color:'var(--text-3)'}}><Spin s={32}/><span style={{fontSize:12.5}}>Loading data from ClinicalTrials.gov…</span></div>;
   if(!derived)return null;
-
   const {total,rec,enroll,completed,statusDonut,phaseBar,funderDonut,yearLine,topCountries,sites,countries}=derived;
-
-  /* helper: dim label for filter pills */
-  const filterLabel=(dim)=>{
-    if(!filters[dim])return null;
-    if(dim==='funder')return(FM[filters[dim]]||FM.OTHER).label;
-    return filters[dim].replace(/_/g,' ');
-  };
-
   return(
     <div className="section">
-
-      {/* ── KPI strip — always reflects filtered pool ── */}
       <div className="kpi-strip">
         <div className="kpi"><div className="kpi-label">Sites</div><div className="kpi-val">{sites.toLocaleString()}</div><div className="kpi-sub">{anyFilter?'matching filter':'unique facilities'}</div></div>
-        <div className="kpi"><div className="kpi-label">Trial records</div><div className="kpi-val">{total.toLocaleString()}</div><div className="kpi-sub">site–trial associations</div></div>
-        <div className="kpi"><div className="kpi-label">Recruiting now</div><div className="kpi-val">{rec.toLocaleString()}</div><div className="kpi-sub">actively enrolling</div></div>
-        <div className="kpi"><div className="kpi-label">Countries</div><div className="kpi-val">{countries}</div><div className="kpi-sub">represented</div></div>
-        <div className="kpi"><div className="kpi-label">Enrollment target</div><div className="kpi-val">{enroll.toLocaleString()}</div><div className="kpi-sub">total participants</div></div>
-        <div className="kpi"><div className="kpi-label">Completion rate</div><div className="kpi-val">{total>0?(completed/total*100).toFixed(0):0}%</div><div className="kpi-sub">completed trials</div></div>
+        <div className="kpi"><div className="kpi-label">Trial records</div><div className="kpi-val">{total.toLocaleString()}</div></div>
+        <div className="kpi"><div className="kpi-label">Recruiting now</div><div className="kpi-val">{rec.toLocaleString()}</div></div>
+        <div className="kpi"><div className="kpi-label">Countries</div><div className="kpi-val">{countries}</div></div>
+        <div className="kpi"><div className="kpi-label">Enrollment target</div><div className="kpi-val">{enroll.toLocaleString()}</div></div>
+        <div className="kpi"><div className="kpi-label">Completion rate</div><div className="kpi-val">{total>0?(completed/total*100).toFixed(0):0}%</div></div>
       </div>
-
-      {/* ── Active filter pills ── */}
       {anyFilter&&(
         <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:14,padding:'7px 11px',background:'var(--blue-bg)',border:'1px solid var(--border)',borderRadius:'var(--r)',fontSize:12,flexWrap:'wrap'}}>
           <span style={{color:'var(--blue)',fontWeight:500,marginRight:2}}>Active filters</span>
-          {['status','phase','funder','country'].map(dim=>filterLabel(dim)&&(
-            <button key={dim} className="badge b-neutral" onClick={()=>toggle(dim,filters[dim])}
-              style={{cursor:'pointer',border:'1px solid var(--border-strong)',display:'inline-flex',alignItems:'center',gap:4,height:20}}>
-              {filterLabel(dim)} <span style={{fontSize:13,lineHeight:1,marginTop:-1}}>×</span>
-            </button>
-          ))}
+          {[...filters.status].map(k=><button key={'s'+k} className="badge b-neutral" onClick={()=>toggle('status',k)} style={{cursor:'pointer',border:'1px solid var(--border-strong)',display:'inline-flex',alignItems:'center',gap:4,height:20}}>{k.replace(/_/g,' ')} ×</button>)}
+          {[...filters.phase].map(k=><button key={'p'+k} className="badge b-neutral" onClick={()=>toggle('phase',k)} style={{cursor:'pointer',border:'1px solid var(--border-strong)',display:'inline-flex',alignItems:'center',gap:4,height:20}}>{k.replace(/_/g,' ')} ×</button>)}
+          {filters.funder&&<button className="badge b-neutral" onClick={()=>toggle('funder',filters.funder)} style={{cursor:'pointer',border:'1px solid var(--border-strong)',display:'inline-flex',alignItems:'center',gap:4,height:20}}>{(FM[filters.funder]||FM.OTHER).label} ×</button>}
+          {[...filters.country].map(k=><button key={'c'+k} className="badge b-neutral" onClick={()=>toggle('country',k)} style={{cursor:'pointer',border:'1px solid var(--border-strong)',display:'inline-flex',alignItems:'center',gap:4,height:20}}>{k} ×</button>)}
+          {[...filters.year].map(k=><button key={'y'+k} className="badge b-neutral" onClick={()=>toggle('year',k)} style={{cursor:'pointer',border:'1px solid var(--border-strong)',display:'inline-flex',alignItems:'center',gap:4,height:20}}>{k} ×</button>)}
           <span style={{color:'var(--text-3)'}}>→ {filtered.length.toLocaleString()} sites</span>
           <button className="btn btn-d btn-sm" style={{marginLeft:'auto'}} onClick={clearAll}>Clear all</button>
         </div>
       )}
-
-      {/* ── Row 1: status donut · phase bars · funder donut ── */}
       <div className="g3" style={{marginBottom:14}}>
-
-        {/* Status donut — clicking filters by status; bars below re-derive */}
         <div className="card">
-          <div className="card-hd">
-            <div style={{minWidth:0}}>
-              <div className="card-title">Recruitment status</div>
-              {filters.status&&<div className="card-sub">{filters.status.replace(/_/g,' ')}</div>}
-            </div>
-            {filters.status&&<button className="btn btn-d btn-sm" onClick={()=>toggle('status',filters.status)}>×</button>}
-          </div>
+          <div className="card-hd"><div><div className="card-title">Recruitment status</div><div className="card-sub">Click to filter</div></div>{filters.status.size>0&&<button className="btn btn-d btn-sm" onClick={()=>setFilters(f=>({...f,status:new Set()}))}>Clear</button>}</div>
           <div className="card-bd" style={{display:'flex',gap:12,alignItems:'flex-start'}}>
-            <Donut data={statusDonut} size={106} activeKey={filters.status}
-              onCk={s=>toggle('status',s.key)}/>
+            <Donut data={statusDonut} size={106} activeKey={filters.status.size===1?[...filters.status][0]:null} onCk={s=>toggle('status',s.key)}/>
             <div style={{flex:1,minWidth:0}}>
-              {statusDonut.map(d=>(
-                <div key={d.key} onClick={()=>toggle('status',d.key)}
-                  style={{display:'flex',alignItems:'center',gap:5,padding:'3px 4px',borderRadius:4,cursor:'pointer',
-                    opacity:filters.status&&filters.status!==d.key?.38:1,
-                    background:filters.status===d.key?'var(--bg-subtle)':'transparent',transition:'opacity .12s'}}>
-                  <span style={{width:6,height:6,borderRadius:'50%',background:d.color,flexShrink:0}}/>
-                  <span style={{flex:1,fontSize:10.5,color:'var(--text-2)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{d.label}</span>
-                  <span style={{fontSize:10.5,fontWeight:500,fontVariantNumeric:'tabular-nums',flexShrink:0}}>
-                    {(d.value/total*100).toFixed(0)}%
-                  </span>
-                </div>
-              ))}
+              {statusDonut.map(d=>{const isAct=filters.status.has(d.key);return(<div key={d.key} onClick={()=>toggle('status',d.key)} style={{display:'flex',alignItems:'center',gap:5,padding:'3px 4px',borderRadius:4,cursor:'pointer',opacity:filters.status.size&&!isAct?.4:1,background:isAct?'var(--bg-subtle)':'transparent',transition:'opacity .12s'}}><span style={{width:6,height:6,borderRadius:'50%',background:d.color,flexShrink:0}}/><span style={{flex:1,fontSize:10.5,color:'var(--text-2)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{d.label}</span><span style={{fontSize:10.5,fontWeight:500,fontVariantNumeric:'tabular-nums',flexShrink:0}}>{(d.value/total*100).toFixed(0)}%</span></div>);})}
             </div>
           </div>
         </div>
-
-        {/* Phase bars — clicking filters by phase */}
         <div className="card">
-          <div className="card-hd">
-            <div style={{minWidth:0}}>
-              <div className="card-title">Sites by phase</div>
-              {filters.phase&&<div className="card-sub">{filters.phase.replace(/_/g,' ')}</div>}
-            </div>
-            {filters.phase&&<button className="btn btn-d btn-sm" onClick={()=>toggle('phase',filters.phase)}>×</button>}
-          </div>
-          <div className="card-bd">
-            <BarChart data={phaseBar} h={116} activeKey={filters.phase}
-              onCk={b=>toggle('phase',b.key)}/>
-            {!phaseBar.length&&<div style={{textAlign:'center',fontSize:11,color:'var(--text-3)',paddingTop:20}}>No phase data in current filter</div>}
-          </div>
+          <div className="card-hd"><div><div className="card-title">Sites by phase</div><div className="card-sub">Click to filter</div></div>{filters.phase.size>0&&<button className="btn btn-d btn-sm" onClick={()=>setFilters(f=>({...f,phase:new Set()}))}>Clear</button>}</div>
+          <div className="card-bd"><BarChart data={phaseBar} h={116} activeKeys={filters.phase} onCk={b=>toggle('phase',b.key)}/></div>
         </div>
-
-        {/* Funder donut — clicking filters by funder */}
         <div className="card">
-          <div className="card-hd">
-            <div style={{minWidth:0}}>
-              <div className="card-title">Funding source</div>
-              {filters.funder&&<div className="card-sub">{(FM[filters.funder]||FM.OTHER).label}</div>}
-            </div>
-            {filters.funder&&<button className="btn btn-d btn-sm" onClick={()=>toggle('funder',filters.funder)}>×</button>}
-          </div>
+          <div className="card-hd"><div><div className="card-title">Funding source</div></div>{filters.funder&&<button className="btn btn-d btn-sm" onClick={()=>setFilters(f=>({...f,funder:null}))}>Clear</button>}</div>
           <div className="card-bd" style={{display:'flex',gap:12,alignItems:'flex-start'}}>
-            <Donut data={funderDonut} size={106} activeKey={filters.funder}
-              onCk={s=>toggle('funder',s.key)}/>
-            <div style={{flex:1,minWidth:0}}>
-              {funderDonut.map(d=>{
-                const t=funderDonut.reduce((a,x)=>a+x.value,0)||1;
-                return(
-                  <div key={d.key} onClick={()=>toggle('funder',d.key)}
-                    style={{display:'flex',alignItems:'center',gap:5,padding:'3px 4px',borderRadius:4,cursor:'pointer',
-                      opacity:filters.funder&&filters.funder!==d.key?.38:1,
-                      background:filters.funder===d.key?'var(--bg-subtle)':'transparent',transition:'opacity .12s'}}>
-                    <span style={{width:6,height:6,borderRadius:'50%',background:d.color,flexShrink:0}}/>
-                    <span style={{flex:1,fontSize:10.5,color:'var(--text-2)'}}>{d.label}</span>
-                    <span style={{fontSize:10.5,fontWeight:500,fontVariantNumeric:'tabular-nums',flexShrink:0}}>
-                      {(d.value/t*100).toFixed(0)}%
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+            <Donut data={funderDonut} size={106} activeKey={filters.funder} onCk={s=>toggle('funder',s.key)}/>
+            <div style={{flex:1,minWidth:0}}>{funderDonut.map(d=>{const t=funderDonut.reduce((a,x)=>a+x.value,0)||1;return(<div key={d.key} onClick={()=>toggle('funder',d.key)} style={{display:'flex',alignItems:'center',gap:5,padding:'3px 4px',borderRadius:4,cursor:'pointer',opacity:filters.funder&&filters.funder!==d.key?.38:1,background:filters.funder===d.key?'var(--bg-subtle)':'transparent',transition:'opacity .12s'}}><span style={{width:6,height:6,borderRadius:'50%',background:d.color,flexShrink:0}}/><span style={{flex:1,fontSize:10.5,color:'var(--text-2)'}}>{d.label}</span><span style={{fontSize:10.5,fontWeight:500,fontVariantNumeric:'tabular-nums',flexShrink:0}}>{(d.value/t*100).toFixed(0)}%</span></div>);})}</div>
           </div>
         </div>
       </div>
-
-      {/* ── Row 2: timeline + countries ── */}
       <div className="g2" style={{marginBottom:14}}>
         <div className="card">
-          <div className="card-hd"><div className="card-title">Trial starts by year</div><div className="card-sub">Derived from filtered pool</div></div>
-          <div className="card-bd">
-            <LineChart data={yearLine} h={116} color="var(--blue)"/>
-            {!yearLine.length&&<div style={{textAlign:'center',fontSize:11,color:'var(--text-3)',paddingTop:20}}>No year data in current filter</div>}
-          </div>
+          <div className="card-hd"><div><div className="card-title">Trial starts by year</div><div className="card-sub">Click to filter</div></div>{filters.year.size>0&&<button className="btn btn-d btn-sm" onClick={()=>setFilters(f=>({...f,year:new Set()}))}>Clear</button>}</div>
+          <div className="card-bd"><LineChart data={yearLine} h={200} color="var(--blue)" activeKeys={filters.year} onCk={p=>toggle('year',p.key)}/></div>
         </div>
         <div className="card">
-          <div className="card-hd">
-            <div style={{minWidth:0}}>
-              <div className="card-title">Top countries</div>
-              {filters.country&&<div className="card-sub">{filters.country}</div>}
-            </div>
-            {filters.country&&<button className="btn btn-d btn-sm" onClick={()=>toggle('country',filters.country)}>{filters.country} ×</button>}
-          </div>
-          <div className="card-bd">
-            <HBar
-              data={topCountries.map(d=>({...d,color:d.key===filters.country?'var(--amber)':'var(--blue)' }))}
-              onCk={d=>toggle('country',d.key)}/>
-          </div>
+          <div className="card-hd"><div><div className="card-title">Top 10 countries</div><div className="card-sub">Click to filter</div></div>{filters.country.size>0&&<button className="btn btn-d btn-sm" onClick={()=>setFilters(f=>({...f,country:new Set()}))}>Clear</button>}</div>
+          <div className="card-bd"><HBar data={topCountries} onCk={d=>toggle('country',d.key)} activeKeys={filters.country}/></div>
         </div>
       </div>
-
-      {/* ── Row 3: site list ── */}
       <div className="card">
-        <div className="card-hd">
-          <div>
-            <div className="card-title">Top sites{anyFilter?' — filtered':' — globally'}</div>
-            <div className="card-sub">
-              {anyFilter
-                ?`${filtered.length.toLocaleString()} sites match active filters`
-                :'Ranked by total trial participation'}
-            </div>
-          </div>
-          <button className="btn btn-d btn-sm" onClick={()=>setSection('topSites')}>View all →</button>
-        </div>
+        <div className="card-hd"><div><div className="card-title">Top sites{anyFilter?' — filtered':''}</div><div className="card-sub">{anyFilter?`${filtered.length} sites match`:'Ranked by total trial participation'}</div></div><button className="btn btn-d btn-sm" onClick={()=>setSection('topSites')}>View all →</button></div>
         <div className="card-bd" style={{padding:'3px 14px'}}>
           {(anyFilter?filtered:data).slice(0,10).map((s,i)=>(
-            <div key={s.key} className="rl-item" onClick={()=>onOpen(s)} style={{padding:'8px 5px'}}>
+            <div key={s.key} className="rl-item" onClick={()=>onOpen(s)}>
               <span className="rl-num">{i+1}</span>
-              <div className="rl-info">
-                <div className="rl-name">{s.name}</div>
-                <div className="rl-meta">{s.city}, {s.country}</div>
-              </div>
-              <div style={{display:'flex',gap:3,flexShrink:0}}>
-                <span className="badge b-blue">{s.trialCount.toLocaleString()}</span>
-                {s.recruitingCount>0&&<span className="badge b-green">{s.recruitingCount}</span>}
-                <FB fc={s.dominantFunder}/>
-              </div>
+              <div className="rl-info"><div className="rl-name">{s.name}</div><div className="rl-meta">{s.city}, {s.country}</div></div>
+              <div style={{display:'flex',gap:3,flexShrink:0}}><span className="badge b-blue">{s.trialCount.toLocaleString()}</span>{s.recruitingCount>0&&<span className="badge b-green">{s.recruitingCount}</span>}<FB fc={s.dominantFunder}/></div>
             </div>
           ))}
-          {!(anyFilter?filtered:data).length&&(
-            <div style={{textAlign:'center',padding:'24px 0',fontSize:12,color:'var(--text-3)'}}>No sites match the current filter combination.</div>
-          )}
         </div>
       </div>
     </div>
   );
 };
 
-/* ══════════════════════════════════════════════════════════
-   GLOBAL MAP (Leaflet)
-══════════════════════════════════════════════════════════ */
+/* MAP */
 const MapSection=({data,onOpen})=>{
-  const mapRef=useRef(null);
-  const leafRef=useRef(null);
-  const markersRef=useRef(null);
-
-  // aggregate by country for choropleth-like circles
-  const countryData=useMemo(()=>{
-    const cc={},cs={};
-    data.forEach(s=>{
-      cc[s.country]=(cc[s.country]||0)+s.trialCount;
-      if(!cs[s.country])cs[s.country]=[];
-      cs[s.country].push(s);
-    });
-    return{counts:cc,sites:cs};
-  },[data]);
-
-  // site points with coords
+  const mapRef=useRef(null);const leafRef=useRef(null);const markersRef=useRef(null);
+  const countryData=useMemo(()=>{const cc={},cs={};data.forEach(s=>{cc[s.country]=(cc[s.country]||0)+s.trialCount;if(!cs[s.country])cs[s.country]=[];cs[s.country].push(s);});return{counts:cc,sites:cs};},[data]);
   const sitePoints=useMemo(()=>data.filter(s=>s.lat&&s.lng).slice(0,800),[data]);
-
-  const [view,setView]=useState('sites'); // 'sites' | 'heatmap'
-  const [selectedCountry,setSelectedCountry]=useState(null);
-  const [mapReady,setMapReady]=useState(false);
-
+  const [view,setView]=useState('sites');const [selectedCountry,setSelectedCountry]=useState(null);const [mapReady,setMapReady]=useState(false);
   useEffect(()=>{
     if(!mapRef.current||leafRef.current)return;
-    // init map
-    const map=L.map(mapRef.current,{center:[20,0],zoom:2,zoomControl:true,attributionControl:true});
+    const map=L.map(mapRef.current,{center:[20,0],zoom:2});
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
-    leafRef.current=map;
-    setMapReady(true);
+    leafRef.current=map;setMapReady(true);
     return()=>{map.remove();leafRef.current=null;};
   },[]);
-
   useEffect(()=>{
     if(!leafRef.current||!mapReady||!data.length)return;
     const map=leafRef.current;
-    // clear old
     if(markersRef.current){markersRef.current.forEach(m=>m.remove());markersRef.current=null;}
-
     const markers=[];
     if(view==='sites'){
       sitePoints.forEach(site=>{
         const r=Math.max(4,Math.min(18,4+site.trialCount*.08));
-        const color=SC_COLORS.RECRUITING;
-        const c=L.circleMarker([site.lat,site.lng],{
-          radius:r,
-          fillColor:site.recruitingCount>0?color:'#2471a3',
-          color:'#fff',weight:1,opacity:.9,fillOpacity:.75
-        });
-        c.bindPopup(`
-          <div style="font-family:-apple-system,sans-serif;font-size:12px;min-width:180px">
-            <div style="font-weight:600;margin-bottom:4px;line-height:1.3">${site.name}</div>
-            <div style="color:#666;margin-bottom:6px">${site.city}, ${site.country}</div>
-            <div style="display:flex;flex-wrap:wrap;gap:3px">
-              <span style="background:#e6f1fb;color:#1a5276;padding:1px 6px;border-radius:3px;font-size:11px">${site.trialCount} trials</span>
-              ${site.recruitingCount>0?`<span style="background:#eaf5ee;color:#1a6b3a;padding:1px 6px;border-radius:3px;font-size:11px">${site.recruitingCount} recruiting</span>`:''}
-            </div>
-          </div>
-        `,{maxWidth:240});
-        c.addTo(map);
-        markers.push(c);
+        const c=L.circleMarker([site.lat,site.lng],{radius:r,fillColor:site.recruitingCount>0?SC_COLORS.RECRUITING:'#2471a3',color:'#fff',weight:1,opacity:.9,fillOpacity:.75});
+        c.bindPopup(`<div style="font-family:-apple-system,sans-serif;font-size:12px;min-width:180px"><div style="font-weight:600;margin-bottom:4px">${site.name}</div><div style="color:#666;margin-bottom:6px">${site.city}, ${site.country}</div><div style="display:flex;gap:3px"><span style="background:#e6f1fb;color:#1a5276;padding:1px 6px;border-radius:3px;font-size:11px">${site.trialCount} trials</span>${site.recruitingCount>0?`<span style="background:#eaf5ee;color:#1a6b3a;padding:1px 6px;border-radius:3px;font-size:11px">${site.recruitingCount} recruiting</span>`:''}</div></div>`,{maxWidth:240});
+        c.addTo(map);markers.push(c);
       });
     } else {
-      // country bubble view
-      const countryCoords={
-        'United States':[37.09,-95.71],'China':[35.86,104.19],'United Kingdom':[55.37,-3.43],
-        'Germany':[51.16,10.45],'France':[46.22,2.21],'Canada':[56.13,-106.34],
-        'Japan':[36.2,138.25],'Italy':[41.87,12.56],'Spain':[40.46,-3.74],'Australia':[-25.27,133.77],
-        'Netherlands':[52.13,5.29],'Belgium':[50.50,4.46],'Switzerland':[46.81,8.22],
-        'Israel':[31.04,34.85],'South Korea':[35.90,127.76],'Brazil':[-14.23,-51.92],
-        'India':[20.59,78.96],'Poland':[51.91,19.14],'Denmark':[56.26,9.50],'Sweden':[60.12,18.64],
-        'Czech Republic':[49.81,15.47],'Austria':[47.51,14.55],'Norway':[60.47,8.46],
-        'Turkey':[38.96,35.24],'Argentina':[-38.41,-63.61],'Mexico':[23.63,-102.55],
-        'Russia':[61.52,105.31],'Ukraine':[48.37,31.16],'Portugal':[39.39,-8.22],'Greece':[39.07,21.82],
-      };
+      const cc={'United States':[37.09,-95.71],'China':[35.86,104.19],'United Kingdom':[55.37,-3.43],'Germany':[51.16,10.45],'France':[46.22,2.21],'Canada':[56.13,-106.34],'Japan':[36.2,138.25],'Italy':[41.87,12.56],'Spain':[40.46,-3.74],'Australia':[-25.27,133.77],'Netherlands':[52.13,5.29],'Belgium':[50.50,4.46],'Switzerland':[46.81,8.22],'Israel':[31.04,34.85],'South Korea':[35.90,127.76],'Brazil':[-14.23,-51.92],'India':[20.59,78.96],'Poland':[51.91,19.14],'Denmark':[56.26,9.50],'Sweden':[60.12,18.64]};
       Object.entries(countryData.counts).slice(0,40).forEach(([country,cnt])=>{
-        const coords=countryCoords[country];if(!coords)return;
+        const coords=cc[country];if(!coords)return;
         const r=Math.max(6,Math.min(30,6+cnt*.002));
-        const c=L.circleMarker(coords,{
-          radius:r,fillColor:'#1a5276',color:'#fff',weight:1.5,opacity:.8,fillOpacity:.55
-        });
-        c.bindPopup(`
-          <div style="font-family:-apple-system,sans-serif;font-size:12px">
-            <div style="font-weight:600;margin-bottom:4px">${country}</div>
-            <div style="color:#666">${cnt.toLocaleString()} trial records</div>
-            <div style="color:#666">${(countryData.sites[country]||[]).length.toLocaleString()} sites</div>
-          </div>
-        `,{maxWidth:200});
-        c.on('click',()=>setSelectedCountry(country));
-        c.addTo(map);
-        markers.push(c);
+        const c=L.circleMarker(coords,{radius:r,fillColor:'#1a5276',color:'#fff',weight:1.5,opacity:.8,fillOpacity:.55});
+        c.bindPopup(`<div style="font-family:-apple-system,sans-serif;font-size:12px"><div style="font-weight:600;margin-bottom:4px">${country}</div><div style="color:#666">${cnt.toLocaleString()} trial records</div><div style="color:#666">${(countryData.sites[country]||[]).length.toLocaleString()} sites</div></div>`,{maxWidth:200});
+        c.on('click',()=>setSelectedCountry(country));c.addTo(map);markers.push(c);
       });
     }
     markersRef.current=markers;
   },[data,view,mapReady,sitePoints,countryData]);
-
   const countrySites=selectedCountry?data.filter(s=>s.country===selectedCountry).slice(0,6):[];
-
   return(
     <div className="section">
       <div style={{display:'flex',gap:8,marginBottom:12,alignItems:'center',flexWrap:'wrap'}}>
@@ -1039,54 +1268,28 @@ const MapSection=({data,onOpen})=>{
           <button className={`seg${view==='sites'?' on':''}`} onClick={()=>setView('sites')}>Site locations</button>
           <button className={`seg${view==='heatmap'?' on':''}`} onClick={()=>setView('heatmap')}>Country bubbles</button>
         </div>
-        <div style={{display:'flex',gap:12,marginLeft:'auto',fontSize:11,color:'var(--text-2)',alignItems:'center',flexWrap:'wrap'}}>
+        <div style={{display:'flex',gap:12,marginLeft:'auto',fontSize:11,color:'var(--text-2)',alignItems:'center'}}>
           <span style={{display:'flex',alignItems:'center',gap:5}}><span style={{width:10,height:10,borderRadius:'50%',background:SC_COLORS.RECRUITING,display:'inline-block'}}/> Recruiting</span>
-          <span style={{display:'flex',alignItems:'center',gap:5}}><span style={{width:10,height:10,borderRadius:'50%',background:'#2471a3',display:'inline-block'}}/> Other status</span>
-          <span style={{color:'var(--text-3)'}}>Circle size = trial volume</span>
+          <span style={{display:'flex',alignItems:'center',gap:5}}><span style={{width:10,height:10,borderRadius:'50%',background:'#2471a3',display:'inline-block'}}/> Other</span>
         </div>
       </div>
-
       <div id="trial-map" ref={mapRef}/>
-
       {selectedCountry&&view==='heatmap'&&countrySites.length>0&&(
         <div className="card" style={{marginTop:12}}>
-          <div className="card-hd">
-            <div className="card-title">Top sites in {selectedCountry}</div>
-            <button className="btn btn-d btn-sm" onClick={()=>setSelectedCountry(null)}>×</button>
-          </div>
-          <div className="card-bd">
-            <div className="g-auto">{countrySites.map((s,i)=><SiteCard key={s.key} site={s} rank={i+1} onOpen={onOpen}/>)}</div>
-          </div>
+          <div className="card-hd"><div className="card-title">Top sites in {selectedCountry}</div><button className="btn btn-d btn-sm" onClick={()=>setSelectedCountry(null)}>×</button></div>
+          <div className="card-bd"><div className="g-auto">{countrySites.map((s,i)=><SiteCard key={s.key} site={s} rank={i+1} onOpen={onOpen}/>)}</div></div>
         </div>
       )}
-
       <div className="g2" style={{marginTop:12}}>
-        <div className="card">
-          <div className="card-hd"><div className="card-title">Top countries by trial volume</div></div>
-          <div className="card-bd">
-            <HBar data={Object.entries(countryData.counts).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([k,v])=>({key:k,label:k,value:v}))} color="var(--blue)"/>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-hd"><div className="card-title">Funding mix by top 8 countries</div></div>
+        <div className="card"><div className="card-hd"><div className="card-title">Top countries by trial volume</div></div><div className="card-bd"><HBar data={Object.entries(countryData.counts).sort((a,b)=>b[1]-a[1]).slice(0,12).map(([k,v])=>({key:k,label:k,value:v}))} color="var(--blue)"/></div></div>
+        <div className="card"><div className="card-hd"><div className="card-title">Funding mix by top 8 countries</div></div>
           <div className="card-bd">
             {Object.entries(countryData.counts).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([country])=>{
-              const sites=data.filter(s=>s.country===country);
-              const agg={};sites.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{agg[k]=(agg[k]||0)+v;}));
-              const t=Object.values(agg).reduce((a,b)=>a+b,1);
-              return(
-                <div key={country} style={{marginBottom:9}}>
-                  <div style={{fontSize:11,color:'var(--text-2)',marginBottom:3}}>{country}</div>
-                  <div style={{display:'flex',height:6,borderRadius:3,overflow:'hidden',background:'var(--bg-muted)'}}>
-                    {Object.entries(agg).sort((a,b)=>b[1]-a[1]).map(([k,v])=><div key={k} title={`${(FM[k]||FM.OTHER).label}: ${(v/t*100).toFixed(0)}%`} style={{width:`${(v/t*100).toFixed(1)}%`,background:(FM[k]||FM.OTHER).color}}/>)}
-                  </div>
-                </div>
-              );
+              const sites=data.filter(s=>s.country===country);const agg={};sites.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{agg[k]=(agg[k]||0)+v;}));const t=Object.values(agg).reduce((a,b)=>a+b,1);
+              return(<div key={country} style={{marginBottom:9}}><div style={{fontSize:11,color:'var(--text-2)',marginBottom:3}}>{country}</div><div style={{display:'flex',height:6,borderRadius:3,overflow:'hidden',background:'var(--bg-muted)'}}>{Object.entries(agg).sort((a,b)=>b[1]-a[1]).map(([k,v])=><div key={k} title={`${(FM[k]||FM.OTHER).label}: ${(v/t*100).toFixed(0)}%`} style={{width:`${(v/t*100).toFixed(1)}%`,background:(FM[k]||FM.OTHER).color}}/>)}</div></div>);
             })}
             <div className="divider"/>
-            <div style={{display:'flex',flexWrap:'wrap',gap:'4px 12px'}}>
-              {Object.entries(FM).map(([k,v])=><span key={k} style={{display:'flex',alignItems:'center',gap:4,fontSize:10.5,color:'var(--text-2)'}}><span style={{width:7,height:7,borderRadius:'50%',background:v.color,display:'inline-block'}}/>{v.label}</span>)}
-            </div>
+            <div style={{display:'flex',flexWrap:'wrap',gap:'4px 12px'}}>{Object.entries(FM).map(([k,v])=><span key={k} style={{display:'flex',alignItems:'center',gap:4,fontSize:10.5,color:'var(--text-2)'}}><span style={{width:7,height:7,borderRadius:'50%',background:v.color,display:'inline-block'}}/>{v.label}</span>)}</div>
           </div>
         </div>
       </div>
@@ -1094,31 +1297,16 @@ const MapSection=({data,onOpen})=>{
   );
 };
 
-/* ── TOP SITES ──────────────────────────────────────── */
 const TopSites=({data,onOpen,onFilterChange})=>{
   const [sf,setSf]=useState('all');const [cf,setCf]=useState('all');const [ff,setFf]=useState('all');
   const countries=useMemo(()=>[...new Set(data.map(s=>s.country))].sort(),[data]);
-  const filtered=useMemo(()=>{
-    let r=[...data];
-    if(sf==='recruiting')r=r.filter(s=>s.recruitingCount>0);else if(sf==='completed')r=r.filter(s=>s.completedCount>0);else if(sf==='phase3')r=r.filter(s=>s.phases.includes('PHASE3'));
-    if(cf!=='all')r=r.filter(s=>s.country===cf);
-    if(ff!=='all')r=r.filter(s=>s.dominantFunder===ff);
-    return r;
-  },[data,sf,cf,ff]);
+  const filtered=useMemo(()=>{let r=[...data];if(sf==='recruiting')r=r.filter(s=>s.recruitingCount>0);else if(sf==='completed')r=r.filter(s=>s.completedCount>0);else if(sf==='phase3')r=r.filter(s=>s.phases.includes('PHASE3'));if(cf!=='all')r=r.filter(s=>s.country===cf);if(ff!=='all')r=r.filter(s=>s.dominantFunder===ff);return r;},[data,sf,cf,ff]);
   useEffect(()=>{const labels=[sf!=='all'?sf:null,cf!=='all'?cf:null,ff!=='all'?(FM[ff]||FM.OTHER).label:null].filter(Boolean);onFilterChange&&onFilterChange(filtered,labels.length?labels.join(', '):'all sites');},[filtered]);
   return(
     <div className="section">
       <div className="form-row">
-        {[{v:sf,set:setSf,l:'Status',opts:[['all','All statuses'],['recruiting','Currently recruiting'],['completed','Has completed'],['phase3','Phase 3']]},
-          {v:cf,set:setCf,l:'Country',opts:[['all','All countries'],...countries.map(c=>[c,c])]},
-          {v:ff,set:setFf,l:'Funder type',opts:[['all','All funders'],...Object.entries(FM).map(([k,v])=>[k,v.label])]}
-        ].map(f=>(
-          <div key={f.l} className="field" style={{flex:1}}>
-            <label>{f.l}</label>
-            <select className="sel" value={f.v} onChange={e=>f.set(e.target.value)}>
-              {f.opts.map(([v,l])=><option key={v} value={v}>{l}</option>)}
-            </select>
-          </div>
+        {[{v:sf,set:setSf,l:'Status',opts:[['all','All statuses'],['recruiting','Currently recruiting'],['completed','Has completed'],['phase3','Phase 3']]},{v:cf,set:setCf,l:'Country',opts:[['all','All countries'],...countries.map(c=>[c,c])]},{v:ff,set:setFf,l:'Funder type',opts:[['all','All funders'],...Object.entries(FM).map(([k,v])=>[k,v.label])]}].map(f=>(
+          <div key={f.l} className="field" style={{flex:1}}><label>{f.l}</label><select className="sel" value={f.v} onChange={e=>f.set(e.target.value)}>{f.opts.map(([v,l])=><option key={v} value={v}>{l}</option>)}</select></div>
         ))}
       </div>
       <div style={{fontSize:11,color:'var(--text-3)',marginBottom:12}}>Showing {Math.min(filtered.length,50).toLocaleString()} of {filtered.length.toLocaleString()} sites</div>
@@ -1127,7 +1315,6 @@ const TopSites=({data,onOpen,onFilterChange})=>{
   );
 };
 
-/* ── SEARCH SECTION ─────────────────────────────────── */
 const SearchSection=({type,onOpen,onFilterChange})=>{
   const [q,setQ]=useState('');const [phase,setPhase]=useState('');const [status,setStatus]=useState('');
   const [res,setRes]=useState(null);const [loading,setLoading]=useState(false);
@@ -1141,38 +1328,18 @@ const SearchSection=({type,onOpen,onFilterChange})=>{
     onFilterChange&&onFilterChange(sites,`${type==='drug'?'drug':'disease'}: ${qv}`);
     setLoading(false);
   };
-  const topBar=useMemo(()=>{
-    if(!res)return[];
-    return res.sites.slice(0,12).map(s=>({key:s.key,label:s.name.length>18?s.name.slice(0,17)+'…':s.name,value:s.trialCount,color:'var(--blue)',rows:[{l:'Location',v:`${s.city}, ${s.country}`},{l:'Recruiting',v:s.recruitingCount}]}));
-  },[res]);
   return(
     <div className="section">
       <div className="form-row">
-        <AutoInput value={q} onChange={setQ} onSelect={v=>{setQ(v);doSearch(v);}} onEnter={()=>doSearch()}
-          placeholder={type==='drug'?'e.g. Pembrolizumab, Remdesivir…':"e.g. Breast Cancer, COVID-19…"}
-          suggestions={sugg} loading={loading} label={type==='drug'?'Drug or intervention':'Disease or condition'}/>
-        <div className="field" style={{minWidth:135}}><label>Phase</label>
-          <select className="sel" value={phase} onChange={e=>setPhase(e.target.value)}>
-            <option value="">Any phase</option>
-            {PHASES.map(p=><option key={p} value={p}>{p.replace(/_/g,' ')}</option>)}
-          </select>
-        </div>
-        <div className="field" style={{minWidth:160}}><label>Status</label>
-          <select className="sel" value={status} onChange={e=>setStatus(e.target.value)}>
-            <option value="">Any status</option>
-            <option value="RECRUITING">Recruiting</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="ACTIVE_NOT_RECRUITING">Active, not recruiting</option>
-          </select>
-        </div>
-        <button className="btn btn-p" onClick={()=>doSearch()} disabled={loading||!q.trim()} style={{alignSelf:'flex-end'}}>
-          {loading?<><Spin s={13}/>Searching</>:'Search'}
-        </button>
+        <AutoInput value={q} onChange={setQ} onSelect={v=>{setQ(v);doSearch(v);}} onEnter={()=>doSearch()} placeholder={type==='drug'?'e.g. Pembrolizumab…':"e.g. Breast Cancer…"} suggestions={sugg} loading={loading} label={type==='drug'?'Drug or intervention':'Disease or condition'}/>
+        <div className="field" style={{minWidth:135}}><label>Phase</label><select className="sel" value={phase} onChange={e=>setPhase(e.target.value)}><option value="">Any phase</option>{PHASES.map(p=><option key={p} value={p}>{p.replace(/_/g,' ')}</option>)}</select></div>
+        <div className="field" style={{minWidth:160}}><label>Status</label><select className="sel" value={status} onChange={e=>setStatus(e.target.value)}><option value="">Any status</option><option value="RECRUITING">Recruiting</option><option value="COMPLETED">Completed</option><option value="ACTIVE_NOT_RECRUITING">Active, not recruiting</option></select></div>
+        <button className="btn btn-p" onClick={()=>doSearch()} disabled={loading||!q.trim()} style={{alignSelf:'flex-end'}}>{loading?<><Spin s={13}/>Searching</>:'Search'}</button>
       </div>
       {!res&&!loading&&(
         <div>
-          <div style={{fontSize:10,fontWeight:600,textTransform:'uppercase',letterSpacing:'.5px',color:'var(--text-3)',marginBottom:7}}>Common searches</div>
-          <div className="chips">{sugg.slice(0,12).map(s=><button key={s} className="chip" onClick={()=>{setQ(s);doSearch(s);}}>{s}</button>)}</div>
+          <div style={{fontSize:10,fontWeight:600,textTransform:'uppercase',letterSpacing:'.5px',color:'var(--text-3)',marginBottom:7}}>{type==='drug'?'Popular drugs & interventions':'Common conditions'}</div>
+          <div className="chips">{sugg.slice(0,16).map(s=><button key={s} className="chip" onClick={()=>{setQ(s);doSearch(s);}}>{s}</button>)}</div>
         </div>
       )}
       {res&&(
@@ -1184,7 +1351,12 @@ const SearchSection=({type,onOpen,onFilterChange})=>{
             <div className="kpi"><div className="kpi-label">Countries</div><div className="kpi-val">{new Set(res.sites.map(s=>s.country)).size}</div></div>
             <div className="kpi"><div className="kpi-label">Enrollment target</div><div className="kpi-val">{res.sites.reduce((a,s)=>a+s.totalEnrollment,0).toLocaleString()}</div></div>
           </div>
-          {topBar.length>0&&<div className="card" style={{marginBottom:14}}><div className="card-hd"><div className="card-title">Top sites by trial count</div></div><div className="card-bd"><BarChart data={topBar} h={130} onCk={b=>onOpen(res.sites.find(s=>s.key===b.key))}/></div></div>}
+          {res.sites.length>0&&(
+            <div className="card" style={{marginBottom:14}}>
+              <div className="card-hd"><div className="card-title">Top sites by trial count</div></div>
+              <div className="card-bd" style={{padding:'6px 14px'}}><TopSitesList sites={res.sites.slice(0,12)} color="var(--blue)" onOpen={onOpen}/></div>
+            </div>
+          )}
           <SiteGrid sites={res.sites.slice(0,40)} onOpen={onOpen}/>
         </div>
       )}
@@ -1192,48 +1364,48 @@ const SearchSection=({type,onOpen,onFilterChange})=>{
   );
 };
 
-/* ── BY PHASE ───────────────────────────────────────── */
 const PhaseSection=({data,onOpen,onFilterChange})=>{
   const [ph,setPh]=useState('PHASE3');
   const filtered=useMemo(()=>data.filter(s=>s.phases.includes(ph)),[data,ph]);
   useEffect(()=>{onFilterChange&&onFilterChange(filtered,`phase: ${ph.replace(/_/g,' ')}`);},[filtered]);
-  const topBar=filtered.slice(0,12).map(s=>({key:s.key,label:s.name.length>18?s.name.slice(0,17)+'…':s.name,value:s.trialCount,color:PH_COL[ph]||'var(--blue)',rows:[{l:'Location',v:`${s.city}, ${s.country}`}]}));
+  const statusBreakdown=useMemo(()=>{const sc={};filtered.forEach(s=>Object.entries(s.statuses).forEach(([k,v])=>{sc[k]=(sc[k]||0)+v;}));return Object.entries(sc).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({key:k,label:k.replace(/_/g,' '),value:v,color:SC_COLORS[k]||'#888'}));},[filtered]);
+  const totalTrials=statusBreakdown.reduce((a,d)=>a+d.value,0)||1;
   return(
     <div className="section">
-      <div className="segs" style={{marginBottom:16,flexWrap:'wrap'}}>
-        {PHASES.map(p=><button key={p} className={`seg${ph===p?' on':''}`} onClick={()=>setPh(p)}>{p.replace('_',' ')}</button>)}
+      <div className="segs" style={{marginBottom:16,flexWrap:'wrap'}}>{PHASES.map(p=><button key={p} className={`seg${ph===p?' on':''}`} onClick={()=>setPh(p)}>{p.replace('_',' ')}</button>)}</div>
+      <div className="kpi-strip" style={{marginBottom:14}}>
+        <div className="kpi"><div className="kpi-label">Sites</div><div className="kpi-val">{filtered.length.toLocaleString()}</div></div>
+        <div className="kpi"><div className="kpi-label">Recruiting</div><div className="kpi-val">{filtered.reduce((a,s)=>a+s.recruitingCount,0).toLocaleString()}</div></div>
+        <div className="kpi"><div className="kpi-label">Countries</div><div className="kpi-val">{new Set(filtered.map(s=>s.country)).size}</div></div>
+        <div className="kpi"><div className="kpi-label">Enrollment target</div><div className="kpi-val">{filtered.reduce((a,s)=>a+s.totalEnrollment,0).toLocaleString()}</div></div>
       </div>
-      <div style={{fontSize:11,color:'var(--text-3)',marginBottom:12}}><strong style={{color:'var(--text)'}}>{filtered.length.toLocaleString()} sites</strong> — {ph.replace(/_/g,' ')}</div>
-      {topBar.length>0&&<div className="card" style={{marginBottom:14}}><div className="card-hd"><div className="card-title">Top 12 sites</div></div><div className="card-bd"><BarChart data={topBar} h={120} onCk={b=>onOpen(filtered.find(s=>s.key===b.key))}/></div></div>}
+      <div className="g2" style={{marginBottom:14}}>
+        <div className="card"><div className="card-hd"><div className="card-title">Status breakdown</div></div>
+          <div className="card-bd" style={{display:'flex',gap:16,alignItems:'flex-start'}}>
+            <Donut data={statusBreakdown} size={120}/>
+            <div style={{flex:1,minWidth:0}}>{statusBreakdown.map(d=>(<div key={d.key} style={{display:'flex',alignItems:'center',gap:6,padding:'3px 0',fontSize:11.5}}><span style={{width:7,height:7,borderRadius:'50%',background:d.color,flexShrink:0}}/><span style={{flex:1,color:'var(--text-2)',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{d.label}</span><span style={{fontWeight:500,fontVariantNumeric:'tabular-nums'}}>{d.value.toLocaleString()}</span><span style={{color:'var(--text-3)',width:30,textAlign:'right'}}>{(d.value/totalTrials*100).toFixed(0)}%</span></div>))}</div>
+          </div>
+        </div>
+        <div className="card"><div className="card-hd"><div className="card-title">Top 10 sites</div></div>
+          <div style={{maxHeight:280,overflowY:'auto',padding:'6px 14px'}}><TopSitesList sites={filtered.slice(0,20)} color={PH_COL[ph]||'var(--blue)'} onOpen={onOpen}/></div>
+        </div>
+      </div>
       <SiteGrid sites={filtered.slice(0,40)} onOpen={onOpen}/>
     </div>
   );
 };
 
-/* ── BY FUNDER ──────────────────────────────────────── */
 const FunderSection=({data,onOpen,onFilterChange})=>{
   const [funder,setFunder]=useState('INDUSTRY');const [cond,setCond]=useState('');
-  const filtered=useMemo(()=>{
-    let r=data.filter(s=>s.dominantFunder===funder||(s.funderClasses[funder]||0)>0);
-    if(cond.trim()){const q=cond.toLowerCase();r=r.filter(s=>s.conditions.some(c=>c.toLowerCase().includes(q)));}
-    return r;
-  },[data,funder,cond]);
+  const filtered=useMemo(()=>{let r=data.filter(s=>s.dominantFunder===funder||(s.funderClasses[funder]||0)>0);if(cond.trim()){const q=cond.toLowerCase();r=r.filter(s=>s.conditions.some(c=>c.toLowerCase().includes(q)));}return r;},[data,funder,cond]);
   useEffect(()=>{onFilterChange&&onFilterChange(filtered,`funder: ${(FM[funder]||FM.OTHER).label}${cond?` + ${cond}`:''}`);},[filtered]);
-  const breakdown=useMemo(()=>{const agg={};filtered.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{agg[k]=(agg[k]||0)+v;}));return agg;},[filtered]);
-  const donutData=Object.entries(breakdown).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({key:k,label:(FM[k]||FM.OTHER).label,value:v,color:(FM[k]||FM.OTHER).color}));
-  const topBar=filtered.slice(0,12).map(s=>({key:s.key,label:s.name.length>18?s.name.slice(0,17)+'…':s.name,value:s.trialCount,color:(FM[funder]||FM.OTHER).color,rows:[{l:'Location',v:`${s.city}, ${s.country}`}]}));
+  const donutData=useMemo(()=>{const agg={};filtered.forEach(s=>Object.entries(s.funderClasses).forEach(([k,v])=>{agg[k]=(agg[k]||0)+v;}));return Object.entries(agg).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({key:k,label:(FM[k]||FM.OTHER).label,value:v,color:(FM[k]||FM.OTHER).color}));},[filtered]);
   return(
     <div className="section">
       <div className="alert alert-info">Funder classifications per ClinicalTrials.gov: Industry = pharma/biotech · NIH = National Institutes of Health · Federal = DoD, VA, FDA · Academic = universities, non-profits, foundations</div>
       <div className="form-row">
-        <div className="field" style={{flex:1}}><label>Funder category</label>
-          <select className="sel" value={funder} onChange={e=>setFunder(e.target.value)}>
-            {Object.entries(FM).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}
-          </select>
-        </div>
-        <div className="field" style={{flex:2}}><label>Filter by condition</label>
-          <input className="inp" value={cond} onChange={e=>setCond(e.target.value)} placeholder="e.g. cancer, diabetes, hypertension…"/>
-        </div>
+        <div className="field" style={{flex:1}}><label>Funder category</label><select className="sel" value={funder} onChange={e=>setFunder(e.target.value)}>{Object.entries(FM).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select></div>
+        <div className="field" style={{flex:2}}><label>Filter by condition</label><input className="inp" value={cond} onChange={e=>setCond(e.target.value)} placeholder="e.g. cancer, diabetes…"/></div>
       </div>
       <div className="kpi-strip" style={{marginBottom:14}}>
         <div className="kpi"><div className="kpi-label">Sites</div><div className="kpi-val">{filtered.length.toLocaleString()}</div></div>
@@ -1245,11 +1417,13 @@ const FunderSection=({data,onOpen,onFilterChange})=>{
         <div className="g2" style={{marginBottom:14}}>
           <div className="card"><div className="card-hd"><div className="card-title">Funding mix</div></div>
             <div className="card-bd" style={{display:'flex',gap:16,alignItems:'center'}}>
-              <Donut data={donutData} size={120}/>
-              <div style={{flex:1}}>{donutData.map(d=>{const t=donutData.reduce((a,x)=>a+x.value,0)||1;return(<div key={d.key} style={{display:'flex',alignItems:'center',gap:7,padding:'3px 0',fontSize:11.5}}><span style={{width:7,height:7,borderRadius:'50%',background:d.color,flexShrink:0}}/><span style={{flex:1,color:'var(--text-2)'}}>{d.label}</span><span style={{fontWeight:500,fontVariantNumeric:'tabular-nums'}}>{d.value.toLocaleString()}</span><span style={{color:'var(--text-3)',width:32,textAlign:'right'}}>{(d.value/t*100).toFixed(0)}%</span></div>);})}</div>
+              <Donut data={donutData} size={150}/>
+              <div style={{flex:1}}>{donutData.map(d=>{const t=donutData.reduce((a,x)=>a+x.value,0)||1;return(<div key={d.key} style={{display:'flex',alignItems:'center',gap:7,padding:'4px 0',fontSize:12}}><span style={{width:8,height:8,borderRadius:'50%',background:d.color,flexShrink:0}}/><span style={{flex:1,color:'var(--text-2)'}}>{d.label}</span><span style={{fontWeight:500,fontVariantNumeric:'tabular-nums'}}>{d.value.toLocaleString()}</span><span style={{color:'var(--text-3)',width:34,textAlign:'right'}}>{(d.value/t*100).toFixed(0)}%</span></div>);})}</div>
             </div>
           </div>
-          <div className="card"><div className="card-hd"><div className="card-title">Top sites</div></div><div className="card-bd"><BarChart data={topBar} h={120} onCk={b=>onOpen(filtered.find(s=>s.key===b.key))}/></div></div>
+          <div className="card"><div className="card-hd"><div className="card-title">Top sites</div></div>
+            <div style={{maxHeight:260,overflowY:'auto',padding:'6px 14px'}}><TopSitesList sites={filtered.slice(0,20)} color={(FM[funder]||FM.OTHER).color} onOpen={onOpen}/></div>
+          </div>
         </div>
       )}
       <SiteGrid sites={filtered.slice(0,40)} onOpen={onOpen}/>
@@ -1257,10 +1431,8 @@ const FunderSection=({data,onOpen,onFilterChange})=>{
   );
 };
 
-/* ── COMPARE ────────────────────────────────────────── */
 const Compare=({data,onOpen})=>{
-  const [q1,setQ1]=useState('');const [q2,setQ2]=useState('');
-  const [s1,setS1]=useState(null);const [s2,setS2]=useState(null);const [err,setErr]=useState('');
+  const [q1,setQ1]=useState('');const [q2,setQ2]=useState('');const [s1,setS1]=useState(null);const [s2,setS2]=useState(null);const [err,setErr]=useState('');
   const names=useMemo(()=>data.map(s=>s.name),[data]);
   const doCompare=()=>{
     const r1=data.find(s=>s.name.toLowerCase().includes(q1.toLowerCase()));
@@ -1268,20 +1440,13 @@ const Compare=({data,onOpen})=>{
     if(!r1||!r2){setErr(`${!r1?'"'+q1+'" ':''} ${!r2?'"'+q2+'" ':''} not found.`);return;}
     setErr('');setS1(r1);setS2(r2);
   };
-  const metrics=s1&&s2?[
-    {l:'Total trials',v1:s1.trialCount,v2:s2.trialCount},
-    {l:'Recruiting',v1:s1.recruitingCount,v2:s2.recruitingCount},
-    {l:'Completed',v1:s1.completedCount,v2:s2.completedCount},
-    {l:'Sponsors',v1:s1.sponsors.length,v2:s2.sponsors.length},
-    {l:'Conditions',v1:s1.conditions.length,v2:s2.conditions.length},
-    {l:'Enrollment target',v1:s1.totalEnrollment,v2:s2.totalEnrollment},
-  ]:[];
+  const metrics=s1&&s2?[{l:'Total trials',v1:s1.trialCount,v2:s2.trialCount},{l:'Recruiting',v1:s1.recruitingCount,v2:s2.recruitingCount},{l:'Completed',v1:s1.completedCount,v2:s2.completedCount},{l:'Sponsors',v1:s1.sponsors.length,v2:s2.sponsors.length},{l:'Conditions',v1:s1.conditions.length,v2:s2.conditions.length},{l:'Enrollment target',v1:s1.totalEnrollment,v2:s2.totalEnrollment}]:[];
   return(
     <div className="section">
       <div style={{display:'grid',gridTemplateColumns:'1fr 46px 1fr',gap:14,alignItems:'flex-end',marginBottom:14}}>
-        <AutoInput value={q1} onChange={setQ1} onSelect={setQ1} onEnter={doCompare} suggestions={names} placeholder="e.g. Johns Hopkins, Mayo Clinic…" label="Site 1"/>
+        <AutoInput value={q1} onChange={setQ1} onSelect={setQ1} onEnter={doCompare} suggestions={names} placeholder="e.g. Johns Hopkins…" label="Site 1"/>
         <div style={{width:46,height:33,border:'1px solid var(--border)',borderRadius:'var(--r)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:600,color:'var(--text-3)',background:'var(--bg-subtle)',flexShrink:0}}>vs</div>
-        <AutoInput value={q2} onChange={setQ2} onSelect={setQ2} onEnter={doCompare} suggestions={names} placeholder="e.g. Memorial Sloan Kettering…" label="Site 2"/>
+        <AutoInput value={q2} onChange={setQ2} onSelect={setQ2} onEnter={doCompare} suggestions={names} placeholder="e.g. Mayo Clinic…" label="Site 2"/>
       </div>
       <button className="btn btn-p" onClick={doCompare} style={{marginBottom:18}}>Compare</button>
       {err&&<div className="alert alert-warn">{err}</div>}
@@ -1297,34 +1462,17 @@ const Compare=({data,onOpen})=>{
           <div className="card" style={{marginBottom:14}}>
             <div className="card-hd"><div className="card-title">Metric comparison</div></div>
             <div className="card-bd">
-              {metrics.map(m=>{
-                const mx=Math.max(m.v1,m.v2,1);
-                return(
-                  <div key={m.l} style={{display:'grid',gridTemplateColumns:'1fr 95px 1fr',gap:14,alignItems:'center',padding:'9px 0',borderBottom:'1px solid var(--border)'}}>
-                    <div>
-                      <div style={{fontWeight:600,fontVariantNumeric:'tabular-nums',fontSize:14,textAlign:'right',color:m.v1>m.v2?'var(--blue)':m.v1<m.v2?'var(--text-3)':'var(--text)'}}>{m.v1.toLocaleString()}</div>
-                      <PBar val={m.v1} max={mx} color="var(--blue)"/>
-                    </div>
-                    <div style={{textAlign:'center',fontSize:10.5,color:'var(--text-3)',fontWeight:500}}>{m.l}</div>
-                    <div>
-                      <div style={{fontWeight:600,fontVariantNumeric:'tabular-nums',fontSize:14,color:m.v2>m.v1?'var(--purple)':m.v2<m.v1?'var(--text-3)':'var(--text)'}}>{m.v2.toLocaleString()}</div>
-                      <PBar val={m.v2} max={mx} color="var(--purple)"/>
-                    </div>
-                  </div>
-                );
-              })}
+              {metrics.map(m=>{const mx=Math.max(m.v1,m.v2,1);return(
+                <div key={m.l} style={{display:'grid',gridTemplateColumns:'1fr 95px 1fr',gap:14,alignItems:'center',padding:'9px 0',borderBottom:'1px solid var(--border)'}}>
+                  <div><div style={{fontWeight:600,fontVariantNumeric:'tabular-nums',fontSize:14,textAlign:'right',color:m.v1>m.v2?'var(--blue)':m.v1<m.v2?'var(--text-3)':'var(--text)'}}>{m.v1.toLocaleString()}</div><PBar val={m.v1} max={mx} color="var(--blue)"/></div>
+                  <div style={{textAlign:'center',fontSize:10.5,color:'var(--text-3)',fontWeight:500}}>{m.l}</div>
+                  <div><div style={{fontWeight:600,fontVariantNumeric:'tabular-nums',fontSize:14,color:m.v2>m.v1?'var(--purple)':m.v2<m.v1?'var(--text-3)':'var(--text)'}}>{m.v2.toLocaleString()}</div><PBar val={m.v2} max={mx} color="var(--purple)"/></div>
+                </div>
+              );})}
             </div>
           </div>
           <div className="g2">
-            {['sponsors','conditions'].map(f=>{
-              const common=s1[f].filter(x=>s2[f].includes(x));
-              return(
-                <div key={f} className="card">
-                  <div className="card-hd"><div className="card-title">Common {f} ({common.length})</div></div>
-                  <div className="card-bd">{common.length?<div style={{display:'flex',flexWrap:'wrap',gap:3}}>{common.slice(0,12).map(x=><span key={x} className="badge b-neutral">{x}</span>)}</div>:<span style={{fontSize:11,color:'var(--text-3)'}}>None in common</span>}</div>
-                </div>
-              );
-            })}
+            {['sponsors','conditions'].map(f=>{const common=s1[f].filter(x=>s2[f].includes(x));return(<div key={f} className="card"><div className="card-hd"><div className="card-title">Common {f} ({common.length})</div></div><div className="card-bd">{common.length?<div style={{display:'flex',flexWrap:'wrap',gap:3}}>{common.slice(0,12).map(x=><span key={x} className="badge b-neutral">{x}</span>)}</div>:<span style={{fontSize:11,color:'var(--text-3)'}}>None in common</span>}</div></div>);})}
           </div>
         </div>
       )}
@@ -1332,7 +1480,6 @@ const Compare=({data,onOpen})=>{
   );
 };
 
-/* ── GUIDE ──────────────────────────────────────────── */
 const Guide=()=>{
   const EI=()=><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>;
   return(
@@ -1340,7 +1487,7 @@ const Guide=()=>{
       <div className="g2">
         <div className="card"><div className="card-hd"><div className="card-title">About</div></div>
           <div className="card-bd" style={{fontSize:12.5,lineHeight:1.7,color:'var(--text-2)'}}>
-            <p>TrialSite Intelligence queries the <strong style={{color:'var(--text)',fontWeight:500}}>ClinicalTrials.gov API v2</strong> in real time and analyses data at the site level — showing which research institutions run the most trials, funding sources, therapeutic focus areas, and recruitment activity.</p>
+            <p>TrialSite Intelligence queries the <strong style={{color:'var(--text)',fontWeight:500}}>ClinicalTrials.gov API v2</strong> in real time and analyses data at the site level.</p>
             <div className="divider"/>
             <p style={{fontWeight:500,color:'var(--text)',marginBottom:5}}>Use cases</p>
             <ul style={{paddingLeft:14,display:'flex',flexDirection:'column',gap:3}}>{['Clinical operations evaluating site networks','Business development identifying partnerships','Researchers locating experienced trial sites','Analysts mapping R&D competitive landscapes','Investors tracking institutional research activity'].map(t=><li key={t}>{t}</li>)}</ul>
@@ -1355,17 +1502,16 @@ const Guide=()=>{
           </div>
         </div>
         <div className="card"><div className="card-hd"><div className="card-title">External resources</div></div>
-          <div className="card-bd"><div className="ext-links" style={{flexDirection:'column',gap:5}}>{[['https://clinicaltrials.gov','ClinicalTrials.gov — official registry'],['https://clinicaltrials.gov/data-api/api','ClinicalTrials.gov API documentation'],['https://www.fda.gov/science-research/clinical-trials-and-human-subject-protection','FDA clinical trial information'],['https://www.nih.gov/health-information/nih-clinical-research-trials-you','NIH clinical research overview'],['https://www.who.int/clinical-trials-registry-platform','WHO International Clinical Trials Registry Platform'],['https://pubmed.ncbi.nlm.nih.gov','PubMed — biomedical literature database']].map(([h,l])=><a key={h} href={h} target="_blank" className="ext-link"><EI/>{l}</a>)}</div></div>
+          <div className="card-bd"><div className="ext-links" style={{flexDirection:'column',gap:5}}>{[['https://clinicaltrials.gov','ClinicalTrials.gov — official registry'],['https://clinicaltrials.gov/data-api/api','ClinicalTrials.gov API documentation'],['https://www.fda.gov/science-research/clinical-trials-and-human-subject-protection','FDA clinical trial information'],['https://www.nih.gov/health-information/nih-clinical-research-trials-you','NIH clinical research overview'],['https://pubmed.ncbi.nlm.nih.gov','PubMed']].map(([h,l])=><a key={h} href={h} target="_blank" className="ext-link"><EI/>{l}</a>)}</div></div>
         </div>
-        <div className="card"><div className="card-hd"><div className="card-title">Healthcare-grade design notes</div></div>
+        <div className="card"><div className="card-hd"><div className="card-title">Design notes</div></div>
           <div className="card-bd" style={{fontSize:12,lineHeight:1.8,color:'var(--text-2)'}}>
-            <div>· All data sourced directly from the <strong style={{color:'var(--text)',fontWeight:500}}>official FDA/NIH ClinicalTrials.gov registry</strong> — no intermediaries</div>
-            <div>· Semantic color coding: green = recruiting/active, blue = informational, amber = caution states, red = terminated</div>
-            <div>· Full dark mode support via system preference detection</div>
-            <div>· Tabular numerals for all counts and percentages — no floating point display artifacts</div>
-            <div>· Interactive charts use progressive disclosure — tooltips on hover, drill-down on click</div>
-            <div>· Dashboard filters are cross-linked — selecting a status filters the site list in real time</div>
-            <div>· Global map uses Leaflet.js with OpenStreetMap tiles — site coordinates from ClinicalTrials.gov geolocation data</div>
+            <div>· Data sourced directly from ClinicalTrials.gov API v2</div>
+            <div>· countTotal=true param sent on all paginated requests for accurate totals</div>
+            <div>· Time window query uses AREA[LastUpdatePostDate]RANGE[date,MAX] Essie syntax</div>
+            <div>· Window changes force a fresh fetch; results cached per window+pageSize key</div>
+            <div>· Client-side rate limiter: max 40 API calls per 60-second window</div>
+            <div>· Full dark mode via system preference detection</div>
           </div>
         </div>
       </div>
@@ -1373,64 +1519,99 @@ const Guide=()=>{
   );
 };
 
-/* ── APP ────────────────────────────────────────────── */
+/* ── APP ─────────────────────────────────────────────────────────────────────── */
 function App(){
   const [section,setSection]=useState('dashboard');
+  const [updatesWin,setUpdatesWin]=useState('24h');
   const [data,setData]=useState([]);const [loading,setLoading]=useState(true);
   const [modal,setModal]=useState(null);const [toast,setToast]=useState(null);
-
-  useEffect(()=>{fetchAll({},20).then(studies=>{setData(processSites(studies));setLoading(false);});},[]);
-
   const [exportScope,setExportScope]=useState({sites:null,label:'all sites'});
+  const [apiAlert,setApiAlert]=useState(null);
+  const [cacheInfo,setCacheInfo]=useState(()=>{
+    try{ return Object.keys(sessionStorage).filter(k=>k.startsWith('tsi__')).length; }
+    catch{ return 0; }
+  });
 
+  const clearCache=useCallback(()=>{
+    try{ Object.keys(sessionStorage).filter(k=>k.startsWith('tsi__')).forEach(k=>sessionStorage.removeItem(k)); }
+    catch{}
+    setCacheInfo(0);
+    setData([]);
+    setLoading(true);
+    fetchAll({},20).then(studies=>{
+      if(!studies.length) setApiAlert({type:'down',color:'#fac775',bg:'var(--amber-bg)',textColor:'var(--amber)',msg:'No data loaded from ClinicalTrials.gov. The API may be down for maintenance. Please refresh after a few minutes.'});
+      setData(processSites(studies));
+      setLoading(false);
+      setCacheInfo(c=>c+1);
+    });
+  },[]); // {type,msg,color}
+  useEffect(()=>{
+    const handler=(e)=>{
+      const t=e.detail?.type;
+      if(t==='rate') setApiAlert({type:'rate',color:'#f5b8b8',bg:'var(--red-bg)',textColor:'var(--red)',msg:'Rate limit reached — ClinicalTrials.gov allows ~10 requests/sec. Retrying automatically. If this persists, wait 30 seconds and refresh.'});
+      else if(t==='down') setApiAlert({type:'down',color:'#fac775',bg:'var(--amber-bg)',textColor:'var(--amber)',msg:'ClinicalTrials.gov API is unreachable. This may be scheduled maintenance. Please refresh in a few minutes.'});
+      else if(t==='http') setApiAlert({type:'http',color:'#f5b8b8',bg:'var(--red-bg)',textColor:'var(--red)',msg:`ClinicalTrials.gov API returned an error (HTTP ${e.detail?.status||'?'}). Some data may be incomplete. Try refreshing.`});
+      // auto-dismiss non-critical after 12s
+      if(t==='rate') setTimeout(()=>setApiAlert(a=>a?.type==='rate'?null:a),12000);
+    };
+    window.addEventListener('api-error',handler);return()=>window.removeEventListener('api-error',handler);
+  },[]);
+  useEffect(()=>{
+    fetchAll({},20).then(studies=>{
+      if(!studies.length){
+        setApiAlert({type:'down',color:'#fac775',bg:'var(--amber-bg)',textColor:'var(--amber)',msg:'🔌 No data loaded from ClinicalTrials.gov. The API may be down for maintenance. Please refresh after a few minutes.'});
+      }
+      setData(processSites(studies));setLoading(false);
+    });
+  },[]);
+  const navigateTo=(sec,win)=>{if(win)setUpdatesWin(win);setSection(sec);};
   const showToast=msg=>{setToast(msg);setTimeout(()=>setToast(null),3000);};
-
   const exportCSV=()=>{
-    const sites=exportScope.sites||data;
-    if(!sites.length){showToast('No data to export');return;}
+    const sites=exportScope.sites||data;if(!sites.length){showToast('No data to export');return;}
     const rows=[['Site Name','City','State','Country','Trials','Recruiting','Completed','Sponsors','Conditions','Funder','Enrollment','Top Conditions']];
-    sites.forEach(s=>rows.push([
-      `"${s.name.replace(/"/g,'""')}"`,`"${s.city}"`,`"${s.state}"`,`"${s.country}"`,
-      s.trialCount,s.recruitingCount,s.completedCount,
-      s.sponsors.length,s.conditions.length,
-      (FM[s.dominantFunder]||FM.OTHER).label,s.totalEnrollment,
-      `"${s.conditions.slice(0,5).join('; ')}"`
-    ]));
+    sites.forEach(s=>rows.push([`"${s.name.replace(/"/g,'""')}"`,`"${s.city}"`,`"${s.state}"`,`"${s.country}"`,s.trialCount,s.recruitingCount,s.completedCount,s.sponsors.length,s.conditions.length,(FM[s.dominantFunder]||FM.OTHER).label,s.totalEnrollment,`"${s.conditions.slice(0,5).join('; ')}"`]));
     const blob=new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-    a.download=`trialsite_${exportScope.label.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.csv`;
-    a.click();
-    showToast(`Exported ${sites.length.toLocaleString()} sites`);
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`trialsite_${exportScope.label.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.csv`;a.click();showToast(`Exported ${sites.length.toLocaleString()} sites`);
   };
-
   const nav=NAV.find(n=>n.id===section);
   return(
     <div className="shell">
+      {apiAlert&&(
+        <div style={{position:'fixed',top:52,left:0,right:0,zIndex:2100,borderBottom:`1px solid ${apiAlert.color}`,background:'var(--bg)',display:'flex',alignItems:'center',gap:12,padding:'0 20px',height:36}}>
+          <span style={{width:6,height:6,borderRadius:'50%',background:apiAlert.textColor,flexShrink:0,display:'inline-block'}}/>
+          <span style={{fontSize:11,fontWeight:600,textTransform:'uppercase',letterSpacing:'.5px',color:apiAlert.textColor,flexShrink:0}}>
+            {apiAlert.type==='rate'?'Rate Limit':apiAlert.type==='down'?'Service Unavailable':'API Error'}
+          </span>
+          <span style={{fontSize:11,color:'var(--text-2)',flex:1,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{apiAlert.msg}</span>
+          <button onClick={()=>setApiAlert(null)} style={{background:'none',border:'none',color:'var(--text-3)',fontSize:14,cursor:'pointer',padding:'0 0 0 8px',lineHeight:1,flexShrink:0,fontWeight:400}}>Dismiss</button>
+        </div>
+      )}
       <header className="topbar">
-        <a className="brand" href="#">
-          <div className="brand-mark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6l1 9H8zm0 9h6l1 9H8z"/></svg></div>
-          <div><div className="brand-name">TrialSite Intelligence</div><div className="brand-version">Clinical Trial Analytics</div></div>
-        </a>
+        <a className="brand" href="#"><div className="brand-mark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6l1 9H8zm0 9h6l1 9H8z"/></svg></div><div><div className="brand-name">TrialSite Intelligence</div><div className="brand-version">Clinical Trial Analytics</div></div></a>
         <GlobalSearch data={data} onOpen={setModal}/>
         <div className="tb-right">
-          <div className="pill">{loading?<><Spin s={11}/><span style={{marginLeft:4}}>Loading…</span></>:<><span className="live-dot"/><span>{data.length.toLocaleString()} sites indexed</span></>}</div>
-          <button className="tb-btn" onClick={exportCSV} title={`Export ${(exportScope.sites||data).length.toLocaleString()} sites — ${exportScope.label}`}>
-            Export CSV {exportScope.sites?<span style={{fontSize:10,opacity:.7}}>({exportScope.sites.length.toLocaleString()})</span>:<span style={{fontSize:10,opacity:.7}}>(all)</span>}
-          </button>
+          <div className="pill" style={{gap:6}}>
+            {loading
+              ?<><Spin s={11}/><span style={{marginLeft:4}}>Loading…</span></>
+              :<><span className="live-dot"/><span>{data.length.toLocaleString()} sites indexed</span></>
+            }
+          </div>
+          {!loading&&(
+            <button className="tb-btn" onClick={clearCache} title="Clear session cache and reload fresh data from ClinicalTrials.gov" style={{fontSize:11,color:'var(--text-3)'}}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Refresh data
+            </button>
+          )}
+          <button className="tb-btn" onClick={exportCSV} title={`Export ${(exportScope.sites||data).length} sites`}>Export CSV {exportScope.sites?<span style={{fontSize:10,opacity:.7}}>({exportScope.sites.length})</span>:<span style={{fontSize:10,opacity:.7}}>(all)</span>}</button>
         </div>
       </header>
-
       <div className="body">
         <nav className="sidebar">
           <div style={{paddingTop:8}}>
             <div className="nav-group">Navigation</div>
-            {NAV.map(n=>(
-              <div key={n.id} className={`nav-item${section===n.id?' active':''}`} onClick={()=>setSection(n.id)}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={n.icon}/></svg>
-                {n.label}
-              </div>
-            ))}
+            {NAV.map(n=>(<div key={n.id} className={`nav-item${section===n.id?' active':''}`} onClick={()=>setSection(n.id)}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d={n.icon}/></svg>{n.label}</div>))}
           </div>
+          <div style={{marginTop:8}}><div className="nav-group">Activity</div><SidebarUpdates onNavigate={navigateTo}/></div>
           {!loading&&(
             <div className="sidebar-foot">
               <div className="nav-group" style={{padding:'0 0 8px'}}>Live data</div>
@@ -1441,24 +1622,32 @@ function App(){
             </div>
           )}
         </nav>
-
         <main className="content">
-          <div className="ph">
-            <div className="ph-title">{nav?.label}</div>
-            <div className="ph-meta">ClinicalTrials.gov API v2 · {new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div>
-          </div>
-          {section==='dashboard'  &&<Dashboard   data={data} onOpen={setModal} setSection={setSection} onFilterChange={(sites,label)=>setExportScope(sites?{sites,label}:{sites:null,label:'all sites'})}/>}
-          {section==='topSites'   &&<TopSites    data={data} onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
-          {section==='drug'       &&<SearchSection type="drug"    onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
-          {section==='disease'    &&<SearchSection type="disease" onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
-          {section==='phase'      &&<PhaseSection  data={data} onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
-          {section==='funder'     &&<FunderSection data={data} onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
-          {section==='map'        &&<MapSection    data={data} onOpen={setModal}/>}
-          {section==='compare'    &&<Compare       data={data} onOpen={setModal}/>}
-          {section==='guide'      &&<Guide/>}
+          <div className="ph"><div className="ph-title">{nav?.label}</div><div className="ph-meta">ClinicalTrials.gov API v2 · {new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div></div>
+          {section==='updates'   &&<RecentUpdates initialWin={updatesWin}/>}
+          {section==='dashboard' &&<Dashboard data={data} onOpen={setModal} setSection={setSection} onFilterChange={(sites,label)=>setExportScope(sites?{sites,label}:{sites:null,label:'all sites'})}/>}
+          {section==='topSites'  &&<TopSites  data={data} onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
+          {section==='drug'      &&<SearchSection type="drug"    onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
+          {section==='disease'   &&<SearchSection type="disease" onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
+          {section==='phase'     &&<PhaseSection  data={data} onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
+          {section==='funder'    &&<FunderSection data={data} onOpen={setModal} onFilterChange={(sites,label)=>setExportScope({sites,label})}/>}
+          {section==='map'       &&<MapSection    data={data} onOpen={setModal}/>}
+          {section==='compare'   &&<Compare       data={data} onOpen={setModal}/>}
+          {section==='guide'     &&<Guide/>}
         </main>
       </div>
-
+      <footer style={{borderTop:'1px solid var(--border)',background:'var(--bg)',padding:'12px 28px',display:'flex',alignItems:'center',gap:16,flexShrink:0}}>
+        <span style={{fontSize:11,color:'var(--text-3)'}}>Created and maintained by</span>
+        <span style={{fontSize:11,fontWeight:500,color:'var(--text-2)'}}>Nirmit Sachde</span>
+        <span style={{width:1,height:12,background:'var(--border)'}}/>
+        <a href="https://www.linkedin.com/in/nirmit-a-sachde/" target="_blank" style={{fontSize:11,color:'var(--blue)',display:'flex',alignItems:'center',gap:4}}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <span style={{width:1,height:12,background:'var(--border)'}}/>
+        <a href="mailto:sachde.n@northeastern.edu" style={{fontSize:11,color:'var(--blue)'}}>sachde.n@northeastern.edu</a>
+        <span style={{marginLeft:'auto',fontSize:10,color:'var(--text-3)'}}>Data sourced from ClinicalTrials.gov API v2</span>
+      </footer>
       {modal&&<SiteModal site={modal} onClose={()=>setModal(null)}/>}
       {toast&&<div className="toast">{toast}</div>}
     </div>
