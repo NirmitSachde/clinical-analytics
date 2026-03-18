@@ -1,8 +1,8 @@
-# TrialSite Intelligence
+# Clinical Analytics
 
 **Clinical Trial Site Analytics Platform**
 
-TrialSite Intelligence is a browser-based analytics platform for exploring and benchmarking clinical trial sites worldwide. It queries the [ClinicalTrials.gov API v2](https://clinicaltrials.gov/data-api/api) in real time, aggregating study-level data into site-level intelligence — enabling researchers, clinical operations teams, and business development professionals to identify experienced sites, track recruitment activity, and map global trial networks.
+Clinical Analytics is a browser-based analytics platform for exploring and benchmarking clinical trial sites worldwide. It queries the [ClinicalTrials.gov API v2](https://clinicaltrials.gov/data-api/api) in real time, aggregating study-level data into site-level intelligence — enabling researchers, clinical operations teams, and business development professionals to identify experienced sites, track recruitment activity, and map global trial networks.
 
 ---
 
