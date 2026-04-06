@@ -19,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 <style>
 :root{
   --bg:#ffffff;--bg-subtle:#f8f8f7;--bg-muted:#f1f0ee;--bg-raised:#ffffff;
@@ -168,10 +169,6 @@ td{padding:8px 11px;border-bottom:1px solid var(--border);color:var(--text);vert
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:var(--bg-subtle)}
 .mono{font-family:var(--mono);font-size:11px;color:var(--blue)}
-.tt{position:fixed;pointer-events:none;z-index:800;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;box-shadow:var(--shadow-md);min-width:150px;max-width:220px}
-.tt-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:5px;word-break:break-word}
-.tt-row{display:flex;justify-content:space-between;gap:14px;font-size:11px;color:var(--text-2);margin-top:2px}
-.tt-row span:last-child{font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
 .acp{position:relative}
 .acd{position:absolute;top:calc(100% + 3px);left:0;right:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);z-index:500;overflow:hidden;max-height:260px;overflow-y:auto}
 .ach{padding:5px 11px;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-3);border-bottom:1px solid var(--border);background:var(--bg-subtle)}
@@ -220,8 +217,6 @@ tbody tr:hover td{background:var(--bg-subtle)}
 #trial-map{height:420px;border-radius:var(--r-lg);border:1px solid var(--border);overflow:hidden}
 .leaflet-popup-content-wrapper{border-radius:var(--r)!important;box-shadow:var(--shadow-md)!important;border:1px solid var(--border)!important;font-family:var(--font)!important}
 .leaflet-popup-tip{display:none}
-.bar-r{cursor:pointer;transition:opacity .12s}
-.line-dot{cursor:pointer;transition:r .1s,fill .1s}
 .ext-links{display:flex;flex-wrap:wrap;gap:6px}
 .ext-link{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 9px;border:1px solid var(--border);border-radius:var(--r);font-size:11.5px;color:var(--text-2);transition:all .12px}
 .ext-link:hover{border-color:var(--border-strong);color:var(--text);text-decoration:none}
@@ -241,6 +236,9 @@ tbody tr:hover td{background:var(--bg-subtle)}
 .h-bar-fill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .h-bar-val{font-size:11px;font-weight:500;color:var(--text);min-width:34px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums}
 .rate-banner{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:var(--red-bg);border:1px solid #f5b8b8;color:var(--red);padding:10px 18px;border-radius:var(--r-lg);font-size:12.5px;font-weight:500;z-index:2100;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:10px;max-width:480px;text-align:center}
+/* plotly overrides to match theme */
+.js-plotly-plot .plotly .modebar{display:none!important}
+.js-plotly-plot{overflow:visible!important}
 </style>
 </head>
 <body>
@@ -248,12 +246,42 @@ tbody tr:hover td{background:var(--bg-subtle)}
 <script type="text/babel">
 const {useState,useEffect,useRef,useMemo,useCallback} = React;
 
-/* ─── Session cache (sessionStorage, 30-min TTL) ────────────────────────────
-   Keys are query fingerprints. Each entry: {data, ts}
-   sessionStorage is tab-scoped — cleared on tab close, so data stays fresh
-   per session without hammering the API on every nav change.
-─────────────────────────────────────────────────────────────────────────── */
-const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+/* ─── Theme detection helper for Plotly ─────────────────────────────────── */
+function getThemeColors(){
+  const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const cs = getComputedStyle(document.documentElement);
+  return {
+    isDark,
+    bg: 'rgba(0,0,0,0)',
+    text: cs.getPropertyValue('--text').trim()||'#181816',
+    text2: cs.getPropertyValue('--text-2').trim()||'#52524e',
+    text3: cs.getPropertyValue('--text-3').trim()||'#888884',
+    border: cs.getPropertyValue('--border').trim()||'#e2e2de',
+    blue: cs.getPropertyValue('--blue').trim()||'#1a5276',
+    green: cs.getPropertyValue('--green').trim()||'#1a6b3a',
+    paper: 'rgba(0,0,0,0)',
+    font: '-apple-system,BlinkMacSystemFont,Inter,Segoe UI,sans-serif',
+  };
+}
+
+/* ─── Plotly base layout ────────────────────────────────────────────────── */
+function plotlyBaseLayout(tc, extra={}){
+  return {
+    paper_bgcolor: tc.paper,
+    plot_bgcolor: tc.bg,
+    font: { family: tc.font, color: tc.text2, size: 11 },
+    margin: { l: 0, r: 0, t: 0, b: 0, pad: 0 },
+    hoverlabel: {
+      bgcolor: tc.isDark ? '#1e1e1c' : '#ffffff',
+      bordercolor: tc.border,
+      font: { family: tc.font, size: 11, color: tc.text },
+    },
+    ...extra,
+  };
+}
+
+/* ─── Session cache (sessionStorage, 30-min TTL) ──────────────────────── */
+const CACHE_TTL = 30 * 60 * 1000;
 
 function cacheKey(obj){ return 'tsi__' + btoa(JSON.stringify(obj)).slice(0,80); }
 
@@ -270,7 +298,6 @@ function cacheGet(key){
 function cacheSet(key, data){
   try{ sessionStorage.setItem(key, JSON.stringify({data, ts: Date.now()})); }
   catch(e){
-    // storage quota exceeded — clear old tsi__ entries and retry once
     try{
       Object.keys(sessionStorage).filter(k=>k.startsWith('tsi__')).forEach(k=>sessionStorage.removeItem(k));
       sessionStorage.setItem(key, JSON.stringify({data, ts: Date.now()}));
@@ -278,9 +305,9 @@ function cacheSet(key, data){
   }
 }
 
-/* ─── Rate limiter (ClinicalTrials.gov: ~10 req/sec, ~600/min documented) ─── */
-const RATE_WINDOW_MS = 10_000; // 10-second sliding window
-const RATE_MAX = 8;            // stay safely under 10/sec burst limit
+/* ─── Rate limiter ─────────────────────────────────────────────────────── */
+const RATE_WINDOW_MS = 10_000;
+const RATE_MAX = 8;
 const _rateTimes = [];
 function checkRate(){
   const now=Date.now();
@@ -345,7 +372,6 @@ function dateStr(daysAgo){
   return `${y}-${m}-${day}`;
 }
 
-/* parse cacheKey back to {win, pageSize} so fetchers never rely on stale refs */
 function parseCacheKey(key){
   const [w,ps]=key.split('__');
   return{win:w,pageSize:parseInt(ps,10)};
@@ -356,7 +382,6 @@ function makeDateQuery(win){
   return `AREA[LastUpdatePostDate]RANGE[${dateStr(days)},MAX]`;
 }
 
-/* retry with exponential backoff */
 async function fetchWithRetry(url, retries=3, delay=1200){
   for(let i=0;i<retries;i++){
     try{
@@ -378,7 +403,6 @@ async function fetchAll(params={},maxPages=15){
   const ck = cacheKey({fn:'fetchAll', params, maxPages});
   const cached = cacheGet(ck);
   if(cached){ return cached; }
-
   let all=[],token=null,p=0;
   while(p<maxPages){
     if(!checkRate()){await sleep(1500);}
@@ -398,7 +422,6 @@ async function fetchOnePage(params){
   const ck = cacheKey({fn:'fetchOnePage', params});
   const cached = cacheGet(ck);
   if(cached){ return cached; }
-
   if(!checkRate()){await sleep(1500);}
   const q={format:'json',countTotal:'true',...params};
   const r=await fetchWithRetry(`${BASE}/studies?${new URLSearchParams(q)}`);
@@ -414,8 +437,11 @@ function processSites(studies){
   studies.forEach(s=>{
     const pr=s.protocolSection||{},id=pr.identificationModule||{},st=pr.statusModule||{},sp=pr.sponsorCollaboratorsModule||{},co=pr.conditionsModule||{},de=pr.designModule||{},lo=pr.contactsLocationsModule||{};
     const fc=sp.leadSponsor?.class||'OTHER',sn=sp.leadSponsor?.name||'',cl=(sp.collaborators||[]).map(c=>c.name).filter(Boolean);
+    const JUNK_NAMES=/^(unknown|research site|investigat(ive|or) site|study site|clinical site|site|local institution|many locations|tbd|n\/a|not yet available|to be determined|multiple sites?)$/i;
     (lo.locations||[]).forEach(loc=>{
-      const name=loc.facility||'Unknown',city=loc.city||'Unknown',state=loc.state||'',country=loc.country||'Unknown',k=`${name}|||${city}|||${country}`;
+      const name=loc.facility||'';
+      if(!name||JUNK_NAMES.test(name.trim()))return;
+      const city=loc.city||'Unknown',state=loc.state||'',country=loc.country||'Unknown',k=`${name}|||${city}|||${country}`;
       if(!map[k])map[k]={key:k,name,city,state,country,lat:loc.geoPoint?.lat,lng:loc.geoPoint?.lon,trials:[],sponsors:new Set(),collaborators:new Set(),conditions:new Set(),phases:new Set(),funderClasses:{},statuses:{},totalEnrollment:0,recruitingCount:0,completedCount:0};
       const e=map[k];
       e.trials.push({nctId:id.nctId,title:id.briefTitle||'',status:st.overallStatus||'UNKNOWN',sponsor:sn,funderClass:fc,phases:de.phases||[],enrollment:parseInt(de.enrollmentInfo?.count||0)||0,startDate:st.startDateStruct?.date||''});
@@ -448,184 +474,228 @@ function classifyUpdate(study){
   return{nctId:id.nctId,title:id.briefTitle||'Untitled',type,status,phases,conditions:(co.conditions||[]).slice(0,2),locations,lastUpdate,posted};
 }
 
-function useTT(){
-  const [tt,setTT]=useState({v:false,x:0,y:0,title:'',rows:[]});
-  const show=(e,title,rows)=>setTT({v:true,x:e.clientX,y:e.clientY,title,rows});
-  const move=(e)=>setTT(p=>p.v?{...p,x:e.clientX,y:e.clientY}:p);
-  const hide=()=>setTT(p=>({...p,v:false}));
-  return{tt,show,move,hide};
-}
-const TT=({v,x,y,title,rows})=>{
-  if(!v)return null;
-  const style={left:x+14,top:y-10};
-  if(x+240>window.innerWidth)style.left=x-190;
-  if(y+80>window.innerHeight)style.top=y-70;
-  return<div className="tt" style={style}>{title&&<div className="tt-title">{title}</div>}{rows.map((r,i)=><div key={i} className="tt-row"><span>{r.l}</span><span>{r.v}</span></div>)}</div>;
-};
+/* ═══════════════════════════════════════════════════════════════════════════
+   PLOTLY CHART COMPONENTS — replacing custom SVG charts
+   Same props interface so all parent components work unchanged.
+═══════════════════════════════════════════════════════════════════════════ */
 
 const BarChart=({data,h=130,onCk,activeKeys})=>{
-  const {tt,show,move,hide}=useTT();
-  if(!data.length)return null;
+  const ref=useRef(null);
   const hasActive=activeKeys&&activeKeys.size>0;
-  const max=Math.max(...data.map(d=>d.value),1);
-  const bw=Math.floor(100/data.length),gap=Math.max(1,Math.floor(bw*.14)),bw2=bw-gap*2;
-  return(
-    <div style={{position:'relative'}} onMouseMove={move}>
-      <TT {...tt}/>
-      <svg viewBox={`0 0 100 ${h}`} style={{width:'100%',height:h,display:'block',overflow:'visible'}}>
-        {data.map((d,i)=>{
-          const isActive=hasActive&&activeKeys.has(d.key);
-          const bh=Math.max(2,(d.value/max)*(h-18)),x=i*bw+gap,y=h-18-bh;
-          return<rect key={d.key||i} className="bar-r" x={x} y={y} width={bw2} height={bh} rx={2}
-            fill={d.color||'var(--blue)'} opacity={!hasActive?1:isActive?1:0.3}
-            stroke={isActive?'var(--text)':'none'} strokeWidth={isActive?.6:0}
-            onMouseEnter={e=>show(e,d.label,[{l:'Count',v:d.value.toLocaleString()},...(d.rows||[])])}
-            onMouseLeave={hide} onClick={()=>onCk&&onCk(d)}
-            style={{cursor:onCk?'pointer':'default'}}/>;
-        })}
-        {data.map((d,i)=><text key={d.key+'l'} x={i*bw+bw/2} y={h-4} textAnchor="middle" fontSize={6.5} fill="var(--text-3)" style={{pointerEvents:'none'}}>{(d.shortLabel||d.label||'').slice(0,7)}</text>)}
-      </svg>
-    </div>
-  );
+
+  useEffect(()=>{
+    if(!ref.current||!data.length)return;
+    const tc=getThemeColors();
+    const colors=data.map(d=>{
+      if(!hasActive) return d.color||tc.blue;
+      return activeKeys.has(d.key)?(d.color||tc.blue):'rgba(180,180,180,0.3)';
+    });
+    const trace={
+      x:data.map(d=>d.shortLabel||d.label||''),
+      y:data.map(d=>d.value),
+      type:'bar',
+      marker:{color:colors,line:{width:0}},
+      hovertemplate:data.map(d=>`<b>${d.label}</b><br>Count: %{y:,}<extra></extra>`),
+      textposition:'none',
+    };
+    const layout=plotlyBaseLayout(tc,{
+      height:h,
+      margin:{l:28,r:6,t:6,b:36},
+      xaxis:{tickfont:{size:10,color:tc.text3},gridcolor:'transparent',zeroline:false,fixedrange:true},
+      yaxis:{tickfont:{size:9,color:tc.text3},gridcolor:tc.border,gridwidth:0.5,zeroline:false,fixedrange:true},
+      bargap:0.25,
+    });
+    Plotly.react(ref.current,[trace],layout,{displayModeBar:false,responsive:true,staticPlot:false});
+    // click handler
+    const clickHandler=(ev)=>{
+      if(ev.points&&ev.points[0]&&onCk){
+        const idx=ev.points[0].pointIndex;
+        onCk(data[idx]);
+      }
+    };
+    ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');
+    ref.current.on('plotly_click',clickHandler);
+    return()=>{if(ref.current)ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');};
+  },[data,h,hasActive,activeKeys]);
+
+  if(!data.length)return null;
+  return <div ref={ref} style={{width:'100%',cursor:onCk?'pointer':'default'}}/>;
 };
 
-const LineChart=({data,h=180,color='var(--blue)',onCk,activeKeys})=>{
-  const {tt,show,move,hide}=useTT();
-  const [hl,setHl]=useState(null);
-  if(!data.length)return null;
+const LineChart=({data,h=180,color,onCk,activeKeys})=>{
+  const ref=useRef(null);
   const hasActive=activeKeys&&activeKeys.size>0;
-  const LABEL_H=44; // room for rotated year labels
-  const maxV=Math.max(...data.map(d=>d.value),1),minV=Math.min(...data.map(d=>d.value),0),range=maxV-minV||1;
-  const W=500,pT=16,pB=LABEL_H,pL=24,pR=16;
-  const cx=i=>pL+(i/(data.length-1||1))*(W-pL-pR);
-  const cy=v=>pT+(1-(v-minV)/range)*(h-pT-pB);
-  const pts=data.map((d,i)=>({...d,cx:cx(i),cy:cy(d.value)}));
-  const pD=pts.map((p,i)=>i===0?`M${p.cx.toFixed(2)},${p.cy.toFixed(2)}`:`L${p.cx.toFixed(2)},${p.cy.toFixed(2)}`).join(' ');
-  const aD=`${pD} L${pts[pts.length-1].cx.toFixed(2)},${h-pB} L${pts[0].cx.toFixed(2)},${h-pB} Z`;
-  const gridY=[0,.25,.5,.75,1].map(t=>pT+t*(h-pT-pB));
+
+  useEffect(()=>{
+    if(!ref.current||!data.length)return;
+    const tc=getThemeColors();
+    const lineColor=color||tc.blue;
+    const markerColors=data.map(d=>{
+      if(!hasActive) return lineColor;
+      return activeKeys.has(d.key)?lineColor:'rgba(180,180,180,0.35)';
+    });
+    const markerSizes=data.map(d=>{
+      if(!hasActive) return 7;
+      return activeKeys.has(d.key)?10:6;
+    });
+    const trace={
+      x:data.map(d=>d.label),
+      y:data.map(d=>d.value),
+      type:'scatter',
+      mode:'lines+markers',
+      line:{color:lineColor,width:2,shape:'spline',smoothing:0.8},
+      marker:{color:markerColors,size:markerSizes,line:{color:lineColor,width:1.5}},
+      fill:'tozeroy',
+      fillcolor:lineColor.replace(')',',0.08)').replace('rgb','rgba').replace('#','')?
+        (()=>{
+          // convert hex/named to rgba fill
+          const el=document.createElement('div');el.style.color=lineColor;document.body.appendChild(el);
+          const rgb=getComputedStyle(el).color;document.body.removeChild(el);
+          return rgb.replace('rgb','rgba').replace(')',',0.08)');
+        })():'rgba(26,82,118,0.08)',
+      hovertemplate:data.map(d=>`<b>${d.label}</b><br>Trials started: %{y:,}<extra></extra>`),
+    };
+    const layout=plotlyBaseLayout(tc,{
+      height:h,
+      margin:{l:36,r:12,t:12,b:50},
+      xaxis:{tickfont:{size:10,color:tc.text3},tickangle:-45,gridcolor:'transparent',zeroline:false,fixedrange:true,type:'category'},
+      yaxis:{tickfont:{size:9,color:tc.text3},gridcolor:tc.border,gridwidth:0.5,zeroline:false,fixedrange:true},
+    });
+    Plotly.react(ref.current,[trace],layout,{displayModeBar:false,responsive:true});
+    const clickHandler=(ev)=>{
+      if(ev.points&&ev.points[0]&&onCk){
+        const idx=ev.points[0].pointIndex;
+        onCk(data[idx]);
+      }
+    };
+    ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');
+    ref.current.on('plotly_click',clickHandler);
+    return()=>{if(ref.current)ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');};
+  },[data,h,color,hasActive,activeKeys]);
+
+  if(!data.length)return null;
   return(
-    <div style={{position:'relative'}} onMouseMove={move}>
-      <TT {...tt}/>
-      <svg viewBox={`0 0 ${W} ${h}`} style={{width:'100%',height:'auto',display:'block',overflow:'visible'}}>
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".12"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
-        {/* subtle grid lines */}
-        {gridY.map((y,i)=><line key={i} x1={pL} y1={y} x2={W-pR} y2={y} stroke="var(--border)" strokeWidth=".5"/>)}
-        <path d={aD} fill="url(#lg)"/>
-        <path d={pD} fill="none" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-        {pts.map((p,i)=>{
-          const isActive=hasActive&&activeKeys.has(p.key);
-          const op=!hasActive?1:isActive?1:0.3;
-          const r=hl===i?5.5:isActive?4.5:3;
-          const labelY=h-pB+14;
-          // value label: show on hover or if active, always show for first/last/max
-          const maxVal=Math.max(...pts.map(x=>x.value));
-          const showVal=hl===i||isActive||p.value===maxVal||i===0||i===pts.length-1;
-          const valLabelY=p.cy-10;
-          return(
-            <g key={i} style={{cursor:onCk?'pointer':'default',opacity:op}} onClick={()=>onCk&&onCk(p)}>
-              <rect x={p.cx-10} y={0} width={20} height={h-pB} fill="transparent"/>
-              {showVal&&(
-                <text
-                  x={p.cx} y={valLabelY}
-                  textAnchor="middle"
-                  fontSize={9.5}
-                  fontFamily="var(--font)"
-                  fontWeight="600"
-                  fill={isActive?color:'var(--text-2)'}
-                  style={{pointerEvents:'none'}}>
-                  {p.value.toLocaleString()}
-                </text>
-              )}
-              <circle className="line-dot" cx={p.cx} cy={p.cy} r={r}
-                fill={isActive||hl===i?color:'var(--bg)'} stroke={color} strokeWidth="1.8"
-                onMouseEnter={e=>{setHl(i);show(e,p.label,[{l:'Trials started',v:p.value.toLocaleString()},{l:'Click to',v:isActive?'deselect':'filter'}]);}}
-                onMouseLeave={()=>{setHl(null);hide();}}/>
-              {isActive&&<circle cx={p.cx} cy={p.cy} r={r+3} fill="none" stroke={color} strokeWidth=".8" strokeDasharray="2 1.5"/>}
-              <text
-                x={p.cx} y={labelY}
-                transform={`rotate(-45,${p.cx},${labelY})`}
-                textAnchor="end"
-                fontSize={10}
-                fontFamily="var(--font)"
-                fill={isActive?color:'var(--text-3)'}
-                fontWeight={isActive?'600':'400'}
-                style={{pointerEvents:'none'}}>
-                {p.label}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+    <div>
+      <div ref={ref} style={{width:'100%',cursor:onCk?'pointer':'default'}}/>
       {hasActive&&<div style={{fontSize:10,color:'var(--blue)',marginTop:2,textAlign:'center'}}>{[...activeKeys].sort().join(', ')} selected · click to deselect</div>}
     </div>
   );
 };
 
 const Donut=({data,size=110,onCk,activeKey})=>{
-  const {tt,show,move,hide}=useTT();
-  const total=data.reduce((s,d)=>s+d.value,0)||1;
-  const cx=size/2,cy=size/2,r=size*.38,ir=size*.22;
-  let angle=-Math.PI/2;
-  const slices=data.map(d=>{
-    const sw=(d.value/total)*Math.PI*2,a1=angle,a2=angle+sw;angle=a2;
-    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
-    const ix1=cx+ir*Math.cos(a1),iy1=cy+ir*Math.sin(a1),ix2=cx+ir*Math.cos(a2),iy2=cy+ir*Math.sin(a2);
-    const large=sw>Math.PI?1:0;
-    const path=`M${ix1},${iy1} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${ix2},${iy2} A${ir},${ir} 0 ${large} 0 ${ix1},${iy1} Z`;
-    return{...d,path,midA:(a1+a2)/2,pct:(d.value/total*100)};
-  });
-  const active=slices.find(s=>s.key===activeKey);
-  return(
-    <div style={{position:'relative',display:'inline-block',flexShrink:0}} onMouseMove={move}>
-      <TT {...tt}/>
-      <svg viewBox={`0 0 ${size} ${size}`} style={{width:size,height:size,display:'block',overflow:'visible'}}>
-        {slices.map((s,i)=>{
-          const act=activeKey===s.key,off=act?3.5:0;
-          return(
-            <g key={s.key||i} transform={`translate(${off*Math.cos(s.midA)-cx+cx},${off*Math.sin(s.midA)-cy+cy})`}>
-              <path d={s.path} fill={s.color} opacity={activeKey&&!act?.45:1}
-                stroke="var(--bg)" strokeWidth={act?2:1}
-                onMouseEnter={e=>show(e,s.label,[{l:'Trials',v:s.value.toLocaleString()},{l:'Share',v:s.pct.toFixed(1)+'%'}])}
-                onMouseLeave={hide} onClick={()=>onCk&&onCk(s)}
-                style={{cursor:onCk?'pointer':'default',transition:'opacity .12s'}}/>
-            </g>
-          );
-        })}
-        {active&&<>
-          <text x={cx} y={cy-4} textAnchor="middle" fontSize={9} fontWeight="500" fill="var(--text)" style={{pointerEvents:'none'}}>{active.pct.toFixed(0)}%</text>
-          <text x={cx} y={cy+7} textAnchor="middle" fontSize={6.5} fill="var(--text-3)" style={{pointerEvents:'none'}}>{active.label.slice(0,11)}</text>
-        </>}
-      </svg>
-    </div>
-  );
+  const ref=useRef(null);
+
+  useEffect(()=>{
+    if(!ref.current||!data.length)return;
+    const tc=getThemeColors();
+    const total=data.reduce((s,d)=>s+d.value,0)||1;
+    const opacities=data.map(d=>activeKey&&activeKey!==d.key?0.35:1);
+    const colors=data.map((d,i)=>{
+      const c=d.color||tc.blue;
+      if(opacities[i]<1){
+        // desaturate
+        const el=document.createElement('div');el.style.color=c;document.body.appendChild(el);
+        const rgb=getComputedStyle(el).color;document.body.removeChild(el);
+        return rgb.replace('rgb','rgba').replace(')',`,${opacities[i]})`);
+      }
+      return c;
+    });
+    const trace={
+      labels:data.map(d=>d.label),
+      values:data.map(d=>d.value),
+      type:'pie',
+      hole:0.52,
+      marker:{colors,line:{color:tc.isDark?'#161614':'#ffffff',width:1.5}},
+      textinfo:'none',
+      hovertemplate:data.map(d=>`<b>${d.label}</b><br>Trials: %{value:,}<br>Share: %{percent}<extra></extra>`),
+      direction:'clockwise',
+      sort:false,
+      pull:data.map(d=>activeKey===d.key?0.06:0),
+    };
+    const annotations=activeKey?[{
+      text:`<b>${(data.find(d=>d.key===activeKey)?.value/total*100||0).toFixed(0)}%</b>`,
+      showarrow:false,
+      font:{size:12,color:tc.text,family:tc.font},
+      x:0.5,y:0.5,
+    }]:[];
+    const layout=plotlyBaseLayout(tc,{
+      height:size,
+      width:size,
+      margin:{l:2,r:2,t:2,b:2},
+      showlegend:false,
+      annotations,
+    });
+    Plotly.react(ref.current,[trace],layout,{displayModeBar:false,responsive:false,staticPlot:false});
+    const clickHandler=(ev)=>{
+      if(ev.points&&ev.points[0]&&onCk){
+        const idx=ev.points[0].pointIndex;
+        onCk(data[idx]);
+      }
+    };
+    ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');
+    ref.current.on('plotly_click',clickHandler);
+    return()=>{if(ref.current)ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');};
+  },[data,size,activeKey]);
+
+  if(!data.length)return null;
+  return <div ref={ref} style={{width:size,height:size,display:'inline-block',flexShrink:0,cursor:onCk?'pointer':'default'}}/>;
 };
 
 const HBar=({data,color='var(--blue)',onCk,activeKeys})=>{
-  const {tt,show,move,hide}=useTT();
-  const max=Math.max(...data.map(d=>d.value),1);
+  const ref=useRef(null);
   const hasActive=activeKeys&&activeKeys.size>0;
-  return(
-    <div onMouseMove={move} style={{position:'relative'}}>
-      <TT {...tt}/>
-      {data.map((d,i)=>{
-        const isActive=hasActive&&activeKeys.has(d.key);
-        return(
-          <div key={d.key||i} className="h-bar-row"
-            style={{cursor:onCk?'pointer':'default',background:isActive?'var(--blue-bg)':'transparent'}}
-            onMouseEnter={e=>show(e,d.label,[{l:'Trials',v:d.value.toLocaleString()},...(d.rows||[])])}
-            onMouseLeave={hide} onClick={()=>onCk&&onCk(d)}>
-            <span className="h-bar-label" title={d.label}
-              style={{fontWeight:isActive?600:400,color:isActive?'var(--blue)':'var(--text-2)',opacity:(!hasActive||isActive)?1:0.45}}>{d.label}</span>
-            <div className="h-bar-track">
-              <div className="h-bar-fill" style={{width:`${(d.value/max*100).toFixed(1)}%`,background:isActive?'var(--amber)':(d.color||color),opacity:(!hasActive||isActive)?1:0.35}}/>
-            </div>
-            <span className="h-bar-val" style={{color:isActive?'var(--blue)':'var(--text)',opacity:(!hasActive||isActive)?1:0.45}}>{d.value.toLocaleString()}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
+
+  useEffect(()=>{
+    if(!ref.current||!data.length)return;
+    const tc=getThemeColors();
+    // resolve css var color
+    const resolveColor=(c)=>{
+      if(!c||!c.startsWith('var('))return c||tc.blue;
+      const el=document.createElement('div');el.style.color=c;document.body.appendChild(el);
+      const rgb=getComputedStyle(el).color;document.body.removeChild(el);return rgb;
+    };
+    const baseColor=resolveColor(color);
+    const reversed=[...data].reverse();
+    const colors=reversed.map(d=>{
+      if(!hasActive)return d.color?resolveColor(d.color):baseColor;
+      return activeKeys.has(d.key)?(d.color?resolveColor(d.color):baseColor):'rgba(180,180,180,0.3)';
+    });
+    const trace={
+      y:reversed.map(d=>d.label),
+      x:reversed.map(d=>d.value),
+      type:'bar',
+      orientation:'h',
+      marker:{color:colors,line:{width:0}},
+      hovertemplate:reversed.map(d=>`<b>${d.label}</b><br>Trials: %{x:,}<extra></extra>`),
+      textposition:'none',
+    };
+    const h=Math.max(data.length*28,100);
+    const layout=plotlyBaseLayout(tc,{
+      height:h,
+      margin:{l:110,r:40,t:4,b:4},
+      xaxis:{tickfont:{size:9,color:tc.text3},gridcolor:tc.border,gridwidth:0.5,zeroline:false,fixedrange:true},
+      yaxis:{tickfont:{size:10.5,color:tc.text2},automargin:true,fixedrange:true},
+      bargap:0.3,
+    });
+    Plotly.react(ref.current,[trace],layout,{displayModeBar:false,responsive:true});
+    const clickHandler=(ev)=>{
+      if(ev.points&&ev.points[0]&&onCk){
+        const idx=ev.points[0].pointIndex;
+        onCk(reversed[idx]);
+      }
+    };
+    ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');
+    ref.current.on('plotly_click',clickHandler);
+    return()=>{if(ref.current)ref.current.removeAllListeners&&ref.current.removeAllListeners('plotly_click');};
+  },[data,color,hasActive,activeKeys]);
+
+  if(!data.length)return null;
+  return <div ref={ref} style={{width:'100%',cursor:onCk?'pointer':'default'}}/>;
 };
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REMAINING COMPONENTS — unchanged from original
+═══════════════════════════════════════════════════════════════════════════ */
 
 const FB=({fc})=>{const m=FM[fc]||FM.OTHER;return<span className={`badge ${m.cls}`}>{m.label}</span>;};
 const SB=({status})=>{const m=SM[status]||{cls:'st-def',label:status.replace(/_/g,' ')};return<span className={`badge ${m.cls}`}>{m.label}</span>;};
@@ -873,16 +943,7 @@ const SidebarUpdates=({onNavigate})=>{
   );
 };
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   RECENT UPDATES — fixed version
-   
-   Key fixes:
-   1. fetchOnePage now always sends countTotal=true → totalCount works
-   2. The fetch effect derives win+pageSize directly from the cacheKey string,
-      never from refs — eliminates the stale-closure bug causing same data
-      across all windows.
-   3. goTo also derives win+pageSize from cacheKey string directly.
-══════════════════════════════════════════════════════════════════════════════ */
+/* ── RECENT UPDATES ──────────────────────────────────────────────────────── */
 const RecentUpdates=({initialWin})=>{
   const [win,setWin]=useState(initialWin||'24h');
   const [pageSize,setPageSize]=useState(20);
@@ -893,7 +954,6 @@ const RecentUpdates=({initialWin})=>{
 
   const emptyEntry=()=>({total:0,typeCounts:{},pages:[],tokens:[''],loading:false,currentPage:0,loaded:false});
 
-  /* Ensure an entry exists and kick off loading when cacheKey changes */
   useEffect(()=>{
     setTypeFilter(null);
     setCache(prev=>{
@@ -903,15 +963,11 @@ const RecentUpdates=({initialWin})=>{
     });
   },[cacheKey]);
 
-  /* Fire the actual API call whenever an entry flips to loading=true with no pages */
   useEffect(()=>{
     const entry=cache[cacheKey];
     if(!entry?.loading||entry.pages.length>0) return;
-
-    /* Derive win and pageSize from the key itself — no stale closures */
     const {win:w,pageSize:ps}=parseCacheKey(cacheKey);
     const capturedKey=cacheKey;
-
     (async()=>{
       const {studies,nextToken,total}=await fetchOnePage({
         'query.term':makeDateQuery(w),
@@ -934,7 +990,6 @@ const RecentUpdates=({initialWin})=>{
         },
       }));
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[cache[cacheKey]?.loading]);
 
   const goTo=useCallback(async(idx)=>{
@@ -942,26 +997,21 @@ const RecentUpdates=({initialWin})=>{
     const {win:w,pageSize:ps}=parseCacheKey(cacheKey);
     const capturedKey=cacheKey;
     const entry=cache[capturedKey]||emptyEntry();
-
     if(entry.pages[idx]){
       setCache(prev=>({...prev,[capturedKey]:{...prev[capturedKey],currentPage:idx}}));
       return;
     }
     const token=entry.tokens[idx];
     if(!token&&idx>0)return;
-
     setCache(prev=>({...prev,[capturedKey]:{...prev[capturedKey],loading:true}}));
-
     const params={
       'query.term':makeDateQuery(w),
       'sort':'LastUpdatePostDate:desc',
       'pageSize':ps,
     };
     if(token)params.pageToken=token;
-
     const {studies,nextToken,total}=await fetchOnePage(params);
     const classified=studies.map(classifyUpdate);
-
     setCache(prev=>{
       const cur=prev[capturedKey]||emptyEntry();
       const pages=[...cur.pages];pages[idx]=classified;
@@ -978,7 +1028,6 @@ const RecentUpdates=({initialWin})=>{
   const hasNext=!!(c.tokens[currentPage+1]);
   const hasPrev=currentPage>0;
   const filtered=typeFilter?currentData.filter(u=>u.type===typeFilter):currentData;
-
   const winLabel=WINDOWS.find(w=>w.key===win)?.label?.toLowerCase()||'';
 
   return(
@@ -999,15 +1048,12 @@ const RecentUpdates=({initialWin})=>{
           </div>
         </div>
       </div>
-
-      {/* ── KPI: 2 cards (window total + page breakdown) ── */}
       {(()=>{
         const pageCounts=Object.keys(UPDATE_META).map(t=>({
           key:t,...UPDATE_META[t],val:currentData.filter(u=>u.type===t).length
         })).filter(d=>d.val>0);
         return(
           <>
-            {/* Row 1: single window total */}
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(110px,1fr))',gap:1,background:'var(--border)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',overflow:'hidden',boxShadow:'var(--shadow)',marginBottom:6}}>
               <div className="kpi">
                 <div className="kpi-label">Total in window</div>
@@ -1015,7 +1061,6 @@ const RecentUpdates=({initialWin})=>{
                 <div className="kpi-sub">{WINDOWS.find(w=>w.key===win)?.label}</div>
               </div>
             </div>
-            {/* Row 2: per-type breakdown for this page only */}
             {currentData.length>0&&(
               <div style={{marginBottom:14}}>
                 <div style={{fontSize:9.5,fontWeight:600,textTransform:'uppercase',letterSpacing:'.6px',color:'var(--text-3)',marginBottom:5,paddingLeft:2}}>
@@ -1040,13 +1085,11 @@ const RecentUpdates=({initialWin})=>{
           </>
         );
       })()}
-
       {c.loading&&(
         <div style={{display:'flex',alignItems:'center',gap:10,padding:'24px 0',color:'var(--text-3)',fontSize:12.5}}>
           <Spin s={18}/> Loading from ClinicalTrials.gov…
         </div>
       )}
-
       {!c.loading&&currentData.length>0&&(
         <>
           {typeFilter&&(
@@ -1106,7 +1149,6 @@ const RecentUpdates=({initialWin})=>{
           </div>
         </>
       )}
-
       {!c.loading&&c.loaded&&currentData.length===0&&(
         <div style={{textAlign:'center',padding:'48px 0',color:'var(--text-3)',fontSize:12.5}}>
           No updates found for this time window.
@@ -1119,7 +1161,7 @@ const RecentUpdates=({initialWin})=>{
   );
 };
 
-/* ── DASHBOARD ───────────────────────────────────────────────────────────────── */
+/* ── DASHBOARD ───────────────────────────────────────────────────────────── */
 const Dashboard=({data,onOpen,setSection,onFilterChange})=>{
   const [filters,setFilters]=useState({status:new Set(),phase:new Set(),funder:null,country:new Set(),year:new Set()});
   const toggle=(dim,key)=>setFilters(f=>{
@@ -1241,7 +1283,7 @@ const MapSection=({data,onOpen})=>{
   useEffect(()=>{
     if(!mapRef.current||leafRef.current)return;
     const map=L.map(mapRef.current,{center:[20,0],zoom:2});
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',subdomains:'abcd'}).addTo(map);
     leafRef.current=map;setMapReady(true);
     return()=>{map.remove();leafRef.current=null;};
   },[]);
@@ -1516,10 +1558,11 @@ const Guide=()=>{
         <div className="card"><div className="card-hd"><div className="card-title">Design notes</div></div>
           <div className="card-bd" style={{fontSize:12,lineHeight:1.8,color:'var(--text-2)'}}>
             <div>· Data sourced directly from ClinicalTrials.gov API v2</div>
+            <div>· Charts rendered with Plotly.js for interactive visualizations</div>
             <div>· countTotal=true param sent on all paginated requests for accurate totals</div>
             <div>· Time window query uses AREA[LastUpdatePostDate]RANGE[date,MAX] Essie syntax</div>
             <div>· Window changes force a fresh fetch; results cached per window+pageSize key</div>
-            <div>· Client-side rate limiter: max 40 API calls per 60-second window</div>
+            <div>· Client-side rate limiter: max 8 API calls per 10-second window</div>
             <div>· Full dark mode via system preference detection</div>
           </div>
         </div>
@@ -1528,7 +1571,7 @@ const Guide=()=>{
   );
 };
 
-/* ── APP ─────────────────────────────────────────────────────────────────────── */
+/* ── APP ─────────────────────────────────────────────────────────────────── */
 function App(){
   const [section,setSection]=useState('dashboard');
   const [updatesWin,setUpdatesWin]=useState('24h');
@@ -1553,14 +1596,13 @@ function App(){
       setLoading(false);
       setCacheInfo(c=>c+1);
     });
-  },[]); // {type,msg,color}
+  },[]);
   useEffect(()=>{
     const handler=(e)=>{
       const t=e.detail?.type;
       if(t==='rate') setApiAlert({type:'rate',color:'#f5b8b8',bg:'var(--red-bg)',textColor:'var(--red)',msg:'Rate limit reached — ClinicalTrials.gov allows ~10 requests/sec. Retrying automatically. If this persists, wait 30 seconds and refresh.'});
       else if(t==='down') setApiAlert({type:'down',color:'#fac775',bg:'var(--amber-bg)',textColor:'var(--amber)',msg:'ClinicalTrials.gov API is unreachable. This may be scheduled maintenance. Please refresh in a few minutes.'});
       else if(t==='http') setApiAlert({type:'http',color:'#f5b8b8',bg:'var(--red-bg)',textColor:'var(--red)',msg:`ClinicalTrials.gov API returned an error (HTTP ${e.detail?.status||'?'}). Some data may be incomplete. Try refreshing.`});
-      // auto-dismiss non-critical after 12s
       if(t==='rate') setTimeout(()=>setApiAlert(a=>a?.type==='rate'?null:a),12000);
     };
     window.addEventListener('api-error',handler);return()=>window.removeEventListener('api-error',handler);
@@ -1568,7 +1610,7 @@ function App(){
   useEffect(()=>{
     fetchAll({},20).then(studies=>{
       if(!studies.length){
-        setApiAlert({type:'down',color:'#fac775',bg:'var(--amber-bg)',textColor:'var(--amber)',msg:'🔌 No data loaded from ClinicalTrials.gov. The API may be down for maintenance. Please refresh after a few minutes.'});
+        setApiAlert({type:'down',color:'#fac775',bg:'var(--amber-bg)',textColor:'var(--amber)',msg:'No data loaded from ClinicalTrials.gov. The API may be down for maintenance. Please refresh after a few minutes.'});
       }
       setData(processSites(studies));setLoading(false);
     });
@@ -1655,7 +1697,7 @@ function App(){
         </a>
         <span style={{width:1,height:12,background:'var(--border)'}}/>
         <a href="mailto:sachde.n@northeastern.edu" style={{fontSize:11,color:'var(--blue)'}}>sachde.n@northeastern.edu</a>
-        <span style={{marginLeft:'auto',fontSize:10,color:'var(--text-3)'}}>Data sourced from ClinicalTrials.gov API v2</span>
+        <span style={{marginLeft:'auto',fontSize:10,color:'var(--text-3)'}}>Data sourced from ClinicalTrials.gov API v2 · Charts by Plotly.js</span>
       </footer>
       {modal&&<SiteModal site={modal} onClose={()=>setModal(null)}/>}
       {toast&&<div className="toast">{toast}</div>}
